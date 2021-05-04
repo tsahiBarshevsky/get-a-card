@@ -14,8 +14,10 @@ mongoose.connect(
     { useNewUrlParser: true }
 );
 
-app.get('/try', (req, res) => {
-    UsersModel.find({}, (err, result) =>
+app.get('/try', (req, res) => 
+{
+    var name = req.query.name;
+    UsersModel.find({"name": `${name}`}, (err, result) =>
     {
         if (err)
         {
@@ -24,6 +26,7 @@ app.get('/try', (req, res) => {
         }
         else
         {
+            console.log(`Found ${result.length} result(s)`);
             console.log(result);
             res.json(result);
         }
