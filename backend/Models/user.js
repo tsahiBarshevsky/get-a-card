@@ -5,6 +5,6 @@ const UsersSchema = new mongoose.Schema({
     image: { type: String }
 });
 
-const UsersModel = mongoose.model("users", UsersSchema);
+const UsersModel = mongoose.model("cards", UsersSchema);
 
 module.exports = UsersModel;

@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './styles.sass';
 import Homepage from '../Homepage';
+import Card from '../Card';
 
 export default function App() {
     return (
         <Router>
             <Switch>
                 <Route exact path="/" component={Homepage} />
+                <Route exact path="/:URL" component={Card} />
             </Switch>
         </Router>
     )
