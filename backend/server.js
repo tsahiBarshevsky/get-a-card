@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
-const UsersModel = require("./Models/user");
+const CardsModel = require("./Models/cards");
 const port = process.env.PORT || 5000; 
 
 var router = express.Router();
@@ -18,7 +18,7 @@ app.get("/insert-new-card", async (req, res) =>
 {
     var name = req.query.name;
     var image = req.query.image;
-    const user = new UsersModel({ name: name, image: image });
+    const user = new CardsModel({ name: name, image: image });
     await user.save();
     console.log("User added successfully")
     res.json("User added successfully");
@@ -27,7 +27,7 @@ app.get("/insert-new-card", async (req, res) =>
 app.get('/get-card', async (req, res) => 
 {
     var URL = req.query.URL;
-    UsersModel.findOne({"URL": `${URL}`}, (err, result) =>
+    CardsModel.findOne({"URL": `${URL}`}, (err, result) =>
     {
         if (err)
         {
@@ -41,6 +41,26 @@ app.get('/get-card', async (req, res) =>
             else
                 console.log(`${URL} has found!`);
             res.json(result);
+        }
+    });
+});
+
+app.get('/URL-availability', async (req, res) =>
+{
+    var URL = req.query.URL;
+    CardsModel.findOne({"URL": `${URL}`}, (err, result) =>
+    {
+        if (err)
+        {
+            console.log("error: " + err)
+            res.send(err);
+        }
+        else
+        {
+            if (!result) //URL available
+                res.json(true);
+            else
+                res.json(false);
         }
     });
 });

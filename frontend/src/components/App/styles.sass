@@ -30,6 +30,7 @@ $navbar-mobile: 920px
     align-items: center
     cursor: default
     color: black
+    background-color: $primary
 
 .full-container
     display: flex
@@ -41,6 +42,36 @@ $navbar-mobile: 920px
     background-color: $primary
     height: 100vh
     width: 100vw
+
+/* === Dashbaord === */
+
+.page-container > .dashboard-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: 100%
+    //padding: 20px 5px
+
+    .stepper
+        background-color: $primary
+
+    #url-selection
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        background-color: lightblue
+        width: 100%
+        padding: 10px
+
+    #palette-selection
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        background-color: lightgreen
+        width: 100%
+        padding: 10px
 
 /* === Card === */
 
