@@ -6,7 +6,7 @@ export default function Homepage()
     return (
         <div className="full-container">
             <Link to="/dashboard">Dashboard</Link>
-            <Link to="/shoes-shop">Example</Link>
+            <Link to="/example">Example</Link>
         </div>
     )
 }

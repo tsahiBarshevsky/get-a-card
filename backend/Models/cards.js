@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 
 const CardsSchema = new mongoose.Schema({
-    language: { type: String },
+    URL: { type: String },
+    palette: { type: Object },
+    langauge: { type: String },
     name: { type: String },
     type: { type: String },
-    URL: { type: String },
-    location: { type: String },
-    connections: { type: Array },
-    socials: { type: Array },
-    description: { type: String }
+    description: { type: String },
+    address: { type: String },
+    contact: { type: Object },
+    socials: { type: Object }
 });
 
 const CardsModel = mongoose.model("cards", CardsSchema);

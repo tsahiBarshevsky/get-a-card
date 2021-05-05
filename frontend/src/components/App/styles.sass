@@ -86,10 +86,33 @@ $navbar-mobile: 920px
             flex-direction: column
             justify-content: flex-start
             align-items: center
-            border: 1px solid black
+            background-color: white
+            box-shadow: 0 3px 7px -1px rgba(black, 0.1)
             border-radius: 10px
-            padding: 10px
-            margin: 5px
+            padding: 10px 15px
+            width: 210px
+            height: 200px
+            cursor: pointer
+
+            .colors
+                display: flex
+                flex-direction: column
+                justify-content: center
+                align-items: center
+                height: 100%
+                width: 100%
+
+                .color
+                    display: flex
+                    justify-content: space-between
+                    align-items: center
+                    margin-bottom: 15px
+                    width: 100%
+
+                .preview
+                    width: 22px
+                    height: 22px
+                    border-radius: 50%
 
     #information
         display: flex
@@ -109,6 +132,9 @@ $navbar-mobile: 920px
             align-items: center
             width: 350px
             margin-bottom: 10px
+
+            @media screen and ( max-width: $xs )
+                width: 100%
 
 /* === Card === */
 

@@ -7,6 +7,8 @@ const port = process.env.PORT || 5000;
 
 var router = express.Router();
 app.use(cors());
+app.use(express.urlencoded());
+app.use(express.json());
 
 // Connect to database
 mongoose.connect(
@@ -14,14 +16,22 @@ mongoose.connect(
     { useNewUrlParser: true }
 );
 
-app.get("/insert-new-card", async (req, res) => 
+app.post("/insert-new-card", async (req, res) => 
 {
-    var name = req.query.name;
-    var image = req.query.image;
-    const user = new CardsModel({ name: name, image: image });
-    await user.save();
-    console.log("User added successfully")
-    res.json("User added successfully");
+    const newCard = new CardsModel({
+        URL: req.body.URL,
+        palette: req.body.palette,
+        langauge: req.body.langauge,
+        name: req.body.name,
+        type: req.body.type,
+        description: req.body.description,
+        address: req.body.address,
+        contact: req.body.contact,
+        socials: req.body.socials
+    });
+    await newCard.save();
+    console.log("Card added successfully")
+    res.json("Card added successfully");
 });
 
 app.get('/get-card', async (req, res) => 
