@@ -63,7 +63,11 @@ $navbar-mobile: 920px
         align-items: center
         background-color: lightblue
         width: 100%
-        padding: 10px
+        padding: 10px 100px
+        margin-bottom: 15px
+
+        @media screen and ( max-width: $xs )
+            padding: 10px 20px
 
     #palette-selection
         display: flex
@@ -71,7 +75,41 @@ $navbar-mobile: 920px
         align-items: center
         background-color: lightgreen
         width: 100%
-        padding: 10px
+        padding: 10px 100px
+        margin-bottom: 15px
+
+        @media screen and ( max-width: $xs )
+            padding: 10px 20px
+
+        .palette
+            display: flex
+            flex-direction: column
+            justify-content: flex-start
+            align-items: center
+            border: 1px solid black
+            border-radius: 10px
+            padding: 10px
+            margin: 5px
+
+    #information
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: flex-start
+        background-color: LightSlateGray
+        width: 100%
+        padding: 10px 100px
+        margin-bottom: 15px
+
+        @media screen and ( max-width: $xs )
+            padding: 10px 20px
+
+        .social
+            display: flex
+            justify-content: space-between
+            align-items: center
+            width: 350px
+            margin-bottom: 10px
 
 /* === Card === */
 

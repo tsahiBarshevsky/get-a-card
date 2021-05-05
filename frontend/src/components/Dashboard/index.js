@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Input } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -23,6 +23,27 @@ export default function Dashbaord()
 {
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
+    const [palette, setPalette] = useState({primary: '', secondary: '', text: ''});
+    const [checkboxes, setCheckboxes] = useState({
+        facebook: false,
+        instagram: false,
+        linkedin: false,
+        github: false,
+        pinterest: false,
+        youtube: false,
+        tiktok: false
+    });
+    const [socialsLinks, setSocialsLinks] = useState({
+        facebookLink: '',
+        instagramLink: '',
+        linkedinLink: '',
+        githubLink: '',
+        pinterestLink: '',
+        youtubeLink: '',
+        tiktokLink: ''
+    });
+    const { facebook, instagram, linkedin, github, pinterest, youtube, tiktok } = checkboxes;
+    const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink } = socialsLinks;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
     const handleNext = () => 
@@ -38,6 +59,16 @@ export default function Dashbaord()
     const handleReset = () => 
     {
         setActiveStep(0);
+    }
+
+    const handleCheckboxChange = (event) => 
+    {
+        setCheckboxes({ ...checkboxes, [event.target.name]: event.target.checked });
+    }
+
+    const handleInputChange = (input, content) =>
+    {
+        
     }
 
     const checkURLAvailability = (url) =>
@@ -86,6 +117,139 @@ export default function Dashbaord()
                         value={URL} 
                         onChange={(e) => setURL(e.target.value)} />
                     <Button disabled={URL === ''} variant="contained" onClick={() => checkURLAvailability(URL)}>Check</Button>
+                </section>
+                {/* <section id="palette-selection">
+                    <div className="palette">
+                        <Typography variant="subtitle1">Default</Typography>
+                        <Typography>Primary</Typography>
+                        <Typography>Secondary</Typography>
+                        <Typography>Text</Typography>
+                    </div>
+                    <div className="palette">
+                        <Typography variant="subtitle1">Default</Typography>
+                        <Typography>Primary</Typography>
+                        <Typography>Secondary</Typography>
+                        <Typography>Text</Typography>
+                    </div>
+                    <div className="palette">
+                        <Typography variant="subtitle1">Default</Typography>
+                        <Typography>Primary</Typography>
+                        <Typography>Secondary</Typography>
+                        <Typography>Text</Typography>
+                    </div>
+                    <div className="palette">
+                        <Typography variant="subtitle1">Default</Typography>
+                        <Typography>Primary</Typography>
+                        <Typography>Secondary</Typography>
+                        <Typography>Text</Typography>
+                    </div>
+                </section> */}
+                <section id="information">
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={facebook} onChange={handleCheckboxChange} color="primary" />}
+                            label="Facebook"
+                            name="facebook"
+                        />
+                        <Input
+                            id="Facebook URL"
+                            placeholder="Facebook URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!facebook}
+                            value={facebookLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={instagram} onChange={handleCheckboxChange} color="primary" />}
+                            label="Instagram"
+                            name="instagram"
+                        />
+                        <Input
+                            id="Instagram URL"
+                            placeholder="Instagram URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!instagram}
+                            value={instagramLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} color="primary" />}
+                            label="Linkedin"
+                            name="linkedin"
+                        />
+                        <Input
+                            id="Linkedin URL"
+                            placeholder="Linkedin URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!linkedin}
+                            value={linkedinLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={github} onChange={handleCheckboxChange} color="primary" />}
+                            label="Github"
+                            name="github"
+                        />
+                        <Input
+                            id="Github URL"
+                            placeholder="Github URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!github}
+                            value={githubLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} color="primary" />}
+                            label="Pinterest"
+                            name="pinterest"
+                        />
+                        <Input
+                            id="Pinterest URL"
+                            placeholder="Pinterest URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!pinterest}
+                            value={pinterestLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={youtube} onChange={handleCheckboxChange} color="primary" />}
+                            label="Youtube"
+                            name="youtube"
+                        />
+                        <Input
+                            id="Youtube URL"
+                            placeholder="Youtube URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!youtube}
+                            value={youtubeLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} color="primary" />}
+                            label="Tiktok"
+                            name="tiktok"
+                        />
+                        <Input
+                            id="Tiktok URL"
+                            placeholder="Tiktok URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!tiktok}
+                            value={tiktokLink}
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
+                    </div>
                 </section>
                 {/* <div>
                     {activeStep === steps.length ? (
