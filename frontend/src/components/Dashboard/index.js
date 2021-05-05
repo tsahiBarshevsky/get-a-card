@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -23,8 +23,19 @@ export default function Dashbaord()
 {
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
-    const [palette, setPalette] = useState({primary: '', secondary: '', text: ''});
+    //const [palette, setPalette] = useState({primary: '', secondary: '', text: ''});
+    const [langauge, setLanguage] = useState('');
+    const [contact, setContact] = useState({
+        telephoneValue: '',
+        phoneValue: '',
+        whatsappValue: '',
+        emailValue: ''
+    })
     const [checkboxes, setCheckboxes] = useState({
+        telephone: false,
+        phone: false,
+        whatsapp: false,
+        email: false,
         facebook: false,
         instagram: false,
         linkedin: false,
@@ -42,8 +53,9 @@ export default function Dashbaord()
         youtubeLink: '',
         tiktokLink: ''
     });
-    const { facebook, instagram, linkedin, github, pinterest, youtube, tiktok } = checkboxes;
+    const { telephone, phone, whatsapp, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok } = checkboxes;
     const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink } = socialsLinks;
+    const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
     const handleNext = () => 
@@ -64,11 +76,6 @@ export default function Dashbaord()
     const handleCheckboxChange = (event) => 
     {
         setCheckboxes({ ...checkboxes, [event.target.name]: event.target.checked });
-    }
-
-    const handleInputChange = (input, content) =>
-    {
-        
     }
 
     const checkURLAvailability = (url) =>
@@ -118,33 +125,86 @@ export default function Dashbaord()
                         onChange={(e) => setURL(e.target.value)} />
                     <Button disabled={URL === ''} variant="contained" onClick={() => checkURLAvailability(URL)}>Check</Button>
                 </section>
-                {/* <section id="palette-selection">
-                    <div className="palette">
-                        <Typography variant="subtitle1">Default</Typography>
-                        <Typography>Primary</Typography>
-                        <Typography>Secondary</Typography>
-                        <Typography>Text</Typography>
-                    </div>
-                    <div className="palette">
-                        <Typography variant="subtitle1">Default</Typography>
-                        <Typography>Primary</Typography>
-                        <Typography>Secondary</Typography>
-                        <Typography>Text</Typography>
-                    </div>
-                    <div className="palette">
-                        <Typography variant="subtitle1">Default</Typography>
-                        <Typography>Primary</Typography>
-                        <Typography>Secondary</Typography>
-                        <Typography>Text</Typography>
-                    </div>
-                    <div className="palette">
-                        <Typography variant="subtitle1">Default</Typography>
-                        <Typography>Primary</Typography>
-                        <Typography>Secondary</Typography>
-                        <Typography>Text</Typography>
-                    </div>
-                </section> */}
                 <section id="information">
+                    <Typography variant="h6">Language</Typography>
+                    <FormControl>
+                        {/* <InputLabel>Language</InputLabel> */}
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={langauge}
+                            onChange={(e) => setLanguage(e.target.value)}
+                        >
+                            <MenuItem value="English">English</MenuItem>
+                            <MenuItem value="Hebrew">Hebrew</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <Typography variant="h6">Contact</Typography>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={telephone} onChange={handleCheckboxChange} color="primary" />}
+                            label="Telephone"
+                            name="telephone"
+                        />
+                        <Input
+                            id="Telephone"
+                            placeholder="Telephone number..."
+                            type="tel"
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!telephone}
+                            value={telephoneValue}
+                            onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={phone} onChange={handleCheckboxChange} color="primary" />}
+                            label="Phone"
+                            name="phone"
+                        />
+                        <Input
+                            id="Phone"
+                            placeholder="Phone number..."
+                            type="tel"
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!phone}
+                            value={phoneValue}
+                            onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
+                            label="Whatsapp"
+                            name="whatsapp"
+                        />
+                        <Input
+                            id="Whatsapp"
+                            placeholder="Phone number..."
+                            type="tel"
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!whatsapp}
+                            value={whatsappValue}
+                            onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={email} onChange={handleCheckboxChange} color="primary" />}
+                            label="Email"
+                            name="email"
+                        />
+                        <Input
+                            id="Email"
+                            placeholder="email address..."
+                            type="email"
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!email}
+                            value={emailValue}
+                            onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
+                    </div>
+                    <Typography variant="h6">Social media</Typography>
                     <div className="social">
                         <FormControlLabel
                             control={<Checkbox checked={facebook} onChange={handleCheckboxChange} color="primary" />}
