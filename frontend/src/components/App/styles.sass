@@ -322,6 +322,7 @@ $navbar-mobile: 920px
     align-items: center
     width: 80%
     height: 100%
+    margin-bottom: 15px
     //padding: 20px 5px
     //color: $dark-text
     //background-color: $dark-primary
@@ -354,7 +355,7 @@ $navbar-mobile: 920px
             object-fit: cover
             object-position: center center
             border-radius: 50%
-            transform: translateY(-50%)
+            //transform: translateY(-50%)
 
             @media screen and ( max-width: $xs )
                 width: 150px
@@ -366,33 +367,43 @@ $navbar-mobile: 920px
         justify-content: center
         align-items: center
         height: fit-content
-        transform: translateY(-10%)
+        //transform: translateY(-10%)
 
-        .social
-            display: flex
-            flex-direction: column
-            justify-content: center
-            align-items: center
-            margin: 5px 15px
-            width: 85px
+        .grid
+            width: 70%
+            margin-top: 25px
 
-            .social-wrapper
+            @media screen and ( max-width: $sm )
+                width: 100%
+
+            .social,
+            .contact
                 display: flex
+                flex-direction: column
                 justify-content: center
                 align-items: center
-                width: 45px
-                height: 45px
-                border-radius: 50%
-                border: 1px solid white
-                padding: 5px
-                cursor: pointer
-                transition: transform 0.3s ease-in-out
+                margin: 5px 15px
+                width: 85px
 
-                &:hover
-                    transform: scale(1.15)
+                .social-wrapper,
+                .contact-wrapper
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    width: 45px
+                    height: 45px
+                    border-radius: 50%
+                    //border: 1px solid white
+                    padding: 5px
+                    cursor: pointer
+                    transition: transform 0.3s ease-in-out
+                    margin-bottom: 10px
 
-                .icon
-                    font-size: 30px
+                    &:hover
+                        transform: scale(1.15)
+
+                    .icon
+                        font-size: 30px
 
         .description
             width: 70%

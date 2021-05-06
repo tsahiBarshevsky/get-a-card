@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -75,6 +75,10 @@ export default function Dashbaord(props)
     const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
+    useEffect(() => {
+        document.title = 'Get a Card | Dashboard';
+    }, []);
+
     //protect the route
     if (!currentUser) {
         props.history.replace('/login');
@@ -96,6 +100,7 @@ export default function Dashbaord(props)
             default: return null;
         }
     }
+    
 
     // if (progress.main === 100)
 	// {
@@ -145,20 +150,26 @@ export default function Dashbaord(props)
 
     const checkURLAvailability = (url) =>
     {
-        fetch(`/URL-availability?URL=${url}`)
-        .then(res => res.json())
-        .then(result => 
+        const reg = /^[a-z]*$/;
+		if (reg.test(URL))
         {
-            if (result)
+            fetch(`/URL-availability?URL=${url}`)
+            .then(res => res.json())
+            .then(result => 
             {
-                notify('success', 'URL is available');
-                handleNext();
-                setDisable(true);
-                scroll('palette-selection');
-            }
-            else
-            notify('error', "URL isn't available");
-        });
+                if (result)
+                {
+                    notify('success', 'URL is available');
+                    handleNext();
+                    setDisable(true);
+                    scroll('palette-selection');
+                }
+                else
+                notify('error', "URL isn't available");
+            });
+        }
+        else
+        notify('error', "Invalid URL");
     }
 
     const scroll = (section) =>
@@ -264,10 +275,10 @@ export default function Dashbaord(props)
         socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
         socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
         var contactArray = [];
-        contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue});
-        contactArray.push({ type: "Phone", show: phone, number: phoneValue});
-        contactArray.push({ type: "Whatsapp", show: whatsapp, number: whatsappValue});
-        contactArray.push({ type: "Email", show: email, number: emailValue});
+        contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
+        contactArray.push({ type: "Phone", show: phone, number: phoneValue });
+        contactArray.push({ type: "WhatsApp", show: whatsapp, number: whatsappValue });
+        contactArray.push({ type: "Email", show: email, number: emailValue });
         fetch(`/insert-new-card`, 
             {
                 method: 'POST',
