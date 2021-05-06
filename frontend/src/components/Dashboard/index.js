@@ -4,6 +4,9 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { scroller } from 'react-scroll';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import firebase from '../firebase';
 
 function getStepContent(step) 
 {
@@ -30,6 +33,17 @@ export default function Dashbaord()
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
     const [result, setResult] = useState('');
+    const [disable, setDisable] = useState(false);
+    const [images, setImages] = useState({
+        main: '',
+        cover: ''
+    });
+    console.log(images);
+    const [progress, setProgress] = useState({
+        main: 0,
+        cover: 0
+    });
+    console.log(progress);
     const [contact, setContact] = useState({
         telephoneValue: '',
         phoneValue: '',
@@ -63,17 +77,15 @@ export default function Dashbaord()
     const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
-    console.log(result);
-
     const handleNext = () => 
     {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
 
-    const handleBack = () => 
-    {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    }
+    // const handleBack = () => 
+    // {
+    //     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    // }
 
     const handleReset = () => 
     {
@@ -91,9 +103,15 @@ export default function Dashbaord()
         {
             case 'default':
                 setPalette({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'})
+                scroll('information');
+                notify('success', 'Default palette selected');
+                handleNext();
                 break;
             case 'dark':
                 setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
+                scroll('information');
+                handleNext();
+                notify('success', 'Dark palette selected');
                 break;
             default: return null;
         }
@@ -107,11 +125,13 @@ export default function Dashbaord()
         {
             if (result)
             {
+                notify('success', 'URL is available');
                 handleNext();
+                setDisable(true);
                 scroll('palette-selection');
             }
             else
-                alert("Not available");
+            notify('error', "URL isn't available");
         });
     }
 
@@ -124,6 +144,102 @@ export default function Dashbaord()
             smooth: "easeInOutQuart"
         });
     }
+
+    const notify = (type, message) =>
+    {
+        switch (type)
+        {
+            case 'success':
+                toast.success(message);
+                break;
+            case 'error':
+                toast.error(message);
+                break;
+            default: return null;
+        }
+    }
+
+    const uploadMainImage = (e) =>
+	{
+		if (e.target.files[0])
+		{
+			try 
+			{	
+				if (e.target.files[0].size < 10000000) //less then 10mb
+				{
+					// if (url !== '')
+					// 	deleteImage(false);
+					const uploadTask = firebase.storage.ref(`Images/main`).put(e.target.files[0]);
+					uploadTask.on(
+                        'state_changed',
+                        (snapshot) => {
+                            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                            setProgress({ ...progress, main: progress })
+                        },
+                        (error) => {
+                            console.log(error);
+                            alert(error.message);
+                        },
+                        () => {
+                            firebase.storage.ref("Images").child('main').getDownloadURL().then(
+                                url => setImages({ ...images, main: url })
+                            );
+                        }
+                    );
+				}
+				else
+				{
+					notify("error", "Image's size is bigger than 10mb!");
+				}
+			} 
+			catch (error) 
+			{
+                notify('error', 'error');
+				console.log(error.message);
+			}
+		}
+	}
+
+    const uploadCoverImage = (e) =>
+	{
+		if (e.target.files[0])
+		{
+			try 
+			{	
+				if (e.target.files[0].size < 10000000) //less then 10mb
+				{
+					// if (url !== '')
+					// 	deleteImage(false);
+					const uploadTask = firebase.storage.ref(`Images/cover`).put(e.target.files[0]);
+					uploadTask.on(
+                        'state_changed',
+                        (snapshot) => {
+                            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                            setProgress({ ...progress, cover: progress })
+                        },
+                        (error) => {
+                            console.log(error);
+                            alert(error.message);
+                        },
+                        () => {
+                            firebase.storage.ref("Images").child('cover').getDownloadURL().then(
+                                url => setImages({ ...images, cover: url })
+                            );
+                        }
+                    );
+				}
+				else
+				{
+					notify("error", "Image's size is bigger than 10mb!");
+				}
+			} 
+			catch (error) 
+			{
+                notify('error', 'error');
+				console.log(error.message);
+			}
+		}
+	}
 
     const submitCard = () =>
     {
@@ -156,12 +272,13 @@ export default function Dashbaord()
                     description: description,
                     address: address,
                     contact: contactArray,
-                    socials: socialsArray
+                    socials: socialsArray,
+                    images: images
                 })
             }    
         )
         .then(res => res.json())
-        .then(res => setResult(res));
+        .then(res => notify("success", res));
     }
 
     return (
@@ -183,7 +300,7 @@ export default function Dashbaord()
                         autoComplete="off"
                         value={URL} 
                         onChange={(e) => setURL(e.target.value)} />
-                    <Button disabled={URL === ''} variant="contained" onClick={() => checkURLAvailability(URL)}>Check</Button>
+                    <Button disabled={URL === '' || disable} variant="contained" onClick={() => checkURLAvailability(URL)}>Check</Button>
                 </section>
                 <section id="palette-selection">
                     <Grid container spacing={3} direction="row" justify="center" alignItems="flex-start">
@@ -228,6 +345,21 @@ export default function Dashbaord()
                     </Grid>
                 </section>
                 <section id="information">
+                    <Typography variant="h6">Main image and cover</Typography>
+                    <input
+                        accept="image/*"
+                        //style={{ display: "none" }}
+                        id="upload-photo"
+                        name="upload-photo"
+                        type="file"
+                        onChange={uploadMainImage} />
+                    <input
+                        accept="image/*"
+                        //style={{ display: "none" }}
+                        id="upload-photo"
+                        name="upload-photo"
+                        type="file"
+                        onChange={uploadCoverImage} />
                     <Typography variant="h6">Language</Typography>
                     <FormControl>
                         {/* <InputLabel>Language</InputLabel> */}
@@ -449,6 +581,13 @@ export default function Dashbaord()
                     </div>
                 </section>
                 <Button variant="contained" onClick={() => submitCard()}>Submit</Button>
+                <ToastContainer
+                    position="bottom-center"
+                    closeOnClick
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 {/* <div>
                     {activeStep === steps.length ? (
                     <div>

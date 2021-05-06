@@ -27,10 +27,11 @@ app.post("/insert-new-card", async (req, res) =>
         description: req.body.description,
         address: req.body.address,
         contact: req.body.contact,
-        socials: req.body.socials
+        socials: req.body.socials,
+        images: req.body.images
     });
     await newCard.save();
-    console.log("Card added successfully")
+    console.log(`${req.body.name} added successfully`)
     res.json("Card added successfully");
 });
 

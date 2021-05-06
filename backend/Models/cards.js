@@ -9,7 +9,8 @@ const CardsSchema = new mongoose.Schema({
     description: { type: String },
     address: { type: String },
     contact: { type: Object },
-    socials: { type: Object }
+    socials: { type: Object },
+    images: { type: Object }
 });
 
 const CardsModel = mongoose.model("cards", CardsSchema);
