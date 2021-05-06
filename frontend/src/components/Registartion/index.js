@@ -16,47 +16,50 @@ const styles = theme => ({
 		width: 'auto',
 		height: 320,
 		display: 'block',
-		borderRadius: 20,
+		borderRadius: 10,
 		marginLeft: theme.spacing(3),
 		marginRight: theme.spacing(3),
-		backgroundPosition: 'center', 
-		backgroundRepeat: 'no-repeat',
+		zIndex: 10,
 		[theme.breakpoints.up(400 + theme.spacing(6))]: {
 			width: 400,
 			marginLeft: 'auto',
 			marginRight: 'auto',
-		},
+		}
 	},
 	paper: 
 	{
 		height: 'fit-content',
-		borderRadius: 25,
+		borderRadius: 10,
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		boxShadow: '2px 2px 5px 0px rgba(0, 0, 0, 0.2)',
-		backgroundColor: '#ffffff1A',
+		backgroundColor: 'white',
 		padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
 	},
 	input:
 	{
-		color: 'white',
+		color: 'black',
+		border: '1px solid #c0c0c0',
+		borderRadius: 5,
 		backgroundColor: 'transparent',
-        height: 40,
-		fontFamily: '"Kumbh Sans", sans-serif',
-		borderBottom: '2px solid #ffffffA6'
+        height: 45,
+		fontFamily: '"Nunito", sans-serif',
 	},
 	submit: 
 	{
-		color: '#343d6b',
+		color: 'white',
 		fontSize: 18,
-		fontWeight: 600,
 		height: 40,
-		borderRadius: 10,
-		letterSpacing: 1,
+		borderRadius: 5,
+		letterSpacing: 2,
 		textTransform: 'capitalize',
-		backgroundColor: '#fefefe'
+		backgroundColor: '#1a535c',
+		'&:hover':
+		{
+			backgroundColor: '#1a535c',
+		}
 	}
 });
 
@@ -68,7 +71,7 @@ function Registration(props)
 	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
-		//document.title = 'Save The Date | Registration';
+		document.title = 'Get a Card | Registration';
 	}, []);
 
 	if (firebase.getCurrentUsername())
@@ -89,85 +92,94 @@ function Registration(props)
 	}
 
 	return (
-		<div className="full-container">
-			<main className={classes.main}>
-                <Paper className={classes.paper}>
-					<div className="title">
-						<h3>Create new account</h3>
-					</div>
-                    <form onSubmit={e => e.preventDefault() && false}>
-                        <FormControl margin="normal" required fullWidth>
-                            <Input 
-                                className={classes.input}
-                                autoFocus 
-                                autoComplete="off"
-								disableUnderline
-                                id="email" name="email" 
-                                value={email}
-								type="email"
-                                placeholder="Your email" 
-								startAdornment=
-								{
-									<InputAdornment style={{marginLeft: 13}} position="start">
-										<MdEmail />
-									</InputAdornment>
-								}
-								endAdornment=
-								{
-									emailValidation(email) ? 
-									<InputAdornment style={{marginRight: 10}} position="end">
-										<DoneRoundedIcon style={{ color: green[900] }}/>
-									</InputAdornment> 
-									: 
-									<InputAdornment style={{marginRight: 10}} position="end">
-										<ClearRoundedIcon style={{ color: red[700] }}/>
-									</InputAdornment> 
-								}
-                                onChange={e => setEmail(e.target.value)} />
-                        </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <Input 
-                                className={classes.input}
-                                autoComplete="off"
-								disableUnderline
-                                name="password" id="password"
-                                type={showPassword ? 'text' : 'password'} 
-                                value={password} 
-                                placeholder="Password"
-								startAdornment=
-								{
-									<InputAdornment style={{marginLeft: 13}} position="start">
-										<FaLock />
-									</InputAdornment>
-								}
-								endAdornment=
-								{
-									<InputAdornment className="visibility" position="end"
-										onClick={() => setShowPassword(!showPassword)}>
-										{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-									</InputAdornment>
-								}
-                                onChange={e => setPassword(e.target.value)} />
-                        </FormControl>
-						<div className="button-container">
-                        	<Button variant="contained"
-								type="submit" fullWidth 
-								className={classes.submit} 
-								onClick={onRegister}>Register</Button>
-							<p>Already have an account? <Link to="/login" className="link">Sign in</Link></p>
-						</div>
-                    </form>
-                </Paper>
-                <ToastContainer
-					position="bottom-center"
-					autoClose={5000}
-					closeOnClick
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-					className="toast"
-				/>
-		    </main>
+		<div className="form-container">
+			<div className="left-section">
+				<div className="smartphone">
+					<div className="speaker" />
+					<div className="camera" />
+					hey
+				</div>
+			</div>
+			<div className="right-section">
+				<main className={classes.main}>
+					<Paper className={classes.paper}>
+						<h3 className="title">Create new account</h3>
+						<form onSubmit={e => e.preventDefault() && false}>
+							<FormControl margin="normal" required fullWidth>
+								<Input 
+									className={classes.input}
+									autoFocus 
+									autoComplete="off"
+									disableUnderline
+									id="email" name="email" 
+									value={email}
+									type="email"
+									placeholder="Your email" 
+									startAdornment=
+									{
+										<InputAdornment style={{marginLeft: 13}} position="start">
+											<MdEmail />
+										</InputAdornment>
+									}
+									endAdornment=
+									{
+										emailValidation(email) ? 
+										<InputAdornment style={{marginRight: 10}} position="end">
+											<DoneRoundedIcon style={{ color: green[900] }}/>
+										</InputAdornment> 
+										: 
+										<InputAdornment style={{marginRight: 10}} position="end">
+											<ClearRoundedIcon style={{ color: red[700] }}/>
+										</InputAdornment> 
+									}
+									onChange={e => setEmail(e.target.value)} />
+							</FormControl>
+							<FormControl margin="normal" required fullWidth>
+								<Input 
+									className={classes.input}
+									autoComplete="off"
+									disableUnderline
+									name="password" id="password"
+									type={showPassword ? 'text' : 'password'} 
+									value={password} 
+									placeholder="Password"
+									startAdornment=
+									{
+										<InputAdornment style={{marginLeft: 13}} position="start">
+											<FaLock />
+										</InputAdornment>
+									}
+									endAdornment=
+									{
+										<InputAdornment className="visibility" position="end"
+											onClick={() => setShowPassword(!showPassword)}>
+											{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+										</InputAdornment>
+									}
+									onChange={e => setPassword(e.target.value)} />
+							</FormControl>
+							<div className="button-container">
+								<Button variant="contained"
+									type="submit" fullWidth 
+									className={classes.submit} 
+									onClick={onRegister}>Register</Button>
+							</div>
+						</form>
+					</Paper>
+				</main>
+				<p className="caption">
+					Already have an account? <Link to="/login" className="link">Sign in</Link>
+				</p>
+				<ToastContainer
+						position="bottom-center"
+						autoClose={5000}
+						closeOnClick
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+						className="toast"
+					/>
+			</div>
 		</div>
 	)
 
