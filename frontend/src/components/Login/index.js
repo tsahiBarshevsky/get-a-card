@@ -65,7 +65,7 @@ function Login(props)
 	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
-		document.title = 'Save The Date | Login';
+		//document.title = 'Save The Date | Login';
 	}, [])
 
 	if (firebase.getCurrentUsername())

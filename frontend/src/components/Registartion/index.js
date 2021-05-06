@@ -68,7 +68,7 @@ function Registration(props)
 	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
-		document.title = 'Save The Date | Registration';
+		//document.title = 'Save The Date | Registration';
 	}, []);
 
 	if (firebase.getCurrentUsername())

@@ -24,7 +24,7 @@ import firebase from '../firebase';
 
 export default function Dashbaord(props) 
 {
-    const currentUsername = firebase.getCurrentUsername();
+    const currentUser = firebase.getCurrentUsername();
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
@@ -76,10 +76,12 @@ export default function Dashbaord(props)
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
     //protect the route
-    if (!currentUsername) {
+    if (!currentUser) {
         props.history.replace('/login');
         return null;
     }
+
+    console.log(images);
 
     const notify = (type, message) =>
     {
@@ -179,7 +181,7 @@ export default function Dashbaord(props)
 				{
 					// if (url !== '')
 					// 	deleteImage(false);
-					const uploadTask = firebase.storage.ref(`Images/main`).put(e.target.files[0]);
+					const uploadTask = firebase.storage.ref(`${currentUser}/main`).put(e.target.files[0]);
 					uploadTask.on(
                         'state_changed',
                         (snapshot) => {
@@ -191,7 +193,7 @@ export default function Dashbaord(props)
                             alert(error.message);
                         },
                         () => {
-                            firebase.storage.ref("Images").child('main').getDownloadURL().then(
+                            firebase.storage.ref(`${currentUser}`).child('main').getDownloadURL().then(
                                 url => setImages({ ...images, main: url })
                             );
                         }
@@ -220,7 +222,7 @@ export default function Dashbaord(props)
 				{
 					// if (url !== '')
 					// 	deleteImage(false);
-					const uploadTask = firebase.storage.ref(`Images/cover`).put(e.target.files[0]);
+					const uploadTask = firebase.storage.ref(`${currentUser}/cover`).put(e.target.files[0]);
 					uploadTask.on(
                         'state_changed',
                         (snapshot) => {
@@ -232,7 +234,7 @@ export default function Dashbaord(props)
                             alert(error.message);
                         },
                         () => {
-                            firebase.storage.ref("Images").child('cover').getDownloadURL().then(
+                            firebase.storage.ref(`${currentUser}`).child('cover').getDownloadURL().then(
                                 url => setImages({ ...images, cover: url })
                             );
                         }
@@ -274,7 +276,7 @@ export default function Dashbaord(props)
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    owner: currentUsername,
+                    owner: currentUser,
                     URL: URL,
                     palette: palette,
                     langauge: langauge,
@@ -295,7 +297,7 @@ export default function Dashbaord(props)
     return (
         <div className="page-container">
             <div className="dashboard-container">
-                <Typography>hey {currentUsername}</Typography>
+                <Typography>hey {currentUser}</Typography>
                 <Button onClick={() => logout()}>Logout</Button>
                 <Stepper alternativeLabel activeStep={activeStep} className="stepper">
                     {steps.map((label) => (
