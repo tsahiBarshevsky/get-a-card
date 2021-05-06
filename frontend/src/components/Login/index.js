@@ -85,6 +85,7 @@ function Login(props)
 	return (
 		<div className="form-container">
 			<div className="left-section">
+				<h1 className="phrase">a Card like this can be yours</h1>
 				<div className="smartphone">
 					<div className="speaker" />
 					<div className="camera" />

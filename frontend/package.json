@@ -18,6 +18,7 @@
     "react-scripts": "4.0.3",
     "react-scroll": "^1.8.2",
     "react-toastify": "^7.0.4",
+    "social-links": "^1.4.3",
     "web-vitals": "^1.1.1"
   },
   "scripts": {

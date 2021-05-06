@@ -3,7 +3,7 @@ import { createMuiTheme, Grid, MuiThemeProvider, Typography } from '@material-ui
 import { 
     FaFacebook, FaInstagram, FaLinkedinIn, 
     FaGithub, FaPinterest, FaPhone,
-    FaMobileAlt, FaWhatsapp } from 'react-icons/fa';
+    FaMobileAlt, FaWhatsapp, FaDribbble } from 'react-icons/fa';
 import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
@@ -48,6 +48,7 @@ export default function Card(props)
             case 'Pinterest': return <FaPinterest className="icon" />
             case 'Youtube': return <AiFillYoutube className="icon" />
             case 'Tiktok': return <IoLogoTiktok className="icon" />
+            case 'Dribbble': return <FaDribbble className="icon" />
             case 'Telephone': return <FaPhone className="icon" />
             case 'Phone': return <FaMobileAlt className="icon" />
             case 'WhatsApp': return <FaWhatsapp className="icon" />

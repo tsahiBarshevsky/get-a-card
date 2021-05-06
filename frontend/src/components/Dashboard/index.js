@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { scroller } from 'react-scroll';
 import { ToastContainer, toast } from 'react-toastify';
+import { red, green } from '@material-ui/core/colors';
+import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import 'react-toastify/dist/ReactToastify.css';
+import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 
 // function getStepContent(step) 
@@ -25,6 +29,7 @@ import firebase from '../firebase';
 export default function Dashbaord(props) 
 {
     const currentUser = firebase.getCurrentUsername();
+    const socialLinks = new SocialLinks();
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
@@ -59,7 +64,8 @@ export default function Dashbaord(props)
         github: false,
         pinterest: false,
         youtube: false,
-        tiktok: false
+        tiktok: false,
+        dribbble: false
     });
     const [socialsLinks, setSocialsLinks] = useState({
         facebookLink: '',
@@ -68,10 +74,11 @@ export default function Dashbaord(props)
         githubLink: '',
         pinterestLink: '',
         youtubeLink: '',
-        tiktokLink: ''
+        tiktokLink: '',
+        dribbbleLink: ''
     });
-    const { telephone, phone, whatsapp, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok } = checkboxes;
-    const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink } = socialsLinks;
+    const { telephone, phone, whatsapp, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
+    const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
     const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
@@ -274,6 +281,7 @@ export default function Dashbaord(props)
         socialsArray.push({ name: 'Pinterest', show: pinterest, link: pinterestLink });
         socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
         socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
+        socialsArray.push({ name: 'Dribbble', show: dribbble, link: dribbbleLink });
         var contactArray = [];
         contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
         contactArray.push({ type: "Phone", show: phone, number: phoneValue });
@@ -515,6 +523,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!facebook}
                             value={facebookLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('facebook', facebookLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -530,6 +549,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!instagram}
                             value={instagramLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('instagram', instagramLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -545,6 +575,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!linkedin}
                             value={linkedinLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('linkedin', linkedinLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -560,6 +601,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!github}
                             value={githubLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('github', githubLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -575,6 +627,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!pinterest}
                             value={pinterestLink}
+                            endAdornment=
+                            {
+                                /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(pinterestLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -590,6 +653,17 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!youtube}
                             value={youtubeLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('youtube', youtubeLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -605,7 +679,44 @@ export default function Dashbaord(props)
                             autoComplete="off"
                             disabled={!tiktok}
                             value={tiktokLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('tiktok', tiktokLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} color="primary" />}
+                            label="Dribbble"
+                            name="dribbble"
+                        />
+                        <Input
+                            id="Dribbble URL"
+                            placeholder="Dribbble URL..."
+                            margin="dense"
+                            autoComplete="off"
+                            disabled={!dribbble}
+                            value={dribbbleLink}
+                            endAdornment=
+                            {
+                                socialLinks.isValid('dribbble', dribbbleLink) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
+                            onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
                     </div>
                 </section>
                 <Button variant="contained" onClick={() => submitCard()}>Submit</Button>
