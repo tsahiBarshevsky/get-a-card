@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const CardsSchema = new mongoose.Schema({
+    owner: { type: String },
     URL: { type: String },
     palette: { type: Object },
     langauge: { type: String },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Grid } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -8,22 +8,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import firebase from '../firebase';
 
-function getStepContent(step) 
-{
-    switch (step) {
-        case 0:
-            return 'Choose URL...';
-        case 1:
-            return 'Choose color palette...';
-        case 2:
-            return 'Fill information...';
-        default:
-            return 'Unknown step';
-    }
-}
+// function getStepContent(step) 
+// {
+//     switch (step) {
+//         case 0:
+//             return 'Choose URL...';
+//         case 1:
+//             return 'Choose color palette...';
+//         case 2:
+//             return 'Fill information...';
+//         default:
+//             return 'Unknown step';
+//     }
+// }
 
-export default function Dashbaord() 
+export default function Dashbaord(props) 
 {
+    const currentUsername = firebase.getCurrentUsername();
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
@@ -32,18 +33,15 @@ export default function Dashbaord()
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
-    const [result, setResult] = useState('');
     const [disable, setDisable] = useState(false);
     const [images, setImages] = useState({
         main: '',
         cover: ''
     });
-    console.log(images);
     const [progress, setProgress] = useState({
         main: 0,
         cover: 0
     });
-    console.log(progress);
     const [contact, setContact] = useState({
         telephoneValue: '',
         phoneValue: '',
@@ -77,6 +75,32 @@ export default function Dashbaord()
     const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
 
+    //protect the route
+    if (!currentUsername) {
+        props.history.replace('/login');
+        return null;
+    }
+
+    const notify = (type, message) =>
+    {
+        switch (type)
+        {
+            case 'success':
+                toast.success(message);
+                break;
+            case 'error':
+                toast.error(message);
+                break;
+            default: return null;
+        }
+    }
+
+    // if (progress.main === 100)
+	// {
+	// 	notify("success", "Main image uploaded successfully!");
+	// 	setProgress({ ...progress, main: 0 });
+	// }
+
     const handleNext = () => 
     {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -87,10 +111,10 @@ export default function Dashbaord()
     //     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     // }
 
-    const handleReset = () => 
-    {
-        setActiveStep(0);
-    }
+    // const handleReset = () => 
+    // {
+    //     setActiveStep(0);
+    // }
 
     const handleCheckboxChange = (event) => 
     {
@@ -143,20 +167,6 @@ export default function Dashbaord()
             delay: 0,
             smooth: "easeInOutQuart"
         });
-    }
-
-    const notify = (type, message) =>
-    {
-        switch (type)
-        {
-            case 'success':
-                toast.success(message);
-                break;
-            case 'error':
-                toast.error(message);
-                break;
-            default: return null;
-        }
     }
 
     const uploadMainImage = (e) =>
@@ -264,6 +274,7 @@ export default function Dashbaord()
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    owner: currentUsername,
                     URL: URL,
                     palette: palette,
                     langauge: langauge,
@@ -284,6 +295,8 @@ export default function Dashbaord()
     return (
         <div className="page-container">
             <div className="dashboard-container">
+                <Typography>hey {currentUsername}</Typography>
+                <Button onClick={() => logout()}>Logout</Button>
                 <Stepper alternativeLabel activeStep={activeStep} className="stepper">
                     {steps.map((label) => (
                     <Step key={label}>
@@ -353,6 +366,7 @@ export default function Dashbaord()
                         name="upload-photo"
                         type="file"
                         onChange={uploadMainImage} />
+                    {progress.main}
                     <input
                         accept="image/*"
                         //style={{ display: "none" }}
@@ -360,6 +374,7 @@ export default function Dashbaord()
                         name="upload-photo"
                         type="file"
                         onChange={uploadCoverImage} />
+                    {progress.cover}
                     <Typography variant="h6">Language</Typography>
                     <FormControl>
                         {/* <InputLabel>Language</InputLabel> */}
@@ -611,4 +626,10 @@ export default function Dashbaord()
             </div>
         </div>
     )
+
+    function logout()
+    {
+        firebase.logout();
+        props.history.replace('/');
+    }
 }

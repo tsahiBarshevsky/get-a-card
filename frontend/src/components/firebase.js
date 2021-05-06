@@ -21,6 +21,33 @@ class Firebase
         //this.db = app.firestore();
         this.storage = app.storage();
     }
+
+    isInitialized()
+    {
+        return new Promise(resolve => {
+            this.auth.onAuthStateChanged(resolve);
+        });
+    }
+
+    getCurrentUsername()
+    {
+        return this.auth.currentUser && this.auth.currentUser.email;
+    }
+
+    login(email, password)
+    {
+        return this.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    logout()
+    {
+        return this.auth.signOut();
+    }
+
+    async register(email, password)
+    {
+        await this.auth.createUserWithEmailAndPassword(email, password);
+    }
 }
 
 export default new Firebase();

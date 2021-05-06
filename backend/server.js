@@ -19,6 +19,7 @@ mongoose.connect(
 app.post("/insert-new-card", async (req, res) => 
 {
     const newCard = new CardsModel({
+        owner: req.body.owner,
         URL: req.body.URL,
         palette: req.body.palette,
         langauge: req.body.langauge,

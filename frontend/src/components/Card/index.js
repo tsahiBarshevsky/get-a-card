@@ -46,7 +46,7 @@ export default function Card(props)
 
     return card !== null ? (
         <div className="page-container">
-            <div className="card-container" style={cardStyle}>
+            <div className="card-container" style={cardStyle} dir={card.langauge === 'Hebrew' ? "rtl" : "ltr"}>
                 <div className="header">
                     <img src={card.images? card.images.cover : null} alt="cover" className="cover"/>
                     <img src={card.images? card.images.main : null} alt="main" className="main"/>
