@@ -236,63 +236,92 @@ $navbar-mobile: 920px
     height: fit-content
     //padding: 20px 5px
 
+/* === Add Card Page === */
+
+.page-container > .add-card-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: fit-content
+    padding-bottom: 20px
+    //padding: 20px 5px
+
     .stepper
         background-color: $primary
 
     #url-selection
         display: flex
-        justify-content: flex-start
-        align-items: center
+        flex-direction: column
+        justify-content: center
+        align-items: flex-start
         width: 100%
         padding: 10px 100px
-        margin-bottom: 15px
+        margin-bottom: 25px
 
         @media screen and ( max-width: $xs )
             padding: 10px 20px
+
+        .input
+            display: flex
+            justify-content: center
+            align-items: flex-start
+
+            @media screen and ( max-width: $xs )
+                flex-direction: column
 
     #palette-selection
         display: flex
-        justify-content: flex-start
-        align-items: center
+        flex-direction: column
+        justify-content: center
+        align-items: flex-start
         width: 100%
         padding: 10px 100px
-        margin-bottom: 15px
+        margin-bottom: 25px
 
         @media screen and ( max-width: $xs )
             padding: 10px 20px
 
-        .palette
+        .palettes-container
             display: flex
-            flex-direction: column
             justify-content: flex-start
-            align-items: center
-            background-color: white
-            box-shadow: 0 3px 7px -1px rgba(black, 0.1)
-            border-radius: 10px
-            padding: 10px 15px
-            width: 210px
-            height: 200px
-            cursor: pointer
+            align-items: flex-start
+            flex-wrap: wrap
 
-            .colors
+            .palette
                 display: flex
                 flex-direction: column
-                justify-content: center
+                justify-content: flex-start
                 align-items: center
-                height: 100%
-                width: 100%
+                background-color: white
+                box-shadow: 0 3px 7px -1px rgba(black, 0.1)
+                border-radius: 10px
+                padding: 10px 15px
+                margin: 10px 25px 10px 0
+                width: 210px
+                height: 200px
+                cursor: pointer
 
-                .color
+                .colors
                     display: flex
-                    justify-content: space-between
+                    flex-direction: column
+                    justify-content: center
                     align-items: center
-                    margin-bottom: 15px
+                    height: 100%
                     width: 100%
 
-                .preview
-                    width: 22px
-                    height: 22px
-                    border-radius: 50%
+                    .color
+                        display: flex
+                        justify-content: space-between
+                        align-items: center
+                        margin-bottom: 15px
+                        width: 100%
+
+                    .preview
+                        width: 22px
+                        height: 22px
+                        border-radius: 50%
 
     #information
         display: flex
@@ -305,6 +334,9 @@ $navbar-mobile: 920px
 
         @media screen and ( max-width: $xs )
             padding: 10px 20px
+
+        .basic-details
+            margin-bottom: 20px
 
         .social,
         .contact

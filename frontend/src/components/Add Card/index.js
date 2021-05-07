@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -33,6 +33,7 @@ const styles = makeStyles({
 		borderRadius: 5,
         height: 40,
         paddingLeft: 10,
+        marginBottom: 20,
         color: 'black',
 		border: '1px solid #c0c0c0',
 		backgroundColor: 'transparent',
@@ -46,7 +47,32 @@ const styles = makeStyles({
 		border: '1px solid #c0c0c0',
 		backgroundColor: 'transparent',
 		fontFamily: '"Nunito", sans-serif',
-	}
+	},
+    button:
+    {
+        height: 45,
+        borderRadius: 5,
+        fontSize: 15,
+        margin: '0 5px',
+        textTransform: 'capitalize',
+        '@media (max-width: 600px)':
+        {
+            margin: '5px 0'
+        }
+    }
+});
+
+const theme = createMuiTheme({
+    typography:
+    {
+        allVariants: { fontFamily: `"Nunito", sans-serif` },
+        h5: { textDecoration: 'underline', fontWeight: 600, marginBottom: 20 },
+        h6: { fontWeight: 600, marginBottom: 15 },
+        subtitle1: { fontWeight: 600 },
+        subtitle2: { fontWeight: 600 },
+        caption: { fontSize: 16, fontWeight: 600, marginBottom: 20 },
+        overline: { fontSize: 15, fontWeight: 600, textTransform: 'capitalize' }
+    }
 });
 
 export default function AddCard(props) 
@@ -106,7 +132,7 @@ export default function AddCard(props)
     const { telephone, phone, whatsapp, telegram, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
     const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
     const { telephoneValue, phoneValue, whatsappValue, telegramValue, emailValue } = contact;
-    const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
+    const steps = ['Choose URL', 'Choose color palette', 'Fill information', 'Review and submit'];
     const regex = { 
         url: /^[A-Za-z][A-Za-z0-9]*$/,
         telephone: /02|03|04|08|09[0-9]{7}/,
@@ -117,7 +143,7 @@ export default function AddCard(props)
     };
 
     useEffect(() => {
-        document.title = 'Get a Card | Dashboard';
+        document.title = 'Add new card | Get a Card ';
     }, []);
 
     //protect the route
@@ -345,42 +371,58 @@ export default function AddCard(props)
 
     return (
         <div className="page-container">
-            <div className="dashboard-container">
-                <Typography>hey {currentUser}</Typography>
-                <Stepper alternativeLabel activeStep={activeStep} className="stepper">
-                    {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                    ))}
-                </Stepper>
-                <section id="url-selection">
-                    <Input
-                        id="URL"
-                        placeholder="URL..."
-                        autoComplete="off"
-                        value={URL} 
-                        className={classes.input}
-                        disableUnderline
-                        inputProps={{ style: { marginLeft: 15 } }}
-                        endAdornment=
-                        {
-                            regex.url.test(URL) ? 
-                            <InputAdornment style={{marginRight: 10}} position="end">
-                                <DoneRoundedIcon style={{ color: green[900] }}/>
-                            </InputAdornment> 
-                            : 
-                            <InputAdornment style={{marginRight: 10}} position="end">
-                                <ClearRoundedIcon style={{ color: red[700] }}/>
-                            </InputAdornment> 
-                        }
-                        onChange={(e) => setURL(e.target.value)} />
-                    <Button disabled={URL === ''} variant="contained" onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
-                    <Button disabled variant="contained">Choose</Button>
-                </section>
-                <section id="palette-selection">
-                    <Grid container spacing={3} direction="row" justify="center" alignItems="flex-start">
-                        <Grid item>
+            <div className="add-card-container">
+                <MuiThemeProvider theme={theme}>
+                    <Stepper alternativeLabel activeStep={activeStep} className="stepper">
+                        {steps.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                        ))}
+                    </Stepper>
+                    <section id="url-selection">
+                        <Typography variant="h5">Choose URL</Typography>
+                        <Typography variant="caption">
+                            The URL is used to identify your digital business card. <br />
+                            It have to be one word that start with an English letter 
+                            (uppercase or lowercase) and can contain numbers.
+                        </Typography>
+                        <div className="input">
+                            <Input
+                                id="URL"
+                                placeholder="URL..."
+                                autoComplete="off"
+                                value={URL} 
+                                className={classes.input}
+                                disableUnderline
+                                style={{ marginRight: 5 }}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                endAdornment=
+                                {
+                                    regex.url.test(URL) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                onChange={(e) => setURL(e.target.value)} />
+                            <Button     
+                                disabled={URL === ''} 
+                                variant="contained" 
+                                className={classes.button}
+                                onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
+                            <Button 
+                                disabled 
+                                variant="contained"
+                                className={classes.button}>Choose</Button>
+                        </div>
+                    </section>
+                    <section id="palette-selection">
+                        <Typography variant="h5">Choose Color Palette</Typography>
+                        <div className="palettes-container">
                             <div className="palette" onClick={() => handlePaletteChange('default')}>
                                 <Typography variant="subtitle1">Default palette</Typography>
                                 <div className="colors">
@@ -398,8 +440,6 @@ export default function AddCard(props)
                                     </div>
                                 </div>
                             </div>
-                        </Grid>
-                        <Grid item>
                             <div className="palette" onClick={() => handlePaletteChange('dark')}>
                                 <Typography variant="subtitle1">Dark palette</Typography>
                                 <div className="colors">
@@ -417,474 +457,524 @@ export default function AddCard(props)
                                     </div>
                                 </div>
                             </div>
-                        </Grid>
-                    </Grid>
-                </section>
-                <section id="information">
-                    <Typography variant="h6">Main image and cover</Typography>
-                    <input
-                        accept="image/*"
-                        //style={{ display: "none" }}
-                        id="upload-photo"
-                        name="upload-photo"
-                        type="file"
-                        onChange={uploadMainImage} />
-                    {progress.main}
-                    <input
-                        accept="image/*"
-                        //style={{ display: "none" }}
-                        id="upload-photo"
-                        name="upload-photo"
-                        type="file"
-                        onChange={uploadCoverImage} />
-                    {progress.cover}
-                    <Typography variant="h6">Language</Typography>
-                    <FormControl>
-                        {/* <InputLabel>Language</InputLabel> */}
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={langauge}
-                            className={classes.select}
-                            disableUnderline
-                            onChange={(e) => setLanguage(e.target.value)}
-                        >
-                            <MenuItem value="English">English</MenuItem>
-                            <MenuItem value="Hebrew">Hebrew</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Typography variant="h6">Business details</Typography>
-                    <div>
-                        <Input
-                            id="name"
-                            placeholder="Name..."
-                            fullWidth
-                            autoComplete="off"
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} />
-                        <Input
-                            id="type"
-                            placeholder="Type..."
-                            fullWidth
-                            autoComplete="off"
-                            value={type} 
-                            onChange={(e) => setType(e.target.value)} />
-                        <Input
-                            id="description"
-                            placeholder="Description..."
-                            fullWidth multiline
-                            autoComplete="off"
-                            value={description} 
-                            onChange={(e) => setDescription(e.target.value)} />
-                        <Input
-                            id="address"
-                            placeholder="Address..."
-                            fullWidth
-                            autoComplete="off"
-                            value={address} 
-                            onChange={(e) => setAddress(e.target.value)} />
-                    </div>
-                    <Typography variant="h6">Contact</Typography>
-                    <div className="contact">
-                        <FormControlLabel
-                            control={<Checkbox checked={telephone} onChange={handleCheckboxChange} color="primary" />}
-                            label="Telephone"
-                            name="telephone"
-                        />
-                        <Input
-                            id="Telephone"
-                            placeholder="Telephone number..."
-                            type="tel"
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!telephone}
-                            value={telephoneValue}
-                            inputProps={{ maxLength: 9, style: { marginLeft: 10 } }}
-                            endAdornment=
-                            {
-                                regex.telephone.test(telephoneValue) && telephoneValue.length === 9 ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
-                    </div>
-                    <div className="contact">
-                        <FormControlLabel
-                            control={<Checkbox checked={phone} onChange={handleCheckboxChange} color="primary" />}
-                            label="Phone"
-                            name="phone"
-                        />
-                        <Input
-                            id="Phone"
-                            placeholder="Phone number..."
-                            type="tel"
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!phone}
-                            value={phoneValue}
-                            inputProps={{ maxLength: 10, style: { marginLeft: 10 } }}
-                            endAdornment=
-                            {
-                                regex.phone.test(phoneValue) && phoneValue.length === 10 ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
-                    </div>
-                    <div className="contact">
-                        <FormControlLabel
-                            control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
-                            label="WhatsApp"
-                            name="whatsapp"
-                        />
-                        <Input
-                            id="Whatsapp"
-                            placeholder="International format phone number..."
-                            type="tel"
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!whatsapp}
-                            value={whatsappValue}
-                            inputProps={{ maxLength: 12, style: { marginLeft: 10 } }}
-                            endAdornment=
-                            {
-                                regex.whatsapp.test(whatsappValue) && whatsappValue.length === 12 ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
-                    </div>
-                    <div className="contact">
-                        <FormControlLabel
-                            control={<Checkbox checked={telegram} onChange={handleCheckboxChange} color="primary" />}
-                            label="Telegram"
-                            name="telegram"
-                        />
-                        <Typography>https://t.me/</Typography>
-                        <Input
-                            id="Telegram"
-                            placeholder="Telegram username..."
-                            type="tel"
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!telegram}
-                            value={telegramValue}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                regex.telegram.test(telegramValue) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setContact({ ...contact, telegramValue: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={email} onChange={handleCheckboxChange} color="primary" />}
-                            label="Email"
-                            name="email"
-                        />
-                        <Input
-                            id="Email"
-                            placeholder="email address..."
-                            type="email"
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!email}
-                            value={emailValue}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                regex.email.test(emailValue) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
-                    </div>
-                    <Typography variant="h6">Social media</Typography>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={facebook} onChange={handleCheckboxChange} color="primary" />}
-                            label="Facebook"
-                            name="facebook"
-                        />
-                        <Input
-                            id="Facebook URL"
-                            placeholder="Facebook URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!facebook}
-                            value={facebookLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('facebook', facebookLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={instagram} onChange={handleCheckboxChange} color="primary" />}
-                            label="Instagram"
-                            name="instagram"
-                        />
-                        <Input
-                            id="Instagram URL"
-                            placeholder="Instagram URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!instagram}
-                            value={instagramLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('instagram', instagramLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} color="primary" />}
-                            label="Linkedin"
-                            name="linkedin"
-                        />
-                        <Input
-                            id="Linkedin URL"
-                            placeholder="Linkedin URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!linkedin}
-                            value={linkedinLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('linkedin', linkedinLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={github} onChange={handleCheckboxChange} color="primary" />}
-                            label="Github"
-                            name="github"
-                        />
-                        <Input
-                            id="Github URL"
-                            placeholder="Github URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!github}
-                            value={githubLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('github', githubLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} color="primary" />}
-                            label="Pinterest"
-                            name="pinterest"
-                        />
-                        <Input
-                            id="Pinterest URL"
-                            placeholder="Pinterest URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!pinterest}
-                            value={pinterestLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(pinterestLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={youtube} onChange={handleCheckboxChange} color="primary" />}
-                            label="Youtube"
-                            name="youtube"
-                        />
-                        <Input
-                            id="Youtube URL"
-                            placeholder="Youtube URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!youtube}
-                            value={youtubeLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('youtube', youtubeLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} color="primary" />}
-                            label="Tiktok"
-                            name="tiktok"
-                        />
-                        <Input
-                            id="Tiktok URL"
-                            placeholder="Tiktok URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!tiktok}
-                            value={tiktokLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('tiktok', tiktokLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
-                    </div>
-                    <div className="social">
-                        <FormControlLabel
-                            control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} color="primary" />}
-                            label="Dribbble"
-                            name="dribbble"
-                        />
-                        <Input
-                            id="Dribbble URL"
-                            placeholder="Dribbble URL..."
-                            autoComplete="off"
-                            disableUnderline
-                            disabled={!dribbble}
-                            value={dribbbleLink}
-                            inputProps={{ style: { marginLeft: 10 }}}
-                            endAdornment=
-                            {
-                                socialLinks.isValid('dribbble', dribbbleLink) ? 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <DoneRoundedIcon style={{ color: green[900] }}/>
-                                </InputAdornment> 
-                                : 
-                                <InputAdornment style={{marginRight: 10}} position="end">
-                                    <ClearRoundedIcon style={{ color: red[700] }}/>
-                                </InputAdornment> 
-                            }
-                            className={classes.input}
-                            onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
-                    </div>
-                </section>
-                <Button variant="contained" onClick={() => submitCard()}>Submit</Button>
-                <ToastContainer
-                    position="bottom-center"
-                    closeOnClick
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
-                {/* <div>
-                    {activeStep === steps.length ? (
-                    <div>
-                        <Typography>
-                            All steps completed - you're finished
-                        </Typography>
-                        <Button onClick={handleReset}>Reset</Button>
-                    </div>
-                    ) : (
-                    <div>
-                        <Typography>{getStepContent(activeStep)}</Typography>
-                        <div>
-                            <Button disabled={activeStep === 0} onClick={handleBack}>Back</Button>
-                            <Button variant="contained" onClick={handleNext}>
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                            </Button>
+                            <div className="palette" onClick={() => handlePaletteChange('dark')}>
+                                {/* <Typography variant="subtitle1">Dark palette</Typography>
+                                <div className="colors">
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Primary: #18191A</Typography>
+                                        <div className="preview" style={{backgroundColor: '#18191a'}} />
+                                    </div>
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
+                                        <div className="preview" style={{backgroundColor: '#3a3b3c'}} />
+                                    </div>
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
+                                        <div className="preview" style={{backgroundColor: '#e4e6eb'}} />
+                                    </div>
+                                </div> */}
+                            </div>
+                            <div className="palette" onClick={() => handlePaletteChange('dark')}>
+                                {/* <Typography variant="subtitle1">Dark palette</Typography>
+                                <div className="colors">
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Primary: #18191A</Typography>
+                                        <div className="preview" style={{backgroundColor: '#18191a'}} />
+                                    </div>
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
+                                        <div className="preview" style={{backgroundColor: '#3a3b3c'}} />
+                                    </div>
+                                    <div className="color">
+                                        <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
+                                        <div className="preview" style={{backgroundColor: '#e4e6eb'}} />
+                                    </div>
+                                </div> */}
+                            </div>
                         </div>
-                    </div>
-                    )}
-                </div> */}
+                    </section>
+                    <section id="information">
+                        <Typography variant="h5">Information About Your Bussiness</Typography>
+                        {/* <Typography variant="h6">Main image and cover</Typography>
+                        <input
+                            accept="image/*"
+                            id="upload-photo"
+                            name="upload-photo"
+                            type="file"
+                            onChange={uploadMainImage} />
+                        {progress.main}
+                        <input
+                            accept="image/*"
+                            id="upload-photo"
+                            name="upload-photo"
+                            type="file"
+                            onChange={uploadCoverImage} />
+                        {progress.cover} */}
+                        <Typography variant="h6">Language</Typography>
+                        <Typography variant="caption">The language in which you want your card to be displayed</Typography>
+                        <FormControl>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={langauge}
+                                className={classes.select}
+                                disableUnderline
+                                onChange={(e) => setLanguage(e.target.value)}
+                            >
+                                <MenuItem value="English">English</MenuItem>
+                                <MenuItem value="Hebrew">Hebrew</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Typography variant="h6">Business basic details</Typography>
+                        <div className="basic-details">
+                            <Input
+                                id="name"
+                                placeholder="Name..."
+                                fullWidth
+                                disableUnderline
+                                className={classes.input}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                style={{ marginBottom: 10 }}
+                                autoComplete="off"
+                                value={name} 
+                                onChange={(e) => setName(e.target.value)} />
+                            <Input
+                                id="type"
+                                placeholder="Type..."
+                                fullWidth
+                                disableUnderline
+                                className={classes.input}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                style={{ marginBottom: 10 }}
+                                autoComplete="off"
+                                value={type} 
+                                onChange={(e) => setType(e.target.value)} />
+                            <Input
+                                id="description"
+                                placeholder="Description..."
+                                fullWidth multiline
+                                disableUnderline
+                                className={classes.input}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                style={{ marginBottom: 10 }}
+                                autoComplete="off"
+                                value={description} 
+                                onChange={(e) => setDescription(e.target.value)} />
+                            <Input
+                                id="address"
+                                placeholder="Address..."
+                                fullWidth
+                                disableUnderline
+                                className={classes.input}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                style={{ marginBottom: 10 }}
+                                autoComplete="off"
+                                value={address} 
+                                onChange={(e) => setAddress(e.target.value)} />
+                        </div>
+                        <Typography variant="h6">Contact</Typography>
+                        <Typography variant="caption">In what ways can people contact you?</Typography>
+                        <Typography variant="overline">Traditional ways</Typography>
+                        <div className="contact">
+                            <FormControlLabel
+                                control={<Checkbox checked={telephone} onChange={handleCheckboxChange} color="primary" />}
+                                label="Telephone"
+                                name="telephone"
+                            />
+                            <Input
+                                id="Telephone"
+                                placeholder="Telephone number..."
+                                type="tel"
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!telephone}
+                                value={telephoneValue}
+                                inputProps={{ maxLength: 9, style: { marginLeft: 10 } }}
+                                endAdornment=
+                                {
+                                    regex.telephone.test(telephoneValue) && telephoneValue.length === 9 ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
+                        </div>
+                        <div className="contact">
+                            <FormControlLabel
+                                control={<Checkbox checked={phone} onChange={handleCheckboxChange} color="primary" />}
+                                label="Phone"
+                                name="phone"
+                            />
+                            <Input
+                                id="Phone"
+                                placeholder="Phone number..."
+                                type="tel"
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!phone}
+                                value={phoneValue}
+                                inputProps={{ maxLength: 10, style: { marginLeft: 10 } }}
+                                endAdornment=
+                                {
+                                    regex.phone.test(phoneValue) && phoneValue.length === 10 ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
+                        </div>
+                        <div className="contact">
+                            <FormControlLabel
+                                control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
+                                label="WhatsApp"
+                                name="whatsapp"
+                            />
+                            <Input
+                                id="Whatsapp"
+                                placeholder="International format phone number..."
+                                type="tel"
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!whatsapp}
+                                value={whatsappValue}
+                                inputProps={{ maxLength: 12, style: { marginLeft: 10 } }}
+                                endAdornment=
+                                {
+                                    regex.whatsapp.test(whatsappValue) && whatsappValue.length === 12 ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
+                        </div>
+                        <div className="contact">
+                            <FormControlLabel
+                                control={<Checkbox checked={telegram} onChange={handleCheckboxChange} color="primary" />}
+                                label="Telegram"
+                                name="telegram"
+                            />
+                            <Input
+                                id="Telegram"
+                                placeholder="Telegram username..."
+                                type="tel"
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!telegram}
+                                value={telegramValue}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    regex.telegram.test(telegramValue) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setContact({ ...contact, telegramValue: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={email} onChange={handleCheckboxChange} color="primary" />}
+                                label="Email"
+                                name="email"
+                            />
+                            <Input
+                                id="Email"
+                                placeholder="email address..."
+                                type="email"
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!email}
+                                value={emailValue}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    regex.email.test(emailValue) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
+                        </div>
+                        <Typography variant="overline">Social media</Typography>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={facebook} onChange={handleCheckboxChange} color="primary" />}
+                                label="Facebook"
+                                name="facebook"
+                            />
+                            <Input
+                                id="Facebook URL"
+                                placeholder="Facebook URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!facebook}
+                                value={facebookLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('facebook', facebookLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={instagram} onChange={handleCheckboxChange} color="primary" />}
+                                label="Instagram"
+                                name="instagram"
+                            />
+                            <Input
+                                id="Instagram URL"
+                                placeholder="Instagram URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!instagram}
+                                value={instagramLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('instagram', instagramLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} color="primary" />}
+                                label="Linkedin"
+                                name="linkedin"
+                            />
+                            <Input
+                                id="Linkedin URL"
+                                placeholder="Linkedin URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!linkedin}
+                                value={linkedinLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('linkedin', linkedinLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={github} onChange={handleCheckboxChange} color="primary" />}
+                                label="Github"
+                                name="github"
+                            />
+                            <Input
+                                id="Github URL"
+                                placeholder="Github URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!github}
+                                value={githubLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('github', githubLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} color="primary" />}
+                                label="Pinterest"
+                                name="pinterest"
+                            />
+                            <Input
+                                id="Pinterest URL"
+                                placeholder="Pinterest URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!pinterest}
+                                value={pinterestLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(pinterestLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={youtube} onChange={handleCheckboxChange} color="primary" />}
+                                label="Youtube"
+                                name="youtube"
+                            />
+                            <Input
+                                id="Youtube URL"
+                                placeholder="Youtube URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!youtube}
+                                value={youtubeLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('youtube', youtubeLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} color="primary" />}
+                                label="Tiktok"
+                                name="tiktok"
+                            />
+                            <Input
+                                id="Tiktok URL"
+                                placeholder="Tiktok URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!tiktok}
+                                value={tiktokLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('tiktok', tiktokLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} color="primary" />}
+                                label="Dribbble"
+                                name="dribbble"
+                            />
+                            <Input
+                                id="Dribbble URL"
+                                placeholder="Dribbble URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!dribbble}
+                                value={dribbbleLink}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    socialLinks.isValid('dribbble', dribbbleLink) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
+                        </div>
+                    </section>
+                    <Button variant="contained" onClick={() => submitCard()}>Submit</Button>
+                    <ToastContainer
+                        position="bottom-center"
+                        closeOnClick
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
+                    {/* <div>
+                        {activeStep === steps.length ? (
+                        <div>
+                            <Typography>
+                                All steps completed - you're finished
+                            </Typography>
+                            <Button onClick={handleReset}>Reset</Button>
+                        </div>
+                        ) : (
+                        <div>
+                            <Typography>{getStepContent(activeStep)}</Typography>
+                            <div>
+                                <Button disabled={activeStep === 0} onClick={handleBack}>Back</Button>
+                                <Button variant="contained" onClick={handleNext}>
+                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                </Button>
+                            </div>
+                        </div>
+                        )}
+                    </div> */}
+                </MuiThemeProvider>
             </div>
         </div>
     )
