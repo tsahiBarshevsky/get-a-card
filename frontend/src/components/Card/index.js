@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createMuiTheme, Grid, MuiThemeProvider, Typography } from '@material-ui/core';
 import { 
     FaFacebook, FaInstagram, FaLinkedinIn, 
-    FaGithub, FaPinterest, FaPhone,
+    FaGithub, FaPinterest, FaPhone, FaTelegramPlane,
     FaMobileAlt, FaWhatsapp, FaDribbble } from 'react-icons/fa';
 import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
@@ -52,6 +52,7 @@ export default function Card(props)
             case 'Telephone': return <FaPhone className="icon" />
             case 'Phone': return <FaMobileAlt className="icon" />
             case 'WhatsApp': return <FaWhatsapp className="icon" />
+            case 'Telegram': return <FaTelegramPlane className="icon" />
             case 'Email': return <MdEmail className="icon" />
             default: return null;
         }
@@ -71,6 +72,12 @@ export default function Card(props)
             case 'WhatsApp':
                 return (
                     <a href={`https://api.whatsapp.com/send?phone=${contact.number}`} className="contact-wrapper" style={iconStyle}>
+                        {renderIcon(contact.type)}
+                    </a>
+                );
+            case 'Telegram':
+                return (
+                    <a href={contact.number} className="contact-wrapper" style={iconStyle}>
                         {renderIcon(contact.type)}
                     </a>
                 );

@@ -51,12 +51,14 @@ export default function Dashbaord(props)
         telephoneValue: '',
         phoneValue: '',
         whatsappValue: '',
+        telegramValue: '',
         emailValue: ''
     });
     const [checkboxes, setCheckboxes] = useState({
         telephone: false,
         phone: false,
         whatsapp: false,
+        telegram: false,
         email: false,
         facebook: false,
         instagram: false,
@@ -77,10 +79,17 @@ export default function Dashbaord(props)
         tiktokLink: '',
         dribbbleLink: ''
     });
-    const { telephone, phone, whatsapp, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
+    const { telephone, phone, whatsapp, telegram, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
     const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
-    const { telephoneValue, phoneValue, whatsappValue, emailValue } = contact;
+    const { telephoneValue, phoneValue, whatsappValue, telegramValue, emailValue } = contact;
     const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
+    const regex = { 
+        telephone: /02|03|04|08|09[0-9]{7}/,
+        phone: /050|051|052|053|054|055|058[0-9]{7}/,
+        whatsapp: /972(50|51|52|53|54|55|58)[0-9]{7}/,
+        telegram: /[a-zA-Z]*/,
+        email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+    };
 
     useEffect(() => {
         document.title = 'Get a Card | Dashboard';
@@ -107,7 +116,6 @@ export default function Dashbaord(props)
             default: return null;
         }
     }
-    
 
     // if (progress.main === 100)
 	// {
@@ -286,6 +294,7 @@ export default function Dashbaord(props)
         contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
         contactArray.push({ type: "Phone", show: phone, number: phoneValue });
         contactArray.push({ type: "WhatsApp", show: whatsapp, number: whatsappValue });
+        contactArray.push({ type: "Telegram", show: telegram, number: `https://t.me/${telegramValue}` });
         contactArray.push({ type: "Email", show: email, number: emailValue });
         fetch(`/insert-new-card`, 
             {
@@ -414,7 +423,6 @@ export default function Dashbaord(props)
                         <Input
                             id="name"
                             placeholder="Name..."
-                            margin="dense"
                             fullWidth
                             autoComplete="off"
                             value={name} 
@@ -422,7 +430,6 @@ export default function Dashbaord(props)
                         <Input
                             id="type"
                             placeholder="Type..."
-                            margin="dense"
                             fullWidth
                             autoComplete="off"
                             value={type} 
@@ -430,7 +437,6 @@ export default function Dashbaord(props)
                         <Input
                             id="description"
                             placeholder="Description..."
-                            margin="dense"
                             fullWidth multiline
                             autoComplete="off"
                             value={description} 
@@ -438,7 +444,6 @@ export default function Dashbaord(props)
                         <Input
                             id="address"
                             placeholder="Address..."
-                            margin="dense"
                             fullWidth
                             autoComplete="off"
                             value={address} 
@@ -455,10 +460,21 @@ export default function Dashbaord(props)
                             id="Telephone"
                             placeholder="Telephone number..."
                             type="tel"
-                            margin="dense"
                             autoComplete="off"
                             disabled={!telephone}
                             value={telephoneValue}
+                            inputProps={{ maxLength: 9 }}
+                            endAdornment=
+                            {
+                                regex.telephone.test(telephoneValue) && telephoneValue.length === 9 ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
                     </div>
                     <div className="social">
@@ -471,27 +487,76 @@ export default function Dashbaord(props)
                             id="Phone"
                             placeholder="Phone number..."
                             type="tel"
-                            margin="dense"
                             autoComplete="off"
                             disabled={!phone}
                             value={phoneValue}
+                            inputProps={{ maxLength: 10 }}
+                            endAdornment=
+                            {
+                                regex.phone.test(phoneValue) && phoneValue.length === 10 ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
                     </div>
                     <div className="social">
                         <FormControlLabel
                             control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
-                            label="Whatsapp"
+                            label="WhatsApp"
                             name="whatsapp"
                         />
                         <Input
                             id="Whatsapp"
-                            placeholder="Phone number..."
+                            placeholder="International format phone number..."
                             type="tel"
-                            margin="dense"
                             autoComplete="off"
                             disabled={!whatsapp}
                             value={whatsappValue}
+                            inputProps={{ maxLength: 12 }}
+                            endAdornment=
+                            {
+                                regex.whatsapp.test(whatsappValue) && whatsappValue.length === 12 ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
+                    </div>
+                    <div className="social">
+                        <FormControlLabel
+                            control={<Checkbox checked={telegram} onChange={handleCheckboxChange} color="primary" />}
+                            label="Telegram"
+                            name="telegram"
+                        />
+                        <Typography>https://t.me/</Typography>
+                        <Input
+                            id="Telegram"
+                            placeholder="Telegram username..."
+                            type="tel"
+                            autoComplete="off"
+                            disabled={!telegram}
+                            value={telegramValue}
+                            endAdornment=
+                            {
+                                regex.telegram.test(telegramValue) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
+                            onChange={(e) => setContact({ ...contact, telegramValue: e.target.value })} />
                     </div>
                     <div className="social">
                         <FormControlLabel
@@ -503,10 +568,20 @@ export default function Dashbaord(props)
                             id="Email"
                             placeholder="email address..."
                             type="email"
-                            margin="dense"
                             autoComplete="off"
                             disabled={!email}
                             value={emailValue}
+                            endAdornment=
+                            {
+                                regex.email.test(emailValue) ? 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <DoneRoundedIcon style={{ color: green[900] }}/>
+                                </InputAdornment> 
+                                : 
+                                <InputAdornment style={{marginRight: 10}} position="end">
+                                    <ClearRoundedIcon style={{ color: red[700] }}/>
+                                </InputAdornment> 
+                            }
                             onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
                     </div>
                     <Typography variant="h6">Social media</Typography>
@@ -519,7 +594,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Facebook URL"
                             placeholder="Facebook URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!facebook}
                             value={facebookLink}
@@ -545,7 +619,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Instagram URL"
                             placeholder="Instagram URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!instagram}
                             value={instagramLink}
@@ -571,7 +644,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Linkedin URL"
                             placeholder="Linkedin URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!linkedin}
                             value={linkedinLink}
@@ -597,7 +669,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Github URL"
                             placeholder="Github URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!github}
                             value={githubLink}
@@ -623,7 +694,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Pinterest URL"
                             placeholder="Pinterest URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!pinterest}
                             value={pinterestLink}
@@ -649,7 +719,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Youtube URL"
                             placeholder="Youtube URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!youtube}
                             value={youtubeLink}
@@ -675,7 +744,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Tiktok URL"
                             placeholder="Tiktok URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!tiktok}
                             value={tiktokLink}
@@ -701,7 +769,6 @@ export default function Dashbaord(props)
                         <Input
                             id="Dribbble URL"
                             placeholder="Dribbble URL..."
-                            margin="dense"
                             autoComplete="off"
                             disabled={!dribbble}
                             value={dribbbleLink}

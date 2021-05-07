@@ -124,14 +124,15 @@ function Registration(props)
 									}
 									endAdornment=
 									{
-										emailValidation(email) ? 
+										email === '' ? null :
+										(emailValidation(email) ? 
 										<InputAdornment style={{marginRight: 10}} position="end">
 											<DoneRoundedIcon style={{ color: green[900] }}/>
 										</InputAdornment> 
 										: 
 										<InputAdornment style={{marginRight: 10}} position="end">
 											<ClearRoundedIcon style={{ color: red[700] }}/>
-										</InputAdornment> 
+										</InputAdornment> )
 									}
 									onChange={e => setEmail(e.target.value)} />
 							</FormControl>
