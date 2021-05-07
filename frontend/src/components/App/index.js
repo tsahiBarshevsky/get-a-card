@@ -7,6 +7,7 @@ import Card from '../Card';
 import Dashbaord from '../Dashboard';
 import Registartion from '../Registartion';
 import Login from '../Login';
+import AddCard from '../Add Card';
 
 export default function App() 
 {
@@ -25,6 +26,7 @@ export default function App()
                 <Route exact path="/registartion" component={Registartion} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/dashboard" component={Dashbaord} />
+                <Route exact path="/add-card" component={AddCard} />
                 <Route exact path="/:URL" component={Card} />
             </Switch>
         </Router>

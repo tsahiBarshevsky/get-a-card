@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { createMuiTheme, Grid, MuiThemeProvider, Typography } from '@material-ui/core';
+import { Button, createMuiTheme, Grid, MuiThemeProvider, Typography } from '@material-ui/core';
 import { 
-    FaFacebook, FaInstagram, FaLinkedinIn, 
+    FaFacebook, FaInstagram, FaLinkedinIn, FaWaze,
     FaGithub, FaPinterest, FaPhone, FaTelegramPlane,
     FaMobileAlt, FaWhatsapp, FaDribbble } from 'react-icons/fa';
 import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
+
+// const styles = makeStyles({
+
+// });
 
 const theme = createMuiTheme({
     typography:
@@ -137,14 +141,19 @@ export default function Card(props)
                             <Typography variant="body1" align="center">{card.description}</Typography>
                         </div>
                         <div className="location">
+                            <a target="_blank" rel="noreferrer" href="https://www.waze.com/he/live-map/directions?navigate=yes&to=32.016644%2C34.756329">
+                                <Button variant="contained" startIcon={<FaWaze />}>
+                                    Nevigate
+                                </Button>
+                            </a>
                             <div className="map">
                                 <iframe
-                                    width="600"
-                                    height="450"
+                                    width="500"
+                                    height="350"
                                     title="map"
                                     style={{ border: 0 }}
                                     loading="lazy"
-                                    allowfullscreen
+                                    allowFullScreen
                                     src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA8jIFMHAm_UV2UgdB5jzUwGR6hiIuQ4ew
                                         &q=${card.address}`}>
                                 </iframe>

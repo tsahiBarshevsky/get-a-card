@@ -243,7 +243,6 @@ $navbar-mobile: 920px
         display: flex
         justify-content: flex-start
         align-items: center
-        background-color: lightblue
         width: 100%
         padding: 10px 100px
         margin-bottom: 15px
@@ -255,7 +254,6 @@ $navbar-mobile: 920px
         display: flex
         justify-content: flex-start
         align-items: center
-        background-color: lightgreen
         width: 100%
         padding: 10px 100px
         margin-bottom: 15px
@@ -426,9 +424,13 @@ $navbar-mobile: 920px
 
         .location
             display: flex
+            flex-direction: column
             justify-content: center
             align-items: center
             width: 100%
+
+            a
+                text-decoration: none
 
             .map
                 display: flex
