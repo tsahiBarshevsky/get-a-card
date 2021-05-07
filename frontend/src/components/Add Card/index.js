@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, InputLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -29,7 +29,7 @@ import firebase from '../firebase';
 const styles = makeStyles({
 	select:
     {
-        width: 120,
+        width: 130,
 		borderRadius: 5,
         height: 40,
         paddingLeft: 10,
@@ -38,6 +38,11 @@ const styles = makeStyles({
 		border: '1px solid #c0c0c0',
 		backgroundColor: 'transparent',
         fontFamily: '"Nunito", sans-serif'
+    },
+    label:
+    {
+        paddingLeft: 10,
+        paddingTop: 3
     },
     input:
 	{
@@ -88,7 +93,7 @@ export default function AddCard(props)
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
-    const [disable, setDisable] = useState(false);
+    //const [disable, setDisable] = useState(false);
     const [images, setImages] = useState({
         main: '',
         cover: ''
@@ -132,7 +137,7 @@ export default function AddCard(props)
     const { telephone, phone, whatsapp, telegram, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
     const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
     const { telephoneValue, phoneValue, whatsappValue, telegramValue, emailValue } = contact;
-    const steps = ['Choose URL', 'Choose color palette', 'Fill information', 'Review and submit'];
+    const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
     const regex = { 
         url: /^[A-Za-z][A-Za-z0-9]*$/,
         telephone: /02|03|04|08|09[0-9]{7}/,
@@ -174,9 +179,26 @@ export default function AddCard(props)
 	// 	setProgress({ ...progress, main: 0 });
 	// }
 
-    const handleNext = () => 
+    const handleNext = (currentStep) => 
     {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        switch (currentStep)
+        {
+            case 0:
+                if (activeStep !== 1)
+                {
+                    setActiveStep(1);
+                    scroll('palette-selection');
+                }
+                break;
+            case 1:
+                if (activeStep !== 2)
+                {
+                    setActiveStep(2);
+                    scroll('information');
+                }
+                break;
+            default: return null;
+        }
     }
 
     // const handleBack = () => 
@@ -200,14 +222,12 @@ export default function AddCard(props)
         {
             case 'default':
                 setPalette({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'})
-                scroll('information');
                 notify('success', 'Default palette selected');
-                handleNext();
+                handleNext(1);
                 break;
             case 'dark':
                 setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
-                scroll('information');
-                handleNext();
+                handleNext(1);
                 notify('success', 'Dark palette selected');
                 break;
             default: return null;
@@ -415,9 +435,9 @@ export default function AddCard(props)
                                 className={classes.button}
                                 onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
                             <Button 
-                                disabled 
                                 variant="contained"
-                                className={classes.button}>Choose</Button>
+                                className={classes.button}
+                                onClick={() => handleNext(0)}>Choose</Button>
                         </div>
                     </section>
                     <section id="palette-selection">
@@ -513,6 +533,7 @@ export default function AddCard(props)
                         <Typography variant="h6">Language</Typography>
                         <Typography variant="caption">The language in which you want your card to be displayed</Typography>
                         <FormControl>
+                            <InputLabel className={classes.label}>Language...</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
