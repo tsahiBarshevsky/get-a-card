@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment } from '@material-ui/core';
+import { Typography, Button, Input, Checkbox, FormControlLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -26,10 +26,34 @@ import firebase from '../firebase';
 //     }
 // }
 
+const styles = makeStyles({
+	select:
+    {
+        width: 120,
+		borderRadius: 5,
+        height: 40,
+        paddingLeft: 10,
+        color: 'black',
+		border: '1px solid #c0c0c0',
+		backgroundColor: 'transparent',
+        fontFamily: '"Nunito", sans-serif'
+    },
+    input:
+	{
+        borderRadius: 5,
+        height: 45,
+		color: 'black',
+		border: '1px solid #c0c0c0',
+		backgroundColor: 'transparent',
+		fontFamily: '"Nunito", sans-serif',
+	}
+});
+
 export default function Dashbaord(props) 
 {
     const currentUser = firebase.getCurrentUsername();
     const socialLinks = new SocialLinks();
+    const classes = styles();
     const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
@@ -87,7 +111,7 @@ export default function Dashbaord(props)
         telephone: /02|03|04|08|09[0-9]{7}/,
         phone: /050|051|052|053|054|055|058[0-9]{7}/,
         whatsapp: /972(50|51|52|53|54|55|58)[0-9]{7}/,
-        telegram: /[a-zA-Z]*/,
+        telegram: /.*?\B\w{5,64}\b.*/gm,
         email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
     };
 
@@ -412,6 +436,8 @@ export default function Dashbaord(props)
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={langauge}
+                            className={classes.select}
+                            disableUnderline
                             onChange={(e) => setLanguage(e.target.value)}
                         >
                             <MenuItem value="English">English</MenuItem>
@@ -450,7 +476,7 @@ export default function Dashbaord(props)
                             onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     <Typography variant="h6">Contact</Typography>
-                    <div className="social">
+                    <div className="contact">
                         <FormControlLabel
                             control={<Checkbox checked={telephone} onChange={handleCheckboxChange} color="primary" />}
                             label="Telephone"
@@ -461,9 +487,10 @@ export default function Dashbaord(props)
                             placeholder="Telephone number..."
                             type="tel"
                             autoComplete="off"
+                            disableUnderline
                             disabled={!telephone}
                             value={telephoneValue}
-                            inputProps={{ maxLength: 9 }}
+                            inputProps={{ maxLength: 9, style: { marginLeft: 10 } }}
                             endAdornment=
                             {
                                 regex.telephone.test(telephoneValue) && telephoneValue.length === 9 ? 
@@ -475,9 +502,10 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
                     </div>
-                    <div className="social">
+                    <div className="contact">
                         <FormControlLabel
                             control={<Checkbox checked={phone} onChange={handleCheckboxChange} color="primary" />}
                             label="Phone"
@@ -488,9 +516,10 @@ export default function Dashbaord(props)
                             placeholder="Phone number..."
                             type="tel"
                             autoComplete="off"
+                            disableUnderline
                             disabled={!phone}
                             value={phoneValue}
-                            inputProps={{ maxLength: 10 }}
+                            inputProps={{ maxLength: 10, style: { marginLeft: 10 } }}
                             endAdornment=
                             {
                                 regex.phone.test(phoneValue) && phoneValue.length === 10 ? 
@@ -502,9 +531,10 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
                     </div>
-                    <div className="social">
+                    <div className="contact">
                         <FormControlLabel
                             control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
                             label="WhatsApp"
@@ -515,9 +545,10 @@ export default function Dashbaord(props)
                             placeholder="International format phone number..."
                             type="tel"
                             autoComplete="off"
+                            disableUnderline
                             disabled={!whatsapp}
                             value={whatsappValue}
-                            inputProps={{ maxLength: 12 }}
+                            inputProps={{ maxLength: 12, style: { marginLeft: 10 } }}
                             endAdornment=
                             {
                                 regex.whatsapp.test(whatsappValue) && whatsappValue.length === 12 ? 
@@ -529,9 +560,10 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
                     </div>
-                    <div className="social">
+                    <div className="contact">
                         <FormControlLabel
                             control={<Checkbox checked={telegram} onChange={handleCheckboxChange} color="primary" />}
                             label="Telegram"
@@ -543,8 +575,10 @@ export default function Dashbaord(props)
                             placeholder="Telegram username..."
                             type="tel"
                             autoComplete="off"
+                            disableUnderline
                             disabled={!telegram}
                             value={telegramValue}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 regex.telegram.test(telegramValue) ? 
@@ -556,6 +590,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setContact({ ...contact, telegramValue: e.target.value })} />
                     </div>
                     <div className="social">
@@ -569,8 +604,10 @@ export default function Dashbaord(props)
                             placeholder="email address..."
                             type="email"
                             autoComplete="off"
+                            disableUnderline
                             disabled={!email}
                             value={emailValue}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 regex.email.test(emailValue) ? 
@@ -582,6 +619,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
                     </div>
                     <Typography variant="h6">Social media</Typography>
@@ -595,8 +633,10 @@ export default function Dashbaord(props)
                             id="Facebook URL"
                             placeholder="Facebook URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!facebook}
                             value={facebookLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('facebook', facebookLink) ? 
@@ -608,6 +648,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -620,8 +661,10 @@ export default function Dashbaord(props)
                             id="Instagram URL"
                             placeholder="Instagram URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!instagram}
                             value={instagramLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('instagram', instagramLink) ? 
@@ -633,6 +676,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -645,8 +689,10 @@ export default function Dashbaord(props)
                             id="Linkedin URL"
                             placeholder="Linkedin URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!linkedin}
                             value={linkedinLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('linkedin', linkedinLink) ? 
@@ -658,6 +704,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -670,8 +717,10 @@ export default function Dashbaord(props)
                             id="Github URL"
                             placeholder="Github URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!github}
                             value={githubLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('github', githubLink) ? 
@@ -683,6 +732,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -695,8 +745,10 @@ export default function Dashbaord(props)
                             id="Pinterest URL"
                             placeholder="Pinterest URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!pinterest}
                             value={pinterestLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(pinterestLink) ? 
@@ -708,6 +760,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -720,8 +773,10 @@ export default function Dashbaord(props)
                             id="Youtube URL"
                             placeholder="Youtube URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!youtube}
                             value={youtubeLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('youtube', youtubeLink) ? 
@@ -733,6 +788,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -745,8 +801,10 @@ export default function Dashbaord(props)
                             id="Tiktok URL"
                             placeholder="Tiktok URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!tiktok}
                             value={tiktokLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('tiktok', tiktokLink) ? 
@@ -758,6 +816,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
                     </div>
                     <div className="social">
@@ -770,8 +829,10 @@ export default function Dashbaord(props)
                             id="Dribbble URL"
                             placeholder="Dribbble URL..."
                             autoComplete="off"
+                            disableUnderline
                             disabled={!dribbble}
                             value={dribbbleLink}
+                            inputProps={{ style: { marginLeft: 10 }}}
                             endAdornment=
                             {
                                 socialLinks.isValid('dribbble', dribbbleLink) ? 
@@ -783,6 +844,7 @@ export default function Dashbaord(props)
                                     <ClearRoundedIcon style={{ color: red[700] }}/>
                                 </InputAdornment> 
                             }
+                            className={classes.input}
                             onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
                     </div>
                 </section>

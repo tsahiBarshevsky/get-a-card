@@ -136,6 +136,20 @@ export default function Card(props)
                         <div className="description">
                             <Typography variant="body1" align="center">{card.description}</Typography>
                         </div>
+                        <div className="location">
+                            <div className="map">
+                                <iframe
+                                    width="600"
+                                    height="450"
+                                    title="map"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    allowfullscreen
+                                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA8jIFMHAm_UV2UgdB5jzUwGR6hiIuQ4ew
+                                        &q=${card.address}`}>
+                                </iframe>
+                            </div>
+                        </div>
                     </div>
                 </MuiThemeProvider>
             </div>
