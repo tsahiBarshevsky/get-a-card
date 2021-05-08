@@ -93,6 +93,7 @@ export default function AddCard(props)
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
+    //const [waze, setWaze] = useState('');
     //const [disable, setDisable] = useState(false);
     const [images, setImages] = useState({
         main: '',
@@ -344,8 +345,11 @@ export default function AddCard(props)
 		}
 	}
 
-    const submitCard = () =>
+    async function submitCard()
     {
+        const response = await fetch(`/waze-link?address=${address}`);
+        var link = await response.json();
+        console.log(typeof link);
         var socialsArray = [];
         socialsArray.push({ name: 'Facebook', show: facebook, link: facebookLink });
         socialsArray.push({ name: 'Instagram', show: instagram, link: instagramLink });
@@ -377,6 +381,7 @@ export default function AddCard(props)
                     type: type,
                     description: description,
                     address: address,
+                    waze: link,
                     contact: contactArray,
                     socials: socialsArray,
                     images: images
@@ -386,8 +391,6 @@ export default function AddCard(props)
         .then(res => res.json())
         .then(res => notify("success", res));
     }
-
-    console.log(address);
 
     return (
         <div className="page-container">

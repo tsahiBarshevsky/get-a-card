@@ -9,6 +9,7 @@ const CardsSchema = new mongoose.Schema({
     type: { type: String },
     description: { type: String },
     address: { type: String },
+    waze: { type: String },
     contact: { type: Object },
     socials: { type: Object },
     images: { type: Object }

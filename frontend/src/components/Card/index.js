@@ -141,7 +141,7 @@ export default function Card(props)
                             <Typography variant="body1" align="center">{card.description}</Typography>
                         </div>
                         <div className="location">
-                            <a target="_blank" rel="noreferrer" href="https://www.waze.com/he/live-map/directions?navigate=yes&to=32.016644%2C34.756329">
+                            <a target="_blank" rel="noreferrer" href={card.waze}>
                                 <Button variant="contained" startIcon={<FaWaze />}>
                                     Nevigate
                                 </Button>
