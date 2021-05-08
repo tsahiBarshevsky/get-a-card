@@ -30,7 +30,7 @@ export default function Card(props)
         backgroundColor: card.palette.primary,
     } : null;
     var iconStyle = Object.keys(card).length > 0 ? {
-        border: `1px solid ${card.palette.text}`,
+        border: `2px solid ${card.palette.text}`,
         color: card.palette.text
     } : null;
     
@@ -100,8 +100,14 @@ export default function Card(props)
             <div className="card-container" style={cardStyle} dir={card.langauge === 'Hebrew' ? "rtl" : "ltr"}>
                 <MuiThemeProvider theme={theme}>
                     <div className="header">
-                        <img src={card.images? card.images.cover : null} alt="cover" className="cover"/>
-                        <img src={card.images? card.images.main : null} alt="main" className="main"/>
+                        <div className="top">
+                            <img src={card.images? card.images.cover : null} alt="cover" className="cover"/>
+                        </div>
+                        <div className="bottom">
+                            <div className="main-image-container">
+                                <img src={card.images? card.images.main : null} alt="main" className="main-image"/>
+                            </div>
+                        </div>
                     </div>
                     <div className="content">
                         <Typography variant="h3">{card.name}</Typography>
