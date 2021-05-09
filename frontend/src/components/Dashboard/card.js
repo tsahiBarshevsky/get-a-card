@@ -15,7 +15,7 @@ export default function Card({cover, title, url})
     const classes = styles();
 
     return (
-        <div className="card-container">
+        <div className="display-card-container">
             <img src={cover} alt="cover" className="cover" />
             <Typography variant="h6" className={classes.title}>{title}</Typography>
             <div className="buttons-container">
