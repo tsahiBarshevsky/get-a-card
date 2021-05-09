@@ -61,6 +61,27 @@ app.get('/get-card', async (req, res) =>
     });
 });
 
+app.get('/get-all-cards', async (req, res) =>
+{
+    var owner = req.query.owner;
+    CardsModel.find({"owner": `${owner}`}, (err, result) =>
+    {
+        if (err)
+        {
+            console.log("error: " + err)
+            res.send(err);
+        }
+        else
+        {
+            if (!result)
+                console.log("You don't have cards yet");
+            else
+                console.log(`${result.length} cards found`);
+            res.json(result);
+        }
+    });
+});
+
 app.get('/URL-availability', async (req, res) =>
 {
     var URL = req.query.URL;

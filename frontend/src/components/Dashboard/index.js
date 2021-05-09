@@ -1,11 +1,21 @@
-import React from 'react';
-import { Typography, Button } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Typography, Button, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import firebase from '../firebase';
+import Card from './card';
 
 export default function Dashbaord(props) 
 {
     const currentUser = firebase.getCurrentUsername();
+    const [cards, setCards] = useState([]);
+    console.log(cards);
+
+    useEffect(() => {
+        document.title = 'Dashboard | Get a Card';
+        fetch(`/get-all-cards?owner=${currentUser}`)
+        .then(res => res.json())
+        .then(cards => setCards(cards));
+    }, [currentUser]);
 
     //protect the route
     if (!currentUser) {
@@ -19,6 +29,18 @@ export default function Dashbaord(props)
                 <Typography>hey {currentUser}</Typography>
                 <Link to="/add-card">Add card</Link>
                 <Button onClick={() => logout()}>Logout</Button>
+                <Grid container direction="row" justify="center" alignItems="center" className="grid">
+                    {/* <Grid item lg={4}>
+                        <Card title="stam"/>
+                    </Grid> */}
+                    {cards.map((card) =>
+                        <div key={card._id}>
+                            <Grid item>
+                                <Card cover={card.images.cover} title={card.name} url={card.URL} />
+                            </Grid>
+                        </div>
+                    )}
+                </Grid>
             </div>
         </div>
     )
