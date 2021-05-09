@@ -306,7 +306,7 @@ $navbar-mobile: 920px
     display: flex
     justify-content: space-between
     align-items: center
-    padding: 0 20px
+    padding: 0 25px
     position: sticky
     margin-top: -45px
     top: 0
@@ -318,6 +318,15 @@ $navbar-mobile: 920px
         background-color: $dashboard
         transition: all 0.4s ease-in
         box-shadow: 0 2px 3px rgba(15, 15, 15, 0.25)
+
+    .avatar
+        width: 32px
+        height: 32px
+        transition: box-shadow 0.5s ease-in-out
+        cursor: pointer
+
+        &:hover
+            box-shadow: 0px 0px 7px 0px rgba(black, 0.4)
 
 /* === Cards' Dashboard === */
 

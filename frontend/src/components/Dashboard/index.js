@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Grid } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import firebase from '../firebase';
@@ -28,10 +28,9 @@ export default function Dashbaord(props)
     return (
         <div className="page-container">
             <div className="dashboard-container">
-                <Navbar username={currentUser} />
+                <Navbar username={currentUser} logout={logout} />
                 <div className="header" title="Photo by Anna Nekrashevich from Pexels">
                     <Typography>hey {currentUser}</Typography>
-                    <Button onClick={() => logout()}>Logout</Button>
                 </div>
                 <Grid container direction="row" justify="center" alignItems="center" className="grid">
                     <Grid item>
