@@ -90,7 +90,7 @@ app.get('/URL-availability', async (req, res) =>
         if (err)
         {
             console.log("error: " + err)
-            res.send(err);
+            res.json(err);
         }
         else
         {
@@ -102,6 +102,7 @@ app.get('/URL-availability', async (req, res) =>
     });
 });
 
+// create link to nevigate via waze
 app.get('/waze-link', async (req, res) =>
 {
     var address = req.query.address;
@@ -118,6 +119,25 @@ app.get('/waze-link', async (req, res) =>
     .catch((err) => {
         console.log(err);
         res.send(err);
+    });
+});
+
+//delete card
+app.get('/delete-card', async (req, res) =>
+{
+    var URL = req.query.URL;
+    CardsModel.deleteOne({"URL": `${URL}`}, (err, result) =>
+    {
+        if (err)
+        {
+            console.log("error: " + err)
+            res.json(err);
+        }
+        else
+        {
+            console.log(`${URL} deleted successfully`)
+            res.json("OK");
+        }
     });
 });
 

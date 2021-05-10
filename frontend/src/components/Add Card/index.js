@@ -5,10 +5,10 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { scroller } from 'react-scroll';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { red, green } from '@material-ui/core/colors';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
-import 'react-toastify/dist/ReactToastify.css';
 import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 

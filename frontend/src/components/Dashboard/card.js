@@ -1,27 +1,86 @@
-import React from 'react';
-import { Button, makeStyles, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Button, makeStyles, Typography, Dialog } from '@material-ui/core';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = makeStyles({
     title:
     {
         fontFamily: `"Nunito", sans-serif`,
         fontWeight: 600,
-        margin: '10px 0'
     }
 })
 
 export default function Card({cover, title, url}) 
 {
+    const [open, setOpen] = useState(false);
     const classes = styles();
+
+    const handleClose = () =>
+    {
+        setOpen(false);
+    }
+
+    const notify = (type, message) =>
+    {
+        switch (type)
+        {
+            case 'success':
+                toast.success(message);
+                break;
+            case 'error':
+                toast.error(message);
+                break;
+            default: return null;
+        }
+    }
+
+    function deleteCard()
+    {
+        fetch(`/delete-card?URL=${url}`)
+        .then(res => res.json())
+        .then(res => res === 'OK' ? notify("success", `${title} deleted successfully`) : notify("error", 'An unexpected error occurred'));
+        handleClose();
+    }
 
     return (
         <div className="display-card-container">
             <img src={cover} alt="cover" className="cover" />
-            <Typography variant="h6" className={classes.title}>{title}</Typography>
+            <Link to={`/${url}`} className="link" target="_blank">
+                <Typography variant="h6" className={classes.title}>{title}</Typography>
+            </Link>
             <div className="buttons-container">
                 <Button className="button" variant="contained">Edit</Button>
-                <Button className="button" variant="contained">Delete</Button>
+                <Button className="button" variant="contained" onClick={() => setOpen(true)}>Delete</Button>
             </div>
+            <Dialog open={open} onClose={handleClose} fullWidth disableBackdropClick>
+                <DialogTitle>Delete card</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete the drug {title}?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} variant="contained">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => deleteCard()} variant="contained">
+                        Yes, delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <ToastContainer
+                position="bottom-center"
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     )
 }
