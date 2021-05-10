@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, Checkbox, FormControlLabel, InputLabel, FormControl, Select, MenuItem, Grid, InputAdornment, makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import { scroller } from 'react-scroll';
+import { 
+    Typography, Button, Input, Checkbox, FormControlLabel, InputLabel,
+    FormControl, Select, MenuItem, InputAdornment, makeStyles, 
+    createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { red, green } from '@material-ui/core/colors';
@@ -12,20 +11,7 @@ import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 import { withRouter } from 'react-router';
-
-// function getStepContent(step) 
-// {
-//     switch (step) {
-//         case 0:
-//             return 'Choose URL...';
-//         case 1:
-//             return 'Choose color palette...';
-//         case 2:
-//             return 'Fill information...';
-//         default:
-//             return 'Unknown step';
-//     }
-// }
+import Palette from './palette';
 
 const styles = makeStyles({
 	select:
@@ -34,7 +20,7 @@ const styles = makeStyles({
 		borderRadius: 5,
         height: 40,
         paddingLeft: 10,
-        marginBottom: 20,
+        marginBottom: 25,
         color: 'black',
 		border: '1px solid #c0c0c0',
 		backgroundColor: 'transparent',
@@ -48,7 +34,7 @@ const styles = makeStyles({
     input:
 	{
         borderRadius: 5,
-        height: 45,
+        minHeight: 45,
 		color: 'black',
 		border: '1px solid #c0c0c0',
 		backgroundColor: 'transparent',
@@ -57,13 +43,16 @@ const styles = makeStyles({
     button:
     {
         height: 45,
-        borderRadius: 5,
+        width: 175,
+        bordeRadius: 5,
         fontSize: 15,
-        margin: '0 5px',
+        color: 'white',
+        marginRight: 15,
         textTransform: 'capitalize',
-        '@media (max-width: 600px)':
+        '@media (max-width: 500px)':
         {
-            margin: '5px 0'
+            marginRight: 0,
+            marginBottom: 15
         }
     }
 });
@@ -86,7 +75,6 @@ function AddCard(props)
     const currentUser = firebase.getCurrentUsername();
     const socialLinks = new SocialLinks();
     const classes = styles();
-    const [activeStep, setActiveStep] = useState(0);
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
     const [langauge, setLanguage] = useState('');
@@ -99,10 +87,6 @@ function AddCard(props)
     const [images, setImages] = useState({
         main: '',
         cover: ''
-    });
-    const [progress, setProgress] = useState({
-        main: 0,
-        cover: 0
     });
     const [contact, setContact] = useState({
         telephoneValue: '',
@@ -139,7 +123,10 @@ function AddCard(props)
     const { telephone, phone, whatsapp, telegram, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
     const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
     const { telephoneValue, phoneValue, whatsappValue, telegramValue, emailValue } = contact;
-    const steps = ['Choose URL', 'Choose color palette', 'Fill information'];
+    const palettes = [
+        {name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'},
+        {name: 'Dark palette',primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'},
+    ];
     const regex = { 
         url: /^[A-Za-z][A-Za-z0-9]*$/,
         telephone: /02|03|04|08|09[0-9]{7}/,
@@ -175,44 +162,6 @@ function AddCard(props)
         }
     }
 
-    // if (progress.main === 100)
-	// {
-	// 	notify("success", "Main image uploaded successfully!");
-	// 	setProgress({ ...progress, main: 0 });
-	// }
-
-    const handleNext = (currentStep) => 
-    {
-        switch (currentStep)
-        {
-            case 0:
-                if (activeStep !== 1)
-                {
-                    setActiveStep(1);
-                    scroll('palette-selection');
-                }
-                break;
-            case 1:
-                if (activeStep !== 2)
-                {
-                    setActiveStep(2);
-                    scroll('information');
-                }
-                break;
-            default: return null;
-        }
-    }
-
-    // const handleBack = () => 
-    // {
-    //     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    // }
-
-    // const handleReset = () => 
-    // {
-    //     setActiveStep(0);
-    // }
-
     const handleCheckboxChange = (event) => 
     {
         setCheckboxes({ ...checkboxes, [event.target.name]: event.target.checked });
@@ -222,14 +171,12 @@ function AddCard(props)
     {
         switch (palette)
         {
-            case 'default':
+            case 'Default palette':
                 setPalette({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'})
                 notify('success', 'Default palette selected');
-                handleNext(1);
                 break;
-            case 'dark':
+            case 'Dark palette':
                 setPalette({primary: '#18191a', secondary: '#252c36', text: '#e4e6eb'})
-                handleNext(1);
                 notify('success', 'Dark palette selected');
                 break;
             default: return null;
@@ -243,24 +190,9 @@ function AddCard(props)
         .then(result => 
         {
             if (result)
-            {
                 notify('success', 'URL is available');
-                // handleNext();
-                // setDisable(true);
-                // scroll('palette-selection');
-            }
             else
                 notify('error', "URL isn't available");
-        });
-    }
-
-    const scroll = (section) =>
-    {
-        scroller.scrollTo(section, 
-        {
-            duration: 1500,
-            delay: 0,
-            smooth: "easeInOutQuart"
         });
     }
 
@@ -272,23 +204,22 @@ function AddCard(props)
 			{	
 				if (e.target.files[0].size < 10000000) //less then 10mb
 				{
-					// if (url !== '')
-					// 	deleteImage(false);
-					const uploadTask = firebase.storage.ref(`${currentUser}/main`).put(e.target.files[0]);
+                    notify("success", "Upload has started");
+					const uploadTask = firebase.storage.ref(`${currentUser}/${URL}/main`).put(e.target.files[0]);
 					uploadTask.on(
                         'state_changed',
                         (snapshot) => {
                             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                            setProgress({ ...progress, main: progress })
+                            console.log(progress);
                         },
                         (error) => {
                             console.log(error);
                             alert(error.message);
                         },
                         () => {
-                            firebase.storage.ref(`${currentUser}`).child('main').getDownloadURL().then(
+                            firebase.storage.ref(`${currentUser}/${URL}`).child('main').getDownloadURL().then(
                                 url => setImages({ ...images, main: url })
-                            );
+                            ).then(notify("success", "Main image uploaded successfully!"));;
                         }
                     );
 				}
@@ -313,23 +244,22 @@ function AddCard(props)
 			{	
 				if (e.target.files[0].size < 10000000) //less then 10mb
 				{
-					// if (url !== '')
-					// 	deleteImage(false);
-					const uploadTask = firebase.storage.ref(`${currentUser}/cover`).put(e.target.files[0]);
+                    notify("success", "Upload has started");
+					const uploadTask = firebase.storage.ref(`${currentUser}/${URL}/cover`).put(e.target.files[0]);
 					uploadTask.on(
                         'state_changed',
                         (snapshot) => {
                             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                            setProgress({ ...progress, cover: progress })
+                            console.log(progress);
                         },
                         (error) => {
                             console.log(error);
                             alert(error.message);
                         },
                         () => {
-                            firebase.storage.ref(`${currentUser}`).child('cover').getDownloadURL().then(
+                            firebase.storage.ref(`${currentUser}/${URL}`).child('cover').getDownloadURL().then(
                                 url => setImages({ ...images, cover: url })
-                            );
+                            ).then(notify("success", "Cover image uploaded successfully!"));
                         }
                     );
 				}
@@ -350,7 +280,6 @@ function AddCard(props)
     {
         const response = await fetch(`/waze-link?address=${address}`);
         var link = await response.json();
-        console.log(typeof link);
         var socialsArray = [];
         socialsArray.push({ name: 'Facebook', show: facebook, link: facebookLink });
         socialsArray.push({ name: 'Instagram', show: instagram, link: instagramLink });
@@ -395,7 +324,7 @@ function AddCard(props)
             notify("success", res);
             setTimeout(() => {
                 props.history.replace('/dashboard');
-            }, 5000);
+            }, 5500);
         });
     }
 
@@ -403,13 +332,6 @@ function AddCard(props)
         <div className="page-container">
             <div className="add-card-container">
                 <MuiThemeProvider theme={theme}>
-                    <Stepper alternativeLabel activeStep={activeStep} className="stepper">
-                        {steps.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                        ))}
-                    </Stepper>
                     <section id="url-selection">
                         <Typography variant="h5">Choose URL</Typography>
                         <Typography variant="caption">
@@ -440,106 +362,57 @@ function AddCard(props)
                                 }
                                 onChange={(e) => setURL(e.target.value)} />
                             <Button     
-                                disabled={URL === ''} 
+                                disabled={!regex.url.test(URL)} 
+                                style={regex.url.test(URL) ? {backgroundColor: '#0a71e7'} : null}
                                 variant="contained" 
-                                className={classes.button}
+                                className="button"
                                 onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
-                            <Button 
-                                variant="contained"
-                                className={classes.button}
-                                onClick={() => handleNext(0)}>Choose</Button>
                         </div>
                     </section>
                     <section id="palette-selection">
-                        <Typography variant="h5">Choose Color Palette</Typography>
+                        <Typography variant="h5">Card design</Typography>
+                        <Typography variant="h6">Choose color palette</Typography>
                         <div className="palettes-container">
-                            <div className="palette" onClick={() => handlePaletteChange('default')}>
-                                <Typography variant="subtitle1">Default palette</Typography>
-                                <div className="colors">
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Primary: #F5F5F5</Typography>
-                                        <div className="preview" style={{backgroundColor: '#f5f5f5'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Secondary: #E45447</Typography>
-                                        <div className="preview" style={{backgroundColor: '#E45447'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Text: #000000</Typography>
-                                        <div className="preview" style={{backgroundColor: '#000000'}} />
-                                    </div>
+                            {palettes.map((palette, index) =>
+                                <div key={index}>
+                                    <Palette palette={palette} handlePaletteChange={handlePaletteChange} />
                                 </div>
-                            </div>
-                            <div className="palette" onClick={() => handlePaletteChange('dark')}>
-                                <Typography variant="subtitle1">Dark palette</Typography>
-                                <div className="colors">
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Primary: #18191A</Typography>
-                                        <div className="preview" style={{backgroundColor: '#18191a'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
-                                        <div className="preview" style={{backgroundColor: '#e4e6eb'}} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="palette" onClick={() => handlePaletteChange('dark')}>
-                                {/* <Typography variant="subtitle1">Dark palette</Typography>
-                                <div className="colors">
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Primary: #18191A</Typography>
-                                        <div className="preview" style={{backgroundColor: '#18191a'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
-                                        <div className="preview" style={{backgroundColor: '#e4e6eb'}} />
-                                    </div>
-                                </div> */}
-                            </div>
-                            <div className="palette" onClick={() => handlePaletteChange('dark')}>
-                                {/* <Typography variant="subtitle1">Dark palette</Typography>
-                                <div className="colors">
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Primary: #18191A</Typography>
-                                        <div className="preview" style={{backgroundColor: '#18191a'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
-                                    </div>
-                                    <div className="color">
-                                        <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
-                                        <div className="preview" style={{backgroundColor: '#e4e6eb'}} />
-                                    </div>
-                                </div> */}
-                            </div>
+                            )}
+                        </div>
+                        <Typography variant="h6">Main image and cover</Typography>
+                        <div className="upload-images">
+                            <Button 
+                                variant="contained" 
+                                component="label" 
+                                className={classes.button}
+                                style={{backgroundColor: '#363d4d'}}>
+                                Upload Main Image
+                                <input
+                                    accept="image/*"
+                                    id="upload-main-photo"
+                                    name="upload-main-photo"
+                                    type="file"
+                                    hidden
+                                    onChange={uploadMainImage} />
+                            </Button>
+                            <Button 
+                                variant="contained" 
+                                component="label" 
+                                className={classes.button}
+                                style={{backgroundColor: '#0a71e7'}}>
+                                Upload Cover Image
+                                <input
+                                    accept="image/*"
+                                    id="upload-main-photo"
+                                    name="upload-main-photo"
+                                    type="file"
+                                    hidden
+                                    onChange={uploadCoverImage} />
+                            </Button>
                         </div>
                     </section>
                     <section id="information">
                         <Typography variant="h5">Information About Your Bussiness</Typography>
-                        {/* <Typography variant="h6">Main image and cover</Typography>
-                        <input
-                            accept="image/*"
-                            id="upload-photo"
-                            name="upload-photo"
-                            type="file"
-                            onChange={uploadMainImage} />
-                        {progress.main}
-                        <input
-                            accept="image/*"
-                            id="upload-photo"
-                            name="upload-photo"
-                            type="file"
-                            onChange={uploadCoverImage} />
-                        {progress.cover} */}
                         <Typography variant="h6">Language</Typography>
                         <Typography variant="caption">The language in which you want your card to be displayed</Typography>
                         <FormControl>
@@ -581,17 +454,6 @@ function AddCard(props)
                                 value={type} 
                                 onChange={(e) => setType(e.target.value)} />
                             <Input
-                                id="description"
-                                placeholder="Description..."
-                                fullWidth multiline
-                                disableUnderline
-                                className={classes.input}
-                                inputProps={{ style: { marginLeft: 15 } }}
-                                style={{ marginBottom: 10 }}
-                                autoComplete="off"
-                                value={description} 
-                                onChange={(e) => setDescription(e.target.value)} />
-                            <Input
                                 id="address"
                                 placeholder="Address..."
                                 fullWidth
@@ -602,13 +464,24 @@ function AddCard(props)
                                 autoComplete="off"
                                 value={address} 
                                 onChange={(e) => setAddress(e.target.value)} />
+                            <Input
+                                id="description"
+                                placeholder="Description..."
+                                fullWidth multiline
+                                disableUnderline
+                                className={classes.input}
+                                inputProps={{ style: { marginLeft: 15 } }}
+                                style={{ marginBottom: 10 }}
+                                autoComplete="off"
+                                value={description} 
+                                onChange={(e) => setDescription(e.target.value)} />
                         </div>
                         <Typography variant="h6">Contact</Typography>
                         <Typography variant="caption">In what ways can people contact you?</Typography>
                         <Typography variant="overline">Traditional ways</Typography>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={telephone} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={telephone} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Telephone"
                                 name="telephone"
                             />
@@ -637,7 +510,7 @@ function AddCard(props)
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={phone} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={phone} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Phone"
                                 name="phone"
                             />
@@ -666,7 +539,7 @@ function AddCard(props)
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="WhatsApp"
                                 name="whatsapp"
                             />
@@ -695,7 +568,7 @@ function AddCard(props)
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={telegram} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={telegram} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Telegram"
                                 name="telegram"
                             />
@@ -724,7 +597,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={email} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={email} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Email"
                                 name="email"
                             />
@@ -754,7 +627,7 @@ function AddCard(props)
                         <Typography variant="overline">Social media</Typography>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={facebook} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={facebook} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Facebook"
                                 name="facebook"
                             />
@@ -782,7 +655,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={instagram} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={instagram} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Instagram"
                                 name="instagram"
                             />
@@ -810,7 +683,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Linkedin"
                                 name="linkedin"
                             />
@@ -838,7 +711,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={github} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={github} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Github"
                                 name="github"
                             />
@@ -866,7 +739,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Pinterest"
                                 name="pinterest"
                             />
@@ -894,7 +767,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={youtube} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={youtube} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Youtube"
                                 name="youtube"
                             />
@@ -922,7 +795,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Tiktok"
                                 name="tiktok"
                             />
@@ -950,7 +823,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} color="primary" />}
+                                control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Dribbble"
                                 name="dribbble"
                             />
@@ -977,7 +850,10 @@ function AddCard(props)
                                 onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
                         </div>
                     </section>
-                    <Button variant="contained" onClick={() => submitCard()}>Submit</Button>
+                    <Button 
+                        className="submit"
+                        variant="contained" 
+                        onClick={() => submitCard()}>Submit</Button>
                     <ToastContainer
                         position="bottom-center"
                         closeOnClick
@@ -985,26 +861,6 @@ function AddCard(props)
                         draggable
                         pauseOnHover
                     />
-                    {/* <div>
-                        {activeStep === steps.length ? (
-                        <div>
-                            <Typography>
-                                All steps completed - you're finished
-                            </Typography>
-                            <Button onClick={handleReset}>Reset</Button>
-                        </div>
-                        ) : (
-                        <div>
-                            <Typography>{getStepContent(activeStep)}</Typography>
-                            <div>
-                                <Button disabled={activeStep === 0} onClick={handleBack}>Back</Button>
-                                <Button variant="contained" onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
-                            </div>
-                        </div>
-                        )}
-                    </div> */}
                 </MuiThemeProvider>
             </div>
         </div>

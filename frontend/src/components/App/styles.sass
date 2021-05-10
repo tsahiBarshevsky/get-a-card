@@ -6,6 +6,7 @@ $dark-primary: #18191a
 $dark-secondary: #252c36
 $dark-text: #e4e6eb
 $dashboard: #1a73e8
+$button: #0a71e7
 
 /* === Breakpoints === */
 
@@ -409,7 +410,7 @@ $navbar-mobile: 920px
             text-transform: capitalize
 
         #delete
-            background-color: #0a71e7
+            background-color: $button
 
         #edit
             background-color: #363d4d
@@ -423,11 +424,7 @@ $navbar-mobile: 920px
     align-items: center
     width: 100%
     height: fit-content
-    padding-bottom: 20px
-    //padding: 20px 5px
-
-    .stepper
-        background-color: $primary
+    padding: 25px 0
 
     #url-selection
         display: flex
@@ -449,6 +446,18 @@ $navbar-mobile: 920px
             @media screen and ( max-width: $xs )
                 flex-direction: column
 
+            .button
+                height: 45px
+                border-radius: 5px
+                font-size: 15px
+                margin: 0 5px
+                color: white
+                //background-color: $button
+                text-transform: capitalize
+
+                @media screen and ( max-width: $xs )
+                    margin: 10px 0
+
     #palette-selection
         display: flex
         flex-direction: column
@@ -466,6 +475,7 @@ $navbar-mobile: 920px
             justify-content: flex-start
             align-items: flex-start
             flex-wrap: wrap
+            margin-bottom: 20px
 
             .palette
                 display: flex
@@ -496,10 +506,19 @@ $navbar-mobile: 920px
                         margin-bottom: 15px
                         width: 100%
 
-                    .preview
-                        width: 22px
-                        height: 22px
-                        border-radius: 50%
+                        .preview
+                            width: 22px
+                            height: 22px
+                            border-radius: 50%
+
+        .upload-images
+            display: flex
+            justify-content: center
+            align-items: flex-start
+            margin-bottom: 25px
+
+            @media screen and ( max-width: 500px )
+                flex-direction: column
 
     #information
         display: flex
@@ -530,6 +549,14 @@ $navbar-mobile: 920px
                 align-items: flex-start
                 width: 100%
                 margin-bottom: 20px
+
+    .submit
+        width: 100px
+        //margin: 5px
+        color: white
+        border-radius: 10px
+        text-transform: capitalize
+        background-color: $button
 
 /* === Card Page === */
 
