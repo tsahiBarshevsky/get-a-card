@@ -3,7 +3,7 @@
 $primary: #f5f5f5
 $secondary: #E45447
 $dark-primary: #18191a
-$dark-secondary: #3a3b3c
+$dark-secondary: #252c36
 $dark-text: #e4e6eb
 $dashboard: #1a73e8
 
@@ -284,12 +284,24 @@ $navbar-mobile: 920px
             @media screen and ( max-width: $vs )
                 width: 100%
 
-    .grid
-        width: 70%
-        //transform: translateY(-20%)
+    .grid-container
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        //background-color: lightblue
+        //width: 70%
+        //transform: translateY(-50%)
 
-        @media screen and ( max-width: $sm )
-            width: 100%
+        @media screen and ( max-width: $xs )
+            justify-content: center
+            align-items: center
+
+        h3
+            //color: white
+            margin-left: 20px
+
+            @media screen and ( max-width: $xs )
+                margin-left: 0
 
         .add-new-card-link
             color: black
@@ -302,12 +314,15 @@ $navbar-mobile: 920px
                 align-items: center
                 width: 300px
                 height: 270px
-                background-color: white
                 border-radius: 20px
                 border: 1px solid rgba(black, 0.05)
                 padding: 10px
                 margin: 15px
-                box-shadow: 0 3px 7px -1px rgba(black, 0.1)
+                color: white
+                background-color: #252c36
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+                // background-color: white
+                // box-shadow: 0 3px 7px -1px rgba(black, 0.1)
 
                 @media screen and ( max-width: $xs )
                     height: 45px
@@ -359,12 +374,14 @@ $navbar-mobile: 920px
     align-items: center
     width: 300px
     height: fit-content
-    background-color: white
     border-radius: 20px
     border: 1px solid rgba(black, 0.05)
     padding: 10px
     margin: 15px
-    box-shadow: 0 3px 7px -1px rgba(black, 0.1)
+    background-color: #252c36
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+    // background-color: white
+    // box-shadow: 0 3px 7px -1px rgba(black, 0.1)
 
     .link
         color: black
@@ -387,8 +404,15 @@ $navbar-mobile: 920px
         .button
             width: 100%
             margin: 5px
+            color: white
             border-radius: 10px
             text-transform: capitalize
+
+        #delete
+            background-color: #0a71e7
+
+        #edit
+            background-color: #363d4d
 
 /* === Add Card Page === */
 

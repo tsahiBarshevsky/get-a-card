@@ -19,6 +19,7 @@ mongoose.connect(
     { useNewUrlParser: true }
 );
 
+//add new card
 app.post("/insert-new-card", async (req, res) => 
 {
     const newCard = new CardsModel({
@@ -37,9 +38,10 @@ app.post("/insert-new-card", async (req, res) =>
     });
     await newCard.save();
     console.log(`${req.body.name} added successfully`)
-    res.json("Card added successfully");
+    res.json("Card added successfully. You'll redirect to dashboard in few seconds");
 });
 
+//get single card
 app.get('/get-card', async (req, res) => 
 {
     var URL = req.query.URL;
@@ -61,6 +63,7 @@ app.get('/get-card', async (req, res) =>
     });
 });
 
+// get all cards
 app.get('/get-all-cards', async (req, res) =>
 {
     var owner = req.query.owner;
@@ -82,6 +85,7 @@ app.get('/get-all-cards', async (req, res) =>
     });
 });
 
+//check if URL is available
 app.get('/URL-availability', async (req, res) =>
 {
     var URL = req.query.URL;

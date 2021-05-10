@@ -13,7 +13,8 @@ const styles = makeStyles({
     logo:
     {
         color: 'white',
-        fontFamily: `"Nunito", sans-serif`
+        fontFamily: `"Nunito", sans-serif`,
+        fontSize: 20
     },
     menuItem:
     {
@@ -89,7 +90,7 @@ function Navbar(props)
 
     return (
         <div className={active ? "dashboard-navbar active" : "dashboard-navbar"}>
-            <Typography variant="h6" className={classes.logo}>Get a Card</Typography>
+            <p className={classes.logo}>Get a Card</p>
             <Avatar 
                 className="avatar"
                 aria-controls="customized-menu"

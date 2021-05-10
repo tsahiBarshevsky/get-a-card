@@ -11,6 +11,7 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
+import { withRouter } from 'react-router';
 
 // function getStepContent(step) 
 // {
@@ -80,7 +81,7 @@ const theme = createMuiTheme({
     }
 });
 
-export default function AddCard(props) 
+function AddCard(props) 
 {
     const currentUser = firebase.getCurrentUsername();
     const socialLinks = new SocialLinks();
@@ -227,7 +228,7 @@ export default function AddCard(props)
                 handleNext(1);
                 break;
             case 'dark':
-                setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
+                setPalette({primary: '#18191a', secondary: '#252c36', text: '#e4e6eb'})
                 handleNext(1);
                 notify('success', 'Dark palette selected');
                 break;
@@ -389,7 +390,13 @@ export default function AddCard(props)
             }    
         )
         .then(res => res.json())
-        .then(res => notify("success", res));
+        .then(res => 
+        {
+            notify("success", res);
+            setTimeout(() => {
+                props.history.replace('/dashboard');
+            }, 5000);
+        });
     }
 
     return (
@@ -472,7 +479,7 @@ export default function AddCard(props)
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#3a3b3c'}} />
+                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
@@ -489,7 +496,7 @@ export default function AddCard(props)
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#3a3b3c'}} />
+                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
@@ -506,7 +513,7 @@ export default function AddCard(props)
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Secondary: #3A3B3C</Typography>
-                                        <div className="preview" style={{backgroundColor: '#3a3b3c'}} />
+                                        <div className="preview" style={{backgroundColor: '#252c36'}} />
                                     </div>
                                     <div className="color">
                                         <Typography variant="subtitle2">Text: #E4E6Eb</Typography>
@@ -1003,3 +1010,5 @@ export default function AddCard(props)
         </div>
     )
 }
+
+export default withRouter(AddCard);

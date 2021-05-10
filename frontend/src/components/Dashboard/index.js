@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button, makeStyles } from '@material-ui/core';
+import { useTheme, Typography, Grid, Button, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import firebase from '../firebase';
 import Card from './card';
 import Navbar from './navbar';
@@ -15,14 +16,27 @@ export default function Dashbaord(props)
 {
     const currentUser = firebase.getCurrentUsername();
     const [cards, setCards] = useState('');
+    const [update, setUpdate] = useState(true);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
+		defaultMatches: true
+	});
     const classes = styles();
 
     useEffect(() => {
         document.title = 'Dashboard | Get a Card';
-        fetch(`/get-all-cards?owner=${currentUser}`)
-        .then(res => res.json())
-        .then(cards => setCards(cards));
-    }, [currentUser]);
+        async function fetchData() 
+        {
+            const res = await fetch(`/get-all-cards?owner=${currentUser}`);
+            const json = await res.json();
+            setCards(json);
+        }
+        if (update)
+        {
+            fetchData();
+            setUpdate(false);
+        }
+    }, [currentUser, setCards, update]);
 
     //protect the route
     if (!currentUser) {
@@ -49,24 +63,31 @@ export default function Dashbaord(props)
                     </>
                     : null}
                 </div>
-                <Grid container direction="row" justify="center" alignItems="center" className="grid">
-                    {cards.length > 0 ?
-                    <Grid item>
-                        <Link to="/add-card" className="add-new-card-link">
-                            <div className="add-new-card-container">
-                                <AddRoundedIcon className="icon" />
-                                <h4>Add new card</h4>
+                <div className="grid-container">
+                    <h3>Your digital business cards</h3>
+                    <Grid container direction="row" justify={isMobile ? "center" : "flex-start"} alignItems="center">
+                        {cards.length > 0 ?
+                        <Grid item>
+                            <Link to="/add-card" className="add-new-card-link">
+                                <div className="add-new-card-container">
+                                    <AddRoundedIcon className="icon" />
+                                    <h4>Add new card</h4>
+                                </div>
+                            </Link>
+                        </Grid> : null}
+                        {cards.map((card) =>
+                            <div key={card._id}>
+                                <Grid item>
+                                    <Card 
+                                        cover={card.images.cover} 
+                                        title={card.name} 
+                                        url={card.URL}
+                                        setUpdate={setUpdate} />
+                                </Grid>
                             </div>
-                        </Link>
-                    </Grid> : null}
-                    {cards.map((card) =>
-                        <div key={card._id}>
-                            <Grid item>
-                                <Card cover={card.images.cover} title={card.name} url={card.URL} />
-                            </Grid>
-                        </div>
-                    )}
-                </Grid>
+                        )}
+                    </Grid>
+                </div>
             </div>
         </div>
     ) : <div className="full-container">Loading</div>
