@@ -176,7 +176,7 @@ function AddCard(props)
                 notify('success', 'Default palette selected');
                 break;
             case 'Dark palette':
-                setPalette({primary: '#18191a', secondary: '#252c36', text: '#e4e6eb'})
+                setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
                 notify('success', 'Dark palette selected');
                 break;
             default: return null;

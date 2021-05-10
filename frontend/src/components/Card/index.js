@@ -8,10 +8,6 @@ import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
 
-// const styles = makeStyles({
-
-// });
-
 const theme = createMuiTheme({
     typography:
     {
@@ -32,6 +28,15 @@ export default function Card(props)
     var iconStyle = Object.keys(card).length > 0 ? {
         border: `2px solid ${card.palette.text}`,
         color: card.palette.text
+    } : null;
+    var wazeButton = Object.keys(card).length > 0 ? {
+        backgroundColor: card.palette.secondary,
+        color: card.palette.text,
+        borderRadius: 10,
+        width: 160,
+        height: 40,
+        fontSize: 17,
+        textTransform: 'capitalize'
     } : null;
     
     useEffect(() => 
@@ -148,8 +153,11 @@ export default function Card(props)
                         </div>
                         <div className="location">
                             <a target="_blank" rel="noreferrer" href={card.waze}>
-                                <Button variant="contained" startIcon={<FaWaze />}>
-                                    Nevigate
+                                <Button 
+                                    variant="contained" 
+                                    startIcon={<FaWaze />}
+                                    style={wazeButton}>
+                                    Navigate
                                 </Button>
                             </a>
                             <div className="map">
