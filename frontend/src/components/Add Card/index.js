@@ -153,6 +153,7 @@ function AddCard(props)
         email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
     };
 
+    console.log(contact);
     console.log(socials);
 
     useEffect(() => {
@@ -317,15 +318,15 @@ function AddCard(props)
     {
         const response = await fetch(`/waze-link?address=${address}`);
         var link = await response.json();
-        var socialsArray = [];
-        socialsArray.push({ name: 'Facebook', show: facebook, link: facebookLink });
-        socialsArray.push({ name: 'Instagram', show: instagram, link: instagramLink });
-        socialsArray.push({ name: 'Linkedin', show: linkedin, link: linkedinLink });
-        socialsArray.push({ name: 'Github', show: github, link: githubLink });
-        socialsArray.push({ name: 'Pinterest', show: pinterest, link: pinterestLink });
-        socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
-        socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
-        socialsArray.push({ name: 'Dribbble', show: dribbble, link: dribbbleLink });
+        // var socialsArray = [];
+        // socialsArray.push({ name: 'Facebook', show: facebook, link: facebookLink });
+        // socialsArray.push({ name: 'Instagram', show: instagram, link: instagramLink });
+        // socialsArray.push({ name: 'Linkedin', show: linkedin, link: linkedinLink });
+        // socialsArray.push({ name: 'Github', show: github, link: githubLink });
+        // socialsArray.push({ name: 'Pinterest', show: pinterest, link: pinterestLink });
+        // socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
+        // socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
+        // socialsArray.push({ name: 'Dribbble', show: dribbble, link: dribbbleLink });
         // var contactArray = [];
         // contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
         // contactArray.push({ type: "Phone", show: phone, number: phoneValue });
@@ -350,7 +351,7 @@ function AddCard(props)
                     address: address,
                     waze: link,
                     contact: contact,
-                    socials: socialsArray,
+                    socials: socials,
                     images: images
                 })
             }    
@@ -692,7 +693,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={instagram} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[1].show} onChange={() => handleChange(1, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Instagram"
                                 name="instagram"
                             />
@@ -701,12 +702,12 @@ function AddCard(props)
                                 placeholder="Instagram URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!instagram}
-                                value={instagramLink}
+                                disabled={!socials[1].show}
+                                value={socials[1].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('instagram', instagramLink) ? 
+                                    socialLinks.isValid('instagram', socials[1].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -720,7 +721,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={linkedin} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[2].show} onChange={() => handleChange(2, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Linkedin"
                                 name="linkedin"
                             />
@@ -729,12 +730,12 @@ function AddCard(props)
                                 placeholder="Linkedin URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!linkedin}
-                                value={linkedinLink}
+                                disabled={!socials[2].show}
+                                value={socials[2].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('linkedin', linkedinLink) ? 
+                                    socialLinks.isValid('linkedin', socials[2].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -748,7 +749,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={github} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[3].show} onChange={() => handleChange(3, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Github"
                                 name="github"
                             />
@@ -757,12 +758,12 @@ function AddCard(props)
                                 placeholder="Github URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!github}
-                                value={githubLink}
+                                disabled={!socials[3].show}
+                                value={socials[3].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('github', githubLink) ? 
+                                    socialLinks.isValid('github', socials[3].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -776,7 +777,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={pinterest} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[4].show} onChange={() => handleChange(4, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Pinterest"
                                 name="pinterest"
                             />
@@ -785,12 +786,12 @@ function AddCard(props)
                                 placeholder="Pinterest URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!pinterest}
-                                value={pinterestLink}
+                                disabled={!socials[4].show}
+                                value={socials[4].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(pinterestLink) ? 
+                                    /^(http(s?):\/\/)?(www\.)?pinterest\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/.test(socials[4].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -804,21 +805,21 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={youtube} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[5].show} onChange={() => handleChange(5, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Youtube"
                                 name="youtube"
                             />
                             <Input
                                 id="Youtube URL"
-                                placeholder="Youtube URL..."
+                                placeholder="Youtube channel URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!youtube}
-                                value={youtubeLink}
+                                disabled={!socials[5].show}
+                                value={socials[5].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('youtube', youtubeLink) ? 
+                                    socialLinks.isValid('youtube', socials[5].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -832,7 +833,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={tiktok} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[6].show} onChange={() => handleChange(6, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Tiktok"
                                 name="tiktok"
                             />
@@ -841,12 +842,12 @@ function AddCard(props)
                                 placeholder="Tiktok URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!tiktok}
-                                value={tiktokLink}
+                                disabled={!socials[6].show}
+                                value={socials[6].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('tiktok', tiktokLink) ? 
+                                    socialLinks.isValid('tiktok', socials[6].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -860,7 +861,7 @@ function AddCard(props)
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={dribbble} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={socials[7].show} onChange={() => handleChange(7, 'socials')} style={{color: '#0a71e7'}} />}
                                 label="Dribbble"
                                 name="dribbble"
                             />
@@ -869,12 +870,12 @@ function AddCard(props)
                                 placeholder="Dribbble URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!dribbble}
-                                value={dribbbleLink}
+                                disabled={!socials[7].show}
+                                value={socials[7].link}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('dribbble', dribbbleLink) ? 
+                                    socialLinks.isValid('dribbble', socials[7].link) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 

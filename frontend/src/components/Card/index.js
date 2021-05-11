@@ -74,25 +74,25 @@ export default function Card(props)
             case 'Telephone':
             case 'Phone':
                 return (
-                    <a href={`tel:${contact.number}`} className="contact-wrapper" style={iconStyle}>
+                    <a href={`tel:${contact.value}`} className="contact-wrapper" style={iconStyle}>
                         {renderIcon(contact.type)}
                     </a>
                 );
             case 'WhatsApp':
                 return (
-                    <a href={`https://api.whatsapp.com/send?phone=${contact.number}`} className="contact-wrapper" style={iconStyle}>
+                    <a href={`https://api.whatsapp.com/send?phone=${contact.value}`} className="contact-wrapper" style={iconStyle}>
                         {renderIcon(contact.type)}
                     </a>
                 );
             case 'Telegram':
                 return (
-                    <a href={contact.number} className="contact-wrapper" style={iconStyle}>
+                    <a href={`https://t.me/${contact.value}`} className="contact-wrapper" style={iconStyle}>
                         {renderIcon(contact.type)}
                     </a>
                 );
             case 'Email':
                 return (
-                    <a href={`mailto:${contact.number}`} className="contact-wrapper" style={iconStyle}>
+                    <a href={`mailto:${contact.value}`} className="contact-wrapper" style={iconStyle}>
                         {renderIcon(contact.type)}
                     </a>
                 );
@@ -119,8 +119,8 @@ export default function Card(props)
                         <Typography variant="h4" gutterBottom>{card.type}</Typography>
                         {card.socials ?
                         <Grid container direction="row" justify="center" alignItems="flex-start" className="grid">
-                            {card.socials.map((social, index) =>
-                                <div key={index}>
+                            {card.socials.map((social) =>
+                                <div key={social.id}>
                                     {social.show ?
                                     <Grid item>
                                         <div className="social">
@@ -135,9 +135,9 @@ export default function Card(props)
                         </Grid> : null}
                         {card.contact ?
                         <Grid container direction="row" justify="center" alignItems="flex-start" className="grid">
-                            {card.contact.map((element, index) =>
-                                <div key={index}>
-                                    {element.show ?
+                            {card.contact.map((element) =>
+                                <div key={element.id}>
+                                    {element.show && element.value !== '' ?
                                     <Grid item>
                                         <div className="contact">
                                             {renderContact(element)}
