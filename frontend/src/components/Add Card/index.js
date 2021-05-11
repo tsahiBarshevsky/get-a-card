@@ -82,19 +82,10 @@ function AddCard(props)
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
-    //const [waze, setWaze] = useState('');
-    //const [disable, setDisable] = useState(false);
     const [images, setImages] = useState({
         main: '',
         cover: ''
     });
-    // const [contact, setContact] = useState({
-    //     telephoneValue: '',
-    //     phoneValue: '',
-    //     whatsappValue: '',
-    //     telegramValue: '',
-    //     emailValue: ''
-    // });
     const [contact, setContact] = useState([
         { id: 0, type: "Telephone", show: false, value: '' },
         { id: 1, type: "Phone", show: false, value: '' },
@@ -112,34 +103,6 @@ function AddCard(props)
         { id: 6, name: 'Tiktok', show: false, link: '' },
         { id: 7, name: 'Dribbble', show: false, link: '' }
     ]);
-    const [checkboxes, setCheckboxes] = useState({
-        telephone: false,
-        phone: false,
-        whatsapp: false,
-        telegram: false,
-        email: false,
-        facebook: false,
-        instagram: false,
-        linkedin: false,
-        github: false,
-        pinterest: false,
-        youtube: false,
-        tiktok: false,
-        dribbble: false
-    });
-    const [socialsLinks, setSocialsLinks] = useState({
-        facebookLink: '',
-        instagramLink: '',
-        linkedinLink: '',
-        githubLink: '',
-        pinterestLink: '',
-        youtubeLink: '',
-        tiktokLink: '',
-        dribbbleLink: ''
-    });
-    const { telephone, phone, whatsapp, telegram, email, facebook, instagram, linkedin, github, pinterest, youtube, tiktok, dribbble } = checkboxes;
-    const { facebookLink, instagramLink, linkedinLink, githubLink, pinterestLink, youtubeLink, tiktokLink, dribbbleLink } = socialsLinks;
-    const { telephoneValue, phoneValue, whatsappValue, telegramValue, emailValue } = contact;
     const palettes = [
         {name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'},
         {name: 'Dark palette',primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'},
@@ -152,9 +115,6 @@ function AddCard(props)
         telegram: /.*?\B\w{5,64}\b.*/gm,
         email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
     };
-
-    console.log(contact);
-    console.log(socials);
 
     useEffect(() => {
         document.title = 'Add new card | Get a Card ';
@@ -198,11 +158,6 @@ function AddCard(props)
         source === 'contact' ? item.value = value : item.link = value;
         items[index] = item;
         source === 'contact' ? setContact(items) : setSocials(items);
-    }
-
-    const handleCheckboxChange = (event) => 
-    {
-        setCheckboxes({ ...checkboxes, [event.target.name]: event.target.checked });
     }
 
     const handlePaletteChange = (palette) =>
@@ -318,21 +273,6 @@ function AddCard(props)
     {
         const response = await fetch(`/waze-link?address=${address}`);
         var link = await response.json();
-        // var socialsArray = [];
-        // socialsArray.push({ name: 'Facebook', show: facebook, link: facebookLink });
-        // socialsArray.push({ name: 'Instagram', show: instagram, link: instagramLink });
-        // socialsArray.push({ name: 'Linkedin', show: linkedin, link: linkedinLink });
-        // socialsArray.push({ name: 'Github', show: github, link: githubLink });
-        // socialsArray.push({ name: 'Pinterest', show: pinterest, link: pinterestLink });
-        // socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
-        // socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
-        // socialsArray.push({ name: 'Dribbble', show: dribbble, link: dribbbleLink });
-        // var contactArray = [];
-        // contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
-        // contactArray.push({ type: "Phone", show: phone, number: phoneValue });
-        // contactArray.push({ type: "WhatsApp", show: whatsapp, number: whatsappValue });
-        // contactArray.push({ type: "Telegram", show: telegram, number: `https://t.me/${telegramValue}` });
-        // contactArray.push({ type: "Email", show: email, number: emailValue });
         fetch(`/insert-new-card`, 
             {
                 method: 'POST',

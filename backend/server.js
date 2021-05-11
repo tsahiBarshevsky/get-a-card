@@ -41,6 +41,44 @@ app.post("/insert-new-card", async (req, res) =>
     res.json("Card added successfully. You'll redirect to dashboard in few seconds");
 });
 
+// edit card
+app.post("/edit-card", async (req, res) => 
+{
+    var id = req.body.id;
+    var URL = req.body.URL;
+    var palette = req.body.palette;
+    var langauge = req.body.langauge
+    var name = req.body.name;
+    var type = req.body.type;
+    var description = req.body.description;
+    var address = req.body.address;
+    var waze = req.body.link;
+    var contact = req.body.contact;
+    var socials = req.body.socials;
+    var images = req.body.images;
+    CardsModel.findOneAndUpdate(
+        { "_id": id }, 
+        { "$set": 
+        { 
+            "palette": palette, "langauge": langauge, "name": name, "type": type,
+            "description": description, "address": address, "waze": waze,
+            "contact": contact, "socials": socials, "images": images
+        }}).exec(function(err)
+        {
+            if (err) 
+            {
+                console.log(err);
+                res.status(500).send(err);
+            } 
+            else 
+            {
+                console.log(`${URL} edited successfully. You'll redirect to dashboard in few seconds`)
+                res.json(`${URL} edited successfully. You'll redirect to dashboard in few seconds`);
+            }
+        }
+    );
+});
+
 //get single card
 app.get('/get-card', async (req, res) => 
 {
