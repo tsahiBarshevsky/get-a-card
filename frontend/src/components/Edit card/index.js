@@ -11,7 +11,7 @@ import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 import { withRouter } from 'react-router';
-import Palette from './palette';
+import Palette from '../Add Card/palette';
 
 const styles = makeStyles({
 	select:
@@ -70,11 +70,12 @@ const theme = createMuiTheme({
     }
 });
 
-function AddCard(props) 
+function EditCard(props) 
 {
     const currentUser = firebase.getCurrentUsername();
     const socialLinks = new SocialLinks();
     const classes = styles();
+    const [card, setCard] = useState({});
     const [URL, setURL] = useState('');
     const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
     const [langauge, setLanguage] = useState('');
@@ -82,36 +83,17 @@ function AddCard(props)
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
-    //const [waze, setWaze] = useState('');
-    //const [disable, setDisable] = useState(false);
     const [images, setImages] = useState({
         main: '',
         cover: ''
     });
-    // const [contact, setContact] = useState({
-    //     telephoneValue: '',
-    //     phoneValue: '',
-    //     whatsappValue: '',
-    //     telegramValue: '',
-    //     emailValue: ''
-    // });
-    const [contact, setContact] = useState([
-        { id: 0, type: "Telephone", show: false, value: '' },
-        { id: 1, type: "Phone", show: false, value: '' },
-        { id: 2, type: "WhatsApp", show: false, value: '' },
-        { id: 3, type: "Telegram", show: false, value: '' },
-        { id: 4, type: "Email", show: false, value: '' }
-    ]);
-    const [socials, setSocials] = useState([
-        { id: 0, name: 'Facebook', show: false, link: '' },
-        { id: 1, name: 'Instagram', show: false, link: '' },
-        { id: 2, name: 'Linkedin', show: false, link: '' },
-        { id: 3, name: 'Github', show: false, link: '' },
-        { id: 4, name: 'Pinterest', show: false, link: '' },
-        { id: 5, name: 'Youtube', show: false, link: '' },
-        { id: 6, name: 'Tiktok', show: false, link: '' },
-        { id: 7, name: 'Dribbble', show: false, link: '' }
-    ]);
+    const [contact, setContact] = useState({
+        telephoneValue: '',
+        phoneValue: '',
+        whatsappValue: '',
+        telegramValue: '',
+        emailValue: ''
+    });
     const [checkboxes, setCheckboxes] = useState({
         telephone: false,
         phone: false,
@@ -153,11 +135,25 @@ function AddCard(props)
         email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
     };
 
-    console.log(socials);
+    const [load, setLoad] = useState(true);
 
     useEffect(() => {
         document.title = 'Add new card | Get a Card ';
-    }, []);
+        if (load)
+        {
+            fetch(`/get-card?URL=${props.match.params.URL}`)
+            .then(res => res.json())
+            .then(card => setCard(card));
+            setLoad(false);
+        }
+
+        setLanguage(card.langauge);
+        setName(card.name);
+        setType(card.type);
+        setAddress(card.address);
+        setDescription(card.description);
+
+    }, [card, props.match.params.URL]);
 
     //protect the route
     if (!currentUser) {
@@ -179,26 +175,6 @@ function AddCard(props)
         }
     }
 
-    const handleChange = (index, source) =>
-    {
-        var items;
-        source === 'contact' ? items = [...contact] : items = [...socials];
-        var item = {...items[index]};
-        item.show = !item.show;
-        items[index] = item;
-        source === 'contact' ? setContact(items) : setSocials(items);
-    }
-
-    const handleInputsChange = (index, value, source) =>
-    {
-        var items;
-        source === 'contact' ? items = [...contact] : items = [...socials];
-        var item = {...items[index]};
-        source === 'contact' ? item.value = value : item.link = value;
-        items[index] = item;
-        source === 'contact' ? setContact(items) : setSocials(items);
-    }
-
     const handleCheckboxChange = (event) => 
     {
         setCheckboxes({ ...checkboxes, [event.target.name]: event.target.checked });
@@ -218,19 +194,6 @@ function AddCard(props)
                 break;
             default: return null;
         }
-    }
-
-    const checkURLAvailability = (url) =>
-    {
-        fetch(`/URL-availability?URL=${url}`)
-        .then(res => res.json())
-        .then(result => 
-        {
-            if (result)
-                notify('success', 'URL is available');
-            else
-                notify('error', "URL isn't available");
-        });
     }
 
     const uploadMainImage = (e) =>
@@ -326,12 +289,12 @@ function AddCard(props)
         socialsArray.push({ name: 'Youtube', show: youtube, link: youtubeLink });
         socialsArray.push({ name: 'Tiktok', show: tiktok, link: tiktokLink });
         socialsArray.push({ name: 'Dribbble', show: dribbble, link: dribbbleLink });
-        // var contactArray = [];
-        // contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
-        // contactArray.push({ type: "Phone", show: phone, number: phoneValue });
-        // contactArray.push({ type: "WhatsApp", show: whatsapp, number: whatsappValue });
-        // contactArray.push({ type: "Telegram", show: telegram, number: `https://t.me/${telegramValue}` });
-        // contactArray.push({ type: "Email", show: email, number: emailValue });
+        var contactArray = [];
+        contactArray.push({ type: "Telephone", show: telephone, number: telephoneValue });
+        contactArray.push({ type: "Phone", show: phone, number: phoneValue });
+        contactArray.push({ type: "WhatsApp", show: whatsapp, number: whatsappValue });
+        contactArray.push({ type: "Telegram", show: telegram, number: `https://t.me/${telegramValue}` });
+        contactArray.push({ type: "Email", show: email, number: emailValue });
         fetch(`/insert-new-card`, 
             {
                 method: 'POST',
@@ -349,7 +312,7 @@ function AddCard(props)
                     description: description,
                     address: address,
                     waze: link,
-                    contact: contact,
+                    contact: contactArray,
                     socials: socialsArray,
                     images: images
                 })
@@ -367,45 +330,8 @@ function AddCard(props)
 
     return (
         <div className="page-container">
-            <div className="add-card-container">
+            <div className="edit-card-container">
                 <MuiThemeProvider theme={theme}>
-                    <section id="url-selection">
-                        <Typography variant="h5">Choose URL</Typography>
-                        <Typography variant="caption">
-                            The URL is used to identify your digital business card. <br />
-                            It have to be one word that start with an English letter 
-                            (uppercase or lowercase) and can contain numbers.
-                        </Typography>
-                        <div className="input">
-                            <Input
-                                id="URL"
-                                placeholder="URL..."
-                                autoComplete="off"
-                                value={URL} 
-                                className={classes.input}
-                                disableUnderline
-                                style={{ marginRight: 5 }}
-                                inputProps={{ style: { marginLeft: 15 } }}
-                                endAdornment=
-                                {
-                                    regex.url.test(URL) ? 
-                                    <InputAdornment style={{marginRight: 10}} position="end">
-                                        <DoneRoundedIcon style={{ color: green[900] }}/>
-                                    </InputAdornment> 
-                                    : 
-                                    <InputAdornment style={{marginRight: 10}} position="end">
-                                        <ClearRoundedIcon style={{ color: red[700] }}/>
-                                    </InputAdornment> 
-                                }
-                                onChange={(e) => setURL(e.target.value)} />
-                            <Button     
-                                disabled={!regex.url.test(URL)} 
-                                style={regex.url.test(URL) ? {backgroundColor: '#0a71e7'} : null}
-                                variant="contained" 
-                                className="button"
-                                onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
-                        </div>
-                    </section>
                     <section id="palette-selection">
                         <Typography variant="h5">Card design</Typography>
                         <Typography variant="h6">Choose color palette</Typography>
@@ -518,7 +444,7 @@ function AddCard(props)
                         <Typography variant="overline">Traditional ways</Typography>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={contact[0].show} onChange={() => handleChange(0, 'contact')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={telephone} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Telephone"
                                 name="telephone"
                             />
@@ -528,12 +454,12 @@ function AddCard(props)
                                 type="tel"
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!contact[0].show}
-                                value={contact[0].value}
+                                disabled={!telephone}
+                                value={telephoneValue}
                                 inputProps={{ maxLength: 9, style: { marginLeft: 10 } }}
                                 endAdornment=
                                 {
-                                    regex.telephone.test(contact[0].value) && contact[0].value.length === 9 ? 
+                                    regex.telephone.test(telephoneValue) && telephoneValue.length === 9 ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -543,11 +469,11 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(0, e.target.value, 'contact')} />
+                                onChange={(e) => setContact({ ...contact, telephoneValue: e.target.value })} />
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={contact[1].show} onChange={() => handleChange(1, 'contact')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={phone} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Phone"
                                 name="phone"
                             />
@@ -557,12 +483,12 @@ function AddCard(props)
                                 type="tel"
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!contact[1].show}
-                                value={contact[1].value}
+                                disabled={!phone}
+                                value={phoneValue}
                                 inputProps={{ maxLength: 10, style: { marginLeft: 10 } }}
                                 endAdornment=
                                 {
-                                    regex.phone.test(contact[1].value) && contact[1].value.length === 10 ? 
+                                    regex.phone.test(phoneValue) && phoneValue.length === 10 ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -572,11 +498,11 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(1, e.target.value, 'contact')} />
+                                onChange={(e) => setContact({ ...contact, phoneValue: e.target.value })} />
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={contact[2].show} onChange={() => handleChange(2, 'contact')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={whatsapp} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="WhatsApp"
                                 name="whatsapp"
                             />
@@ -586,12 +512,12 @@ function AddCard(props)
                                 type="tel"
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!contact[2].show}
-                                value={contact[2].value}
+                                disabled={!whatsapp}
+                                value={whatsappValue}
                                 inputProps={{ maxLength: 12, style: { marginLeft: 10 } }}
                                 endAdornment=
                                 {
-                                    regex.whatsapp.test(contact[2].value) && contact[2].value.length === 12 ? 
+                                    regex.whatsapp.test(whatsappValue) && whatsappValue.length === 12 ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -601,11 +527,11 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(2, e.target.value, 'contact')} />
+                                onChange={(e) => setContact({ ...contact, whatsappValue: e.target.value })} />
                         </div>
                         <div className="contact">
                             <FormControlLabel
-                                control={<Checkbox checked={contact[3].show} onChange={() => handleChange(3, 'contact')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={telegram} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Telegram"
                                 name="telegram"
                             />
@@ -615,12 +541,12 @@ function AddCard(props)
                                 type="tel"
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!contact[3].show}
-                                value={contact[3].value}
+                                disabled={!telegram}
+                                value={telegramValue}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    regex.telegram.test(contact[3].value) ? 
+                                    regex.telegram.test(telegramValue) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -630,11 +556,11 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(3, e.target.value, 'contact')} />
+                                onChange={(e) => setContact({ ...contact, telegramValue: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={contact[4].show} onChange={() => handleChange(4, 'contact')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={email} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Email"
                                 name="email"
                             />
@@ -644,12 +570,12 @@ function AddCard(props)
                                 type="email"
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!contact[4].show}
-                                value={contact[4].value}
+                                disabled={!email}
+                                value={emailValue}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    regex.email.test(contact[4].value) ? 
+                                    regex.email.test(emailValue) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -659,12 +585,12 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(4, e.target.value, 'contact')} />
+                                onChange={(e) => setContact({ ...contact, emailValue: e.target.value })} />
                         </div>
                         <Typography variant="overline">Social media</Typography>
                         <div className="social">
                             <FormControlLabel
-                                control={<Checkbox checked={socials[0].show} onChange={() => handleChange(0, 'socials')} style={{color: '#0a71e7'}} />}
+                                control={<Checkbox checked={facebook} onChange={handleCheckboxChange} style={{color: '#0a71e7'}} />}
                                 label="Facebook"
                                 name="facebook"
                             />
@@ -673,12 +599,12 @@ function AddCard(props)
                                 placeholder="Facebook URL..."
                                 autoComplete="off"
                                 disableUnderline
-                                disabled={!socials[0].show}
-                                value={socials[0].link}
+                                disabled={!facebook}
+                                value={facebookLink}
                                 inputProps={{ style: { marginLeft: 10 }}}
                                 endAdornment=
                                 {
-                                    socialLinks.isValid('facebook', socials[0].link) ? 
+                                    socialLinks.isValid('facebook', facebookLink) ? 
                                     <InputAdornment style={{marginRight: 10}} position="end">
                                         <DoneRoundedIcon style={{ color: green[900] }}/>
                                     </InputAdornment> 
@@ -688,7 +614,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(0, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, facebookLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -716,7 +642,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(1, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, instagramLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -744,7 +670,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(2, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, linkedinLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -772,7 +698,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(3, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, githubLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -800,7 +726,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(4, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, pinterestLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -828,7 +754,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(5, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, youtubeLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -856,7 +782,7 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(6, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, tiktokLink: e.target.value })} />
                         </div>
                         <div className="social">
                             <FormControlLabel
@@ -884,13 +810,13 @@ function AddCard(props)
                                     </InputAdornment> 
                                 }
                                 className={classes.input}
-                                onChange={(e) => handleInputsChange(7, e.target.value, 'socials')} />
+                                onChange={(e) => setSocialsLinks({ ...socialsLinks, dribbbleLink: e.target.value })} />
                         </div>
                     </section>
-                    <Button 
+                    {/* <Button 
                         className="submit"
                         variant="contained" 
-                        onClick={() => submitCard()}>Submit</Button>
+                        onClick={() => submitCard()}>Submit</Button> */}
                     <ToastContainer
                         position="bottom-center"
                         closeOnClick
@@ -904,4 +830,4 @@ function AddCard(props)
     )
 }
 
-export default withRouter(AddCard);
+export default withRouter(EditCard);

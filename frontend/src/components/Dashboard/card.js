@@ -58,7 +58,11 @@ export default function Card({cover, title, url, setUpdate})
                 <h4 className={classes.title}>{title}</h4>
             </Link>
             <div className="buttons-container">
-                <Button className="button" variant="contained" id="edit">Edit</Button>
+                <Button component={Link}
+                    to={`/edit-card/${url}`} target="_blank"
+                    className="button" 
+                    variant="contained" 
+                    id="edit">Edit</Button>
                 <Button className="button" variant="contained" id="delete" onClick={() => setOpen(true)}>Delete</Button>
             </div>
             <Dialog open={open} onClose={handleClose} fullWidth disableBackdropClick>
