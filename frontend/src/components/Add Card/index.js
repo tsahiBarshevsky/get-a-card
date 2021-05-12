@@ -106,6 +106,8 @@ function AddCard(props)
     const palettes = [
         {name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'},
         {name: 'Dark palette',primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'},
+        {name: 'Freshy palette', primary: '#334443', secondary: '#34656d', text: '#ffffff'},
+        {name: 'Pastel palette', primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'}
     ];
     const regex = { 
         url: /^[A-Za-z][A-Za-z0-9]*$/,
@@ -171,6 +173,14 @@ function AddCard(props)
             case 'Dark palette':
                 setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
                 notify('success', 'Dark palette selected');
+                break;
+            case 'Freshy palette':
+                setPalette({primary: '#334443', secondary: '#34656d', text: '#ffffff'});
+                notify('success', 'Freshy palette selected');
+                break;
+            case 'Pastel palette':
+                setPalette({primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'});
+                notify('success', 'Pastel palette selected');
                 break;
             default: return null;
         }
