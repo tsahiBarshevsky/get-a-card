@@ -85,7 +85,7 @@ function EditCard(props)
     const currentUser = firebase.getCurrentUsername();
     const socialLinks = new SocialLinks();
     const classes = styles();
-    const [palette, setPalette] = useState({primary: '', secondary: '', text: ''});
+    const [palette, setPalette] = useState({name: '', primary: '', secondary: '', text: ''});
     const [langauge, setLanguage] = useState('');
     const [name, setName] = useState('');
     const [type, setType] = useState('');
@@ -113,7 +113,7 @@ function EditCard(props)
         { id: 7, name: 'Dribbble', show: false, link: '' }
     ]);
     const palettes = [
-        {name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'},
+        {name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'},
         {name: 'Dark palette', primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'},
         {name: 'Freshy palette', primary: '#334443', secondary: '#34656d', text: '#ffffff'},
         {name: 'Pastel palette', primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'}
@@ -144,12 +144,11 @@ function EditCard(props)
         setLanguage(card.langauge);
         setName(card.name);
         setType(card.type);
-        setAddress(card.address);
         setDescription(card.description);
-
+        setAddress(card.address);
         setContact(card.contact);
         setSocials(card.socials);
-
+        setImages(card.images);
     }, [load, card, props.match.params.URL]);
 
     //protect the route
@@ -197,19 +196,19 @@ function EditCard(props)
         switch (palette)
         {
             case 'Default palette':
-                setPalette({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
+                setPalette({name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'})
                 notify('success', 'Default palette selected');
                 break;
             case 'Dark palette':
-                setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'});
+                setPalette({name: 'Dark palette', primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
                 notify('success', 'Dark palette selected');
                 break;
             case 'Freshy palette':
-                setPalette({primary: '#334443', secondary: '#34656d', text: '#ffffff'});
+                setPalette({name: 'Freshy palette', primary: '#334443', secondary: '#34656d', text: '#ffffff'});
                 notify('success', 'Freshy palette selected');
                 break;
             case 'Pastel palette':
-                setPalette({primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'});
+                setPalette({name: 'Pastel palette', primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'});
                 notify('success', 'Pastel palette selected');
                 break;
             default: return null;
@@ -333,20 +332,21 @@ function EditCard(props)
         });
     }
 
-    return (
+    return card ? (
         <div className="page-container">
             <div className="edit-card-container">
                 <MuiThemeProvider theme={theme}>
                     <section id="palette-selection">
                         <Typography variant="h5">Card design</Typography>
                         <Typography variant="h6">Choose color palette</Typography>
+                        {palette !== undefined ?
                         <div className="palettes-container">
-                            {palettes.map((palette, index) =>
+                            {palettes.map((p, index) =>
                                 <div key={index}>
-                                    <Palette palette={palette} handlePaletteChange={handlePaletteChange} />
+                                    <Palette palette={p} selectedPalette={palette} handlePaletteChange={handlePaletteChange} />
                                 </div>
                             )}
-                        </div>
+                        </div> : null}
                         <Typography variant="h6">Main image and cover</Typography>
                         <div className="upload-images">
                             <Button 
@@ -386,6 +386,7 @@ function EditCard(props)
                         <FormControl>
                             <InputLabel className={classes.label}>Language...</InputLabel>
                             <Select
+                                defaultValue={card.langauge}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={langauge}
@@ -839,7 +840,7 @@ function EditCard(props)
                 </MuiThemeProvider>
             </div>
         </div>
-    )
+    ) : <div className="full-container">Loading page</div>
 }
 
 export default withRouter(EditCard);

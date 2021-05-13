@@ -76,7 +76,7 @@ function AddCard(props)
     const socialLinks = new SocialLinks();
     const classes = styles();
     const [URL, setURL] = useState('');
-    const [palette, setPalette] = useState({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
+    const [palette, setPalette] = useState({name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'});
     const [langauge, setLanguage] = useState('');
     const [name, setName] = useState('');
     const [type, setType] = useState('');
@@ -104,7 +104,7 @@ function AddCard(props)
         { id: 7, name: 'Dribbble', show: false, link: '' }
     ]);
     const palettes = [
-        {name: 'Default palette', primary: '#f5f5f5', secondary: '#E45447', text: '#000000'},
+        {name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'},
         {name: 'Dark palette',primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'},
         {name: 'Freshy palette', primary: '#334443', secondary: '#34656d', text: '#ffffff'},
         {name: 'Pastel palette', primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'}
@@ -167,19 +167,19 @@ function AddCard(props)
         switch (palette)
         {
             case 'Default palette':
-                setPalette({primary: '#f5f5f5', secondary: '#E45447', text: '#000000'})
+                setPalette({name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'})
                 notify('success', 'Default palette selected');
                 break;
             case 'Dark palette':
-                setPalette({primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
+                setPalette({name: 'Dark palette', primary: '#18191a', secondary: '#3a3b3c', text: '#e4e6eb'})
                 notify('success', 'Dark palette selected');
                 break;
             case 'Freshy palette':
-                setPalette({primary: '#334443', secondary: '#34656d', text: '#ffffff'});
+                setPalette({name: 'Freshy palette', primary: '#334443', secondary: '#34656d', text: '#ffffff'});
                 notify('success', 'Freshy palette selected');
                 break;
             case 'Pastel palette':
-                setPalette({primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'});
+                setPalette({name: 'Pastel palette', primary: '#435560', secondary: '#6e7c7c', text: '#ffffff'});
                 notify('success', 'Pastel palette selected');
                 break;
             default: return null;
@@ -361,9 +361,9 @@ function AddCard(props)
                         <Typography variant="h5">Card design</Typography>
                         <Typography variant="h6">Choose color palette</Typography>
                         <div className="palettes-container">
-                            {palettes.map((palette, index) =>
+                            {palettes.map((p, index) =>
                                 <div key={index}>
-                                    <Palette palette={palette} handlePaletteChange={handlePaletteChange} />
+                                    <Palette palette={p} selectedPalette={palette} handlePaletteChange={handlePaletteChange} />
                                 </div>
                             )}
                         </div>

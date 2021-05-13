@@ -31,7 +31,7 @@ export default function Card(props)
     } : null;
     var wazeButton = Object.keys(card).length > 0 ? {
         backgroundColor: card.palette.secondary,
-        color: card.palette.text,
+        color: card.palette.name === 'Default palette' ? 'white' : card.palette.text,
         borderRadius: 10,
         width: 160,
         height: 40,
