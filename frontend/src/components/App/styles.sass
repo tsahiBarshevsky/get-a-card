@@ -1,11 +1,10 @@
 /* === Colors Palette === */
 
-$primary: #f5f5f5
-$secondary: #E45447
+$primary: #f9faf7
+$secondary: #1a73e8 //#73b925
 $dark-primary: #18191a
 $dark-secondary: #252c36
 $dark-text: #e4e6eb
-$dashboard: #1a73e8
 $button: #0a71e7
 
 /* === Breakpoints === */
@@ -247,7 +246,7 @@ $navbar-mobile: 920px
         align-items: flex-start
         width: 100%
         height: 500px
-        background-color: $dashboard
+        background-color: $secondary
         color: white
         position: relative
         padding: 0 70px
@@ -353,7 +352,7 @@ $navbar-mobile: 920px
     transition: all 0.4s ease-out
 
     &.active
-        background-color: $dashboard
+        background-color: $secondary
         transition: all 0.4s ease-in
         box-shadow: 0 2px 3px rgba(15, 15, 15, 0.25)
 
@@ -700,3 +699,125 @@ $navbar-mobile: 920px
                 align-items: center
                 width: 100%
                 padding: 15px
+
+/* === Homepage === */
+
+.homepage-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    background-color: $primary
+    cursor: default
+    color: #373737
+
+    .hero-container
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: 550px
+        padding: 0 30px
+        margin-bottom: 20px
+        color: white
+        background-color: #222222
+        // background: linear-gradient(180deg,
+        // rgba(#222222, 0.3) 5%,
+        // rgba(#222222, 0.3) 50%),
+        // url('https://images.pexels.com/photos/905163/pexels-photo-905163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
+        background-position: center
+        background-repeat: no-repeat
+        background-size: cover
+        box-sizing: border-box
+
+        .subtitle
+            width: fit-content
+            height: fit-content
+            padding: 5px 20px
+            margin-bottom: 20px
+            background-color: rgba(white, 0.4)
+            border-top-left-radius: 25px
+            border-bottom-right-radius: 25px
+
+            h3
+                text-transform: uppercase
+
+        .title
+            font-size: 40px
+            text-align: center
+            line-height: 45px
+            margin-bottom: 25px
+
+        .button
+            background-color: $secondary
+            color: white
+            font-size: 18px
+            height: 40px
+            border-radius: 5px
+            letter-spacing: 2px
+            text-transform: capitalize
+
+    .about-container
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        padding: 10px
+
+        .about
+            display: flex
+            flex-direction: column
+            justify-content: flex-start
+            align-items: flex-start
+            background-color: white
+            width: 220px
+            height: fit-content
+            padding: 30px
+            margin: 10px
+            box-shadow: 0 3px 7px -1px rgba(black, 0.1)
+            transition: background-color 0.15s ease-in-out
+
+            @media screen and ( max-width: $xs )
+                width: 100%
+                margin: 0 0 15px 0
+
+            &:hover
+                background-color: $secondary
+
+                .icon-container
+                    background-color: white
+
+                    .icon
+                        color: $secondary
+
+                .title,
+                .content
+                    color: white
+
+            .icon-container
+                width: 70px
+                height: 70px
+                display: flex
+                justify-content: center
+                align-items: center
+                background-color: $secondary
+                border-bottom-left-radius: 50%
+                border-bottom-right-radius: 50%
+                border-top-right-radius: 50%
+                margin-bottom: 20px
+
+                .icon
+                    color: white
+                    font-size: 45px
+
+            .title
+                color: black
+                letter-spacing: 1px
+                margin-bottom: 15px
+
+            .content
+                color: #929293
+                font-size: 20px
+                font-weight: 600

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Avatar, makeStyles, withStyles, Menu, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 
@@ -14,7 +14,8 @@ const styles = makeStyles({
     {
         color: 'white',
         fontFamily: `"Nunito", sans-serif`,
-        fontSize: 20
+        fontSize: 20,
+        textDecoration: 'none'
     },
     menuItem:
     {
@@ -90,7 +91,7 @@ function Navbar(props)
 
     return (
         <div className={active ? "dashboard-navbar active" : "dashboard-navbar"}>
-            <p className={classes.logo}>Get a Card</p>
+            <Link to="/" className={classes.logo}>Get a Card</Link>
             <Avatar 
                 className="avatar"
                 aria-controls="customized-menu"
