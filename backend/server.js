@@ -52,7 +52,7 @@ app.post("/edit-card", async (req, res) =>
     var type = req.body.type;
     var description = req.body.description;
     var address = req.body.address;
-    var waze = req.body.link;
+    var waze = req.body.waze;
     var contact = req.body.contact;
     var socials = req.body.socials;
     var images = req.body.images;
@@ -156,6 +156,7 @@ app.get('/waze-link', async (req, res) =>
         var latitude = result.data.data[0].latitude;
         var longitude = result.data.data[0].longitude;
         var wazeLink = `https://www.waze.com/ul?ll=${latitude}%2C${longitude}&navigate=yes&zoom=17`;
+        console.log(wazeLink);
         res.json(wazeLink);
     })
     .catch((err) => {

@@ -91,6 +91,7 @@ function EditCard(props)
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [address, setAddress] = useState('');
+    const [wazeButton, setWazeButton] = useState(false);
     const [images, setImages] = useState({
         main: '',
         cover: ''
@@ -146,6 +147,7 @@ function EditCard(props)
         setType(card.type);
         setDescription(card.description);
         setAddress(card.address);
+        setWazeButton(card.waze !== 'none' ? true : false);
         setContact(card.contact);
         setSocials(card.socials);
         setImages(card.images);
@@ -297,8 +299,14 @@ function EditCard(props)
 
     async function submitChanges()
     {
-        const response = await fetch(`/waze-link?address=${address}`);
-        var link = await response.json();
+        var link;
+        if (wazeButton)
+        {
+            const response = await fetch(`/waze-link?address=${address}`);
+            link = await response.json();
+        }
+        else
+            link = 'none';
         fetch(`/edit-card`, 
             {
                 method: 'POST',
@@ -444,6 +452,11 @@ function EditCard(props)
                                 autoComplete="off"
                                 value={description} 
                                 onChange={(e) => setDescription(e.target.value)} />
+                            <FormControlLabel
+                                control={<Checkbox checked={wazeButton} onChange={() => setWazeButton(!wazeButton)} style={{color: '#0a71e7'}} />}
+                                label="Add waze button?"
+                                name="Waze button"
+                            />
                         </div>
                         <Typography variant="h6">Contact</Typography>
                         <Typography variant="caption">In what ways can people contact you?</Typography>
