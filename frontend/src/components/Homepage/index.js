@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles } from '@material-ui/core';
+import { ImUsers, FaPaintBrush, BsDisplay, FiShare2, FaRegEdit } from 'react-icons/all';
 import vector1 from '../../Images/Card.svg';
 import vector2 from '../../Images/Digital.svg';
 import vector3 from '../../Images/Find your way.svg';
@@ -64,17 +65,44 @@ export default function Homepage()
             {/* <Link to="/login">Login</Link>
             <Link to="/registartion">Registartion</Link>
             <Link to="/dashboard">Dashboard</Link> */}
-            <div className="hero-container">
-                <div className="subtitle">
-                    <h3>Get a Card</h3>
-                </div>
-                <h1 className="title">The world has become digital, why would you be left behind?</h1>
-                <Button className="button"
-                    variant="contained" 
-                    component={Link} 
-                    to='/registartion'>Get started</Button>
+            <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
+                <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
+                    <Grid item lg={6}>
+
+                    </Grid>
+                    <Grid item lg={6}>
+                        <div className="square">
+                            <h2 className="title">is the fastest and easiest way to create a digital business card</h2>
+                            <div className="elements">
+                                <div className="element">
+                                    <ImUsers className="icon" />
+                                    <h3>One account, countless cards</h3>
+                                </div>
+                                <div className="element">
+                                    <FaPaintBrush className="icon" />
+                                    <h3>Create and design yourself</h3>
+                                </div>
+                                <div className="element">
+                                    <BsDisplay className="icon" />
+                                    <h3>Introduce yourself in the best way</h3>
+                                </div>
+                                <div className="element">
+                                    <FiShare2 className="icon" />
+                                    <h3>Share it easily, from anywhere you are</h3>
+                                </div>
+                                <div className="element">
+                                    <FaRegEdit className="icon" />
+                                    <h3>Create, edit and change things anytime you want</h3>
+                                </div>
+                            </div>
+                            <Button className="button"
+                                variant="contained">Get inspired</Button>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
             <div className="about-container">
+                <h1>Why should you using it?</h1>
                 <Grid
                     className={classes.grid}
                     container
@@ -109,8 +137,8 @@ export default function Homepage()
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} className={classes.item5}>
                             <h1 className="title">Earn full mobility</h1>
                             <p className="content">
-                                And don't worry about wasting money on having enough "hard" copies. 
-                                Your customers are on your cell phone anyway, so use it to let them 
+                                And stop worry about wasting money on having enough "hard" copies. 
+                                Your clients are on their smartphone anyway, so use it to let them 
                                 find you reach you by call, message or navigation in a short and convenient way.
                             </p>
                         </Grid>

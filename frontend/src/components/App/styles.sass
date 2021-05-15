@@ -1,7 +1,8 @@
 /* === Colors Palette === */
 
 $primary: #f9faf7
-$secondary: #1a73e8 //#73b925
+$secondary: #1a73e8
+$text: #373737
 $dark-primary: #18191a
 $dark-secondary: #252c36
 $dark-text: #e4e6eb
@@ -65,7 +66,7 @@ $navbar-mobile: 920px
         width: 100%
         height: 100%
         opacity: 0.1
-        background-image: url('https://images.pexels.com/photos/905163/pexels-photo-905163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
+        background-image: url('../../Images/hero-background.jpg')
         background-repeat: no-repeat
         background-position: 50% 0
         background-size: cover
@@ -710,50 +711,86 @@ $navbar-mobile: 920px
     width: 100%
     background-color: $primary
     cursor: default
-    color: #373737
+    color: $text
 
     .hero-container
         display: flex
         flex-direction: column
         justify-content: center
         align-items: center
+        position: relative
         width: 100%
-        height: 600px
+        height: 700px
         padding: 0 30px
-        margin-bottom: 20px
         color: white
         background-color: #222222
-        // background: linear-gradient(180deg,
-        // rgba(#222222, 0.3) 5%,
-        // rgba(#222222, 0.3) 50%),
-        // url('https://images.pexels.com/photos/905163/pexels-photo-905163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
-        background-position: center
-        background-repeat: no-repeat
-        background-size: cover
-        box-sizing: border-box
+        margin-bottom: 60px
 
-        .subtitle
-            width: fit-content
-            height: fit-content
-            padding: 5px 20px
-            margin-bottom: 20px
-            background-color: rgba(white, 0.4)
-            border-top-left-radius: 25px
-            border-bottom-right-radius: 25px
+        &::before
+            content: ''
+            display: block
+            position: absolute
+            left: 0
+            top: 0
+            width: 100%
+            height: 100%
+            opacity: 0.15
+            background-image: url('../../Images/hero-background.jpg')
+            background-color: white
+            background-repeat: no-repeat
+            background-position: 50% 0
+            background-size: cover
+            filter: blur(2.5px)
 
-            h3
-                text-transform: uppercase
+        .square
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            align-items: flex-start
+            width: 500px
+            height: 500px
+            border-radius: 10px
+            padding: 15px
+            color: white
+            background-color: rgba($primary, 0.2)
+            box-shadow: 0 3px 7px -1px rgba(black, 0.1)
 
-        .title
-            font-size: 40px
-            text-align: center
-            line-height: 45px
-            margin-bottom: 25px
+            @media screen and ( max-width: $xs )
+                width: 100%
+                height: fit-content
+                margin: 15px
+
+            .title
+                margin-bottom: 20px
+
+                &::before
+                    color: $secondary
+                    text-transform: uppercase
+                    font-size: 30px
+                    content: 'Get a Card '
+
+            .elements
+                display: flex
+                flex-direction: column
+                justify-content: flex-start
+                align-items: flex-start
+
+                .element
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    padding: 5px
+                    margin-bottom: 5px
+
+                    .icon
+                        font-size: 20px
+                        margin-right: 20px
 
         .button
             background-color: $secondary
             color: white
             font-size: 18px
+            font-weight: 600
             height: 40px
             border-radius: 5px
             letter-spacing: 2px
@@ -761,13 +798,21 @@ $navbar-mobile: 920px
 
     .about-container
         display: flex
+        flex-direction: column
         justify-content: center
         align-items: center
         width: 100%
         padding: 10px 50px
 
+        h1
+            text-align: center
+            font-size: 60px
+            line-height: 60px
+            margin-bottom: 35px
+
         .title
             align-self: flex-start
+            text-align: start
             margin-bottom: 20px
             font-size: 40px
             line-height: 40px
@@ -780,6 +825,9 @@ $navbar-mobile: 920px
         img
             width: 100%
             height: auto
+
+            @media screen and ( max-width: $md )
+                margin-bottom: 50px
 
     .how-it-works-container
         display: flex
@@ -807,7 +855,7 @@ $navbar-mobile: 920px
             align-items: center
 
             @media screen and ( max-width: $sm )
-                margin-bottom: 20px
+                margin-bottom: 25px
 
             .circle
                 display: flex
