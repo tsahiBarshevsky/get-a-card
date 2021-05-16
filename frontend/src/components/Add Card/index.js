@@ -76,6 +76,7 @@ function AddCard(props)
     const socialLinks = new SocialLinks();
     const classes = styles();
     const [URL, setURL] = useState('');
+    const [urlConfirm, setUrlConfirm] = useState(false);
     const [palette, setPalette] = useState({name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'});
     const [langauge, setLanguage] = useState('');
     const [name, setName] = useState('');
@@ -194,9 +195,15 @@ function AddCard(props)
         .then(result => 
         {
             if (result)
+            {
                 notify('success', 'URL is available');
+                setUrlConfirm(true);
+            }
             else
+            {
                 notify('error', "URL isn't available");
+                setUrlConfirm(false);
+            }
         });
     }
 
@@ -282,45 +289,55 @@ function AddCard(props)
 
     async function submitCard()
     {
-        var link;
-        if (wazeButton)
+        if (name !== '' && type !== '' && description !== '')
         {
-            const response = await fetch(`/waze-link?address=${address}`);
-            link = await response.json();
+            if (wazeButton && address !== '')
+            {
+                var link;
+                if (wazeButton)
+                {
+                    const response = await fetch(`/waze-link?address=${address}`);
+                    link = await response.json();
+                }
+                else
+                    link = 'none';
+                fetch(`/insert-new-card`, 
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            owner: currentUser,
+                            URL: URL,
+                            palette: palette,
+                            langauge: langauge,
+                            name: name,
+                            type: type,
+                            description: description,
+                            address: address,
+                            waze: link,
+                            contact: contact,
+                            socials: socials,
+                            images: images
+                        })
+                    }    
+                )
+                .then(res => res.json())
+                .then(res => 
+                {
+                    notify("success", res);
+                    setTimeout(() => {
+                        props.history.replace('/dashboard');
+                    }, 5500);
+                });
+            }
+            else
+                notify("error", "You've marked adding waze button, but address has left blank");
         }
         else
-            link = 'none';
-        fetch(`/insert-new-card`, 
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    owner: currentUser,
-                    URL: URL,
-                    palette: palette,
-                    langauge: langauge,
-                    name: name,
-                    type: type,
-                    description: description,
-                    address: address,
-                    waze: link,
-                    contact: contact,
-                    socials: socials,
-                    images: images
-                })
-            }    
-        )
-        .then(res => res.json())
-        .then(res => 
-        {
-            notify("success", res);
-            setTimeout(() => {
-                props.history.replace('/dashboard');
-            }, 5500);
-        });
+            notify("error", 'Name, type or description has left blank');
     }
 
     return (
@@ -364,7 +381,7 @@ function AddCard(props)
                                 onClick={() => checkURLAvailability(URL)}>Check Availability</Button>
                         </div>
                     </section>
-                    <section id="palette-selection">
+                    <section id="palette-selection" style={!urlConfirm ? {pointerEvents: 'none'} : null}>
                         <Typography variant="h5">Card design</Typography>
                         <Typography variant="h6">Choose color palette</Typography>
                         <div className="palettes-container">
@@ -406,7 +423,7 @@ function AddCard(props)
                             </Button>
                         </div>
                     </section>
-                    <section id="information">
+                    <section id="information" style={!urlConfirm ? {pointerEvents: 'none'} : null}>
                         <Typography variant="h5">Information About Your Bussiness</Typography>
                         <Typography variant="h6">Language</Typography>
                         <Typography variant="caption">The language in which you want your card to be displayed</Typography>
@@ -425,6 +442,7 @@ function AddCard(props)
                             </Select>
                         </FormControl>
                         <Typography variant="h6">Business basic details</Typography>
+                        <Typography variant="caption">Exept address, all the fields are required</Typography>
                         <div className="basic-details">
                             <Input
                                 id="name"
@@ -853,6 +871,8 @@ function AddCard(props)
                     <Button 
                         className="submit"
                         variant="contained" 
+                        disabled={!urlConfirm}
+                        style={urlConfirm ? {backgroundColor: '#0a71e7'} : null}
                         onClick={() => submitCard()}>Submit</Button>
                     <ToastContainer
                         position="bottom-center"

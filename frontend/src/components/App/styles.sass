@@ -70,6 +70,8 @@ $navbar-mobile: 920px
         background-repeat: no-repeat
         background-position: 50% 0
         background-size: cover
+        height: 100vh
+        width: 100vw
 
     @media screen and ( max-width: 700px )
         overflow-y: auto
@@ -561,7 +563,7 @@ $navbar-mobile: 920px
         color: white
         border-radius: 10px
         text-transform: capitalize
-        background-color: $button
+        //background-color: $button
 
 /* === Card Page === */
 
@@ -741,6 +743,9 @@ $navbar-mobile: 920px
             background-position: 50% 0
             background-size: cover
             filter: blur(2.5px)
+
+        .title
+            color: $secondary
 
         .square
             display: flex

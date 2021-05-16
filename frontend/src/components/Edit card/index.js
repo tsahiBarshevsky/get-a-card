@@ -54,16 +54,6 @@ const styles = makeStyles({
             marginRight: 0,
             marginBottom: 15
         }
-    },
-    submit:
-    {
-        height: 45,
-        width: 155,
-        bordeRadius: 5,
-        fontSize: 15,
-        color: 'white',
-        textTransform: 'capitalize',
-        backgroundColor: '#0a71e7'
     }
 });
 
@@ -73,6 +63,7 @@ const theme = createMuiTheme({
         allVariants: { fontFamily: `"Nunito", sans-serif` },
         h5: { textDecoration: 'underline', fontWeight: 600, marginBottom: 20 },
         h6: { fontWeight: 600, marginBottom: 15 },
+        body2: { marginTop: 5, fontWeight: 600 },
         subtitle1: { fontWeight: 600 },
         subtitle2: { fontWeight: 600 },
         caption: { fontSize: 16, fontWeight: 600, marginBottom: 20 },
@@ -299,45 +290,55 @@ function EditCard(props)
 
     async function submitChanges()
     {
-        var link;
-        if (wazeButton)
+        if (name !== '' && type !== '' && description !== '')
         {
-            const response = await fetch(`/waze-link?address=${address}`);
-            link = await response.json();
+            if (wazeButton && address !== '')
+            {
+                var link;
+                if (wazeButton)
+                {
+                    const response = await fetch(`/waze-link?address=${address}`);
+                    link = await response.json();
+                }
+                else
+                    link = 'none';
+                fetch(`/edit-card`, 
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: card._id,
+                            URL: props.match.params.URL,
+                            palette: palette,
+                            langauge: langauge,
+                            name: name,
+                            type: type,
+                            description: description,
+                            address: address,
+                            waze: link,
+                            contact: contact,
+                            socials: socials,
+                            images: images
+                        })
+                    }    
+                )
+                .then(res => res.json())
+                .then(res => 
+                {
+                    notify("success", res);
+                    setTimeout(() => {
+                        props.history.replace('/dashboard');
+                    }, 5500);
+                });
+            }
+            else
+                notify("error", "You've marked adding waze button, but address has left blank");
         }
         else
-            link = 'none';
-        fetch(`/edit-card`, 
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: card._id,
-                    URL: props.match.params.URL,
-                    palette: palette,
-                    langauge: langauge,
-                    name: name,
-                    type: type,
-                    description: description,
-                    address: address,
-                    waze: link,
-                    contact: contact,
-                    socials: socials,
-                    images: images
-                })
-            }    
-        )
-        .then(res => res.json())
-        .then(res => 
-        {
-            notify("success", res);
-            setTimeout(() => {
-                props.history.replace('/dashboard');
-            }, 5500);
-        });
+            notify("error", 'Name, type or description has left blank');
     }
 
     return card ? (
@@ -407,7 +408,9 @@ function EditCard(props)
                             </Select>
                         </FormControl>
                         <Typography variant="h6">Business basic details</Typography>
+                        <Typography variant="caption">Exept address, all the fields are required</Typography>
                         <div className="basic-details">
+                            <Typography variant="body2">Name</Typography>
                             <Input
                                 id="name"
                                 placeholder="Name..."
@@ -419,6 +422,7 @@ function EditCard(props)
                                 autoComplete="off"
                                 value={name} 
                                 onChange={(e) => setName(e.target.value)} />
+                            <Typography variant="body2">Type</Typography>
                             <Input
                                 id="type"
                                 placeholder="Type..."
@@ -430,6 +434,7 @@ function EditCard(props)
                                 autoComplete="off"
                                 value={type} 
                                 onChange={(e) => setType(e.target.value)} />
+                            <Typography variant="body2">Address</Typography>
                             <Input
                                 id="address"
                                 placeholder="Address..."
@@ -441,13 +446,14 @@ function EditCard(props)
                                 autoComplete="off"
                                 value={address} 
                                 onChange={(e) => setAddress(e.target.value)} />
+                            <Typography variant="body2">Description</Typography>
                             <Input
                                 id="description"
                                 placeholder="Description..."
                                 fullWidth multiline
                                 disableUnderline
                                 className={classes.input}
-                                inputProps={{ style: { marginLeft: 15 } }}
+                                inputProps={{ style: { marginLeft: 15, marginRight: 15 } }}
                                 style={{ marginBottom: 10 }}
                                 autoComplete="off"
                                 value={description} 
@@ -840,8 +846,9 @@ function EditCard(props)
                         </div> : null }
                     </section>
                     <Button 
-                        className={classes.submit}
+                        className="submit"
                         variant="contained" 
+                        style={{backgroundColor: '#0a71e7', width: 145}}
                         onClick={() => submitChanges()}>Save changes</Button>
                     <ToastContainer
                         position="bottom-center"

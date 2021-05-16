@@ -59,7 +59,7 @@ export default function Card({cover, title, url, setUpdate})
             </Link>
             <div className="buttons-container">
                 <Button component={Link}
-                    to={`/edit-card/${url}`} target="_blank"
+                    to={`/edit-card/${url}`} 
                     className="button" 
                     variant="contained" 
                     id="edit">Edit</Button>
