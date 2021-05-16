@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles } from '@material-ui/core';
-import { ImUsers, FaPaintBrush, BsDisplay, FiShare2, FaRegEdit } from 'react-icons/all';
+// import { ImUsers, FaPaintBrush, BsDisplay, FiShare2, FaRegEdit } from 'react-icons/all';
 import vector1 from '../../Images/Card.svg';
 import vector2 from '../../Images/Digital.svg';
 import vector3 from '../../Images/Find your way.svg';
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	item5: {order: 5, display: 'flex', flexDirection: 'column', alignItems: 'center'},
 	item6: {order: 6},
-    heroItem: {display: 'flex', flexDirection: 'column', alignItems: 'center'}
+    heroItem: {display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'lightblue'}
 }));
 
 export default function Homepage()
@@ -63,17 +63,24 @@ export default function Homepage()
 
     return (
         <div className="homepage-container">
-            <Link to="/login">Login</Link>
+            {/* <Link to="/login">Login</Link>
             <Link to="/registartion">Registartion</Link>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/dashboard">Dashboard</Link> */}
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
                     <Grid item lg={6}>
-                        <h1 className="title">Create a digital business card today</h1>
+                        <h1 className="title">Create your own digital</h1>
+                        <h1 className="title">business card today</h1>
+                        <p className="subtitle">
+                            The marketing world has been changed dramatically over the last years; 
+                            Everything has become digital. So, forget about the traditional 
+                            business card you know and create an attractive digital business card
+                        </p>
+                        <Button component={Link} to='/registartion' variant="contained" className="get-started">Get started</Button>
                     </Grid>
-                    <Grid item lg={6} className={classes.heroItem}>
+                    {/*<Grid item lg={6}>
                         <div className="square">
-                            <h2 className="title">is the fastest and easiest way to create a digital business card</h2>
+                             <h2 className="title">is the fastest and easiest way to create a digital business card</h2>
                             <div className="elements">
                                 <div className="element">
                                     <ImUsers className="icon" />
@@ -95,11 +102,11 @@ export default function Homepage()
                                     <FaRegEdit className="icon" />
                                     <h3>Create, edit and change things anytime you want</h3>
                                 </div>
-                            </div>
+                            </div> 
                             <Button className="button"
                                 variant="contained">Get inspired</Button>
                         </div>
-                    </Grid>
+                    </Grid>*/}
                 </Grid>
             </div>
             <div className="about-container">
