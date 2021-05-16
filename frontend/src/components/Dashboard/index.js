@@ -64,7 +64,7 @@ export default function Dashbaord(props)
                     : null}
                 </div>
                 <div className="grid-container">
-                    <h3>Your digital business cards</h3>
+                    {cards.length > 0 ? <h3>Your digital business cards</h3> : null}
                     <Grid container direction="row" justify={isMobile ? "center" : "flex-start"} alignItems="center">
                         {cards.length > 0 ?
                         <Grid item>

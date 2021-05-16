@@ -48,6 +48,25 @@ class Firebase
     {
         await this.auth.createUserWithEmailAndPassword(email, password);
     }
+
+    deleteImages(URL)
+    {
+        var _this = this;
+        const storageRef = this.storage.ref();
+        storageRef.child(`${this.auth.currentUser.email}/${URL}`).listAll()
+        .then((res) => {
+            res.items.forEach((itemRef) => {
+                itemRef.getDownloadURL().then(function(url)
+                {
+                    _this.storage.refFromURL(url).delete().then(() => {
+                        console.log("Deleted");
+                    }).catch(err => console.log(err));
+                });
+            });
+        }).catch((error) => {
+            console.log(error.message);
+        });
+    }
 }
 
 export default new Firebase();
