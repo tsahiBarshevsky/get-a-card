@@ -728,7 +728,7 @@ $navbar-mobile: 920px
         background-color: #222222
         margin-bottom: 60px
 
-        @media screen and ( max-width: $xs )
+        @media screen and ( max-width: $md )
             height: 100%
             padding: 30px
 
@@ -742,7 +742,6 @@ $navbar-mobile: 920px
             height: 100%
             opacity: 0.15
             background-image: url('../../Images/hero-background.jpg')
-            background-color: white
             background-repeat: no-repeat
             background-position: 50% 0
             background-size: cover
@@ -753,10 +752,20 @@ $navbar-mobile: 920px
             text-transform: capitalize
             font-size: 50px
             line-height: 55px
+            margin-left: 30px
+            width: 90%
+
+            @media screen and ( max-width: $xs )
+                margin-left: 0
 
         .subtitle
             font-size: 20px
             margin: 30px 0 15px
+            width: 90%
+            margin-left: 30px
+
+            @media screen and ( max-width: $xs )
+                margin-left: 0
 
         .get-started
             width: 150px
@@ -769,60 +778,97 @@ $navbar-mobile: 920px
             text-transform: capitalize
             color: white
             background-color: $button
+            margin-left: 30px
 
-        .square
-            display: flex
-            flex-direction: column
-            justify-content: space-between
-            align-items: flex-start
-            width: 500px
-            height: 500px
-            border-radius: 10px
-            padding: 15px
-            color: white
-            background-color: rgba($primary, 0.2)
-            box-shadow: 0 3px 7px -1px rgba(black, 0.1)
+            @media screen and ( max-width: $md )
+                margin-bottom: 35px
 
             @media screen and ( max-width: $xs )
-                width: 100%
-                height: fit-content
-                margin: 15px
+                margin-left: 0
+        #first-smartphone
+            display: block
+            width: 275px
+            height: 500px
+            border-radius: 45px
+            box-shadow: 0 3px 7px -1px rgba(black, 0.75)
+            transform: rotate(-8deg)
+            z-index: 2
 
-            .title
-                margin-bottom: 20px
+        #second-smartphone
+            display: block
+            width: 275px
+            height: 500px
+            border-radius: 45px
+            box-shadow: 0 3px 7px -1px rgba(black, 0.75)
+            position: relative
+            bottom: -20px
+            left: -10px
+            z-index: 1
+            transform: rotate(10deg)
 
-                &::before
-                    color: $secondary
-                    text-transform: uppercase
-                    font-size: 30px
-                    content: 'Get a Card '
+            @media screen and ( max-width: 629px )
+                display: none
 
-            .elements
-                display: flex
-                flex-direction: column
-                justify-content: flex-start
-                align-items: flex-start
+        .example
+            width: 100%
+            height: 100%
+            object-fit: cover
+            object-position: center center
+            border-radius: 45px
 
-                .element
-                    display: flex
-                    justify-content: center
-                    align-items: center
-                    padding: 5px
-                    margin-bottom: 5px
+        // .square
+        //     display: flex
+        //     flex-direction: column
+        //     justify-content: space-between
+        //     align-items: flex-start
+        //     width: 500px
+        //     height: 500px
+        //     border-radius: 10px
+        //     padding: 15px
+        //     color: white
+        //     background-color: rgba($primary, 0.2)
+        //     box-shadow: 0 3px 7px -1px rgba(black, 0.1)
 
-                    .icon
-                        font-size: 20px
-                        margin-right: 20px
+        //     @media screen and ( max-width: $xs )
+        //         width: 100%
+        //         height: fit-content
+        //         margin: 15px
 
-        .button
-            background-color: $secondary
-            color: white
-            font-size: 18px
-            font-weight: 600
-            height: 40px
-            border-radius: 5px
-            letter-spacing: 2px
-            text-transform: capitalize
+        //     .title
+        //         margin-bottom: 20px
+
+        //         &::before
+        //             color: $secondary
+        //             text-transform: uppercase
+        //             font-size: 30px
+        //             content: 'Get a Card '
+
+        //     .elements
+        //         display: flex
+        //         flex-direction: column
+        //         justify-content: flex-start
+        //         align-items: flex-start
+
+        //         .element
+        //             display: flex
+        //             justify-content: center
+        //             align-items: center
+        //             padding: 5px
+        //             margin-bottom: 5px
+
+        //             .icon
+        //                 font-size: 20px
+        //                 margin-right: 20px
+
+        // .button
+        //     background-color: $secondary
+        //     color: white
+        //     font-size: 18px
+        //     font-weight: 600
+        //     height: 40px
+        //     border-radius: 5px
+        //     letter-spacing: 2px
+        //     text-transform: capitalize
 
     .about-container
         display: flex

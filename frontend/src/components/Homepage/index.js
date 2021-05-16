@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles } from '@material-ui/core';
 // import { ImUsers, FaPaintBrush, BsDisplay, FiShare2, FaRegEdit } from 'react-icons/all';
+import image from '../../Images/hero-background.jpg';
 import vector1 from '../../Images/Card.svg';
 import vector2 from '../../Images/Digital.svg';
 import vector3 from '../../Images/Find your way.svg';
@@ -39,7 +40,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	item5: {order: 5, display: 'flex', flexDirection: 'column', alignItems: 'center'},
 	item6: {order: 6},
-    heroItem: {display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'lightblue'}
+    smartphones: 
+    {
+        width: '100%',
+        height: '100%',
+        display: 'flex', 
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center', 
+    }
 }));
 
 export default function Homepage()
@@ -68,15 +77,22 @@ export default function Homepage()
             <Link to="/dashboard">Dashboard</Link> */}
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
-                    <Grid item lg={6}>
-                        <h1 className="title">Create your own digital</h1>
-                        <h1 className="title">business card today</h1>
+                    <Grid item md={12} lg={6}>
+                        <h1 className="title">Create your own digital business card today</h1>
                         <p className="subtitle">
                             The marketing world has been changed dramatically over the last years; 
                             Everything has become digital. So, forget about the traditional 
                             business card you know and create an attractive digital business card
                         </p>
                         <Button component={Link} to='/registartion' variant="contained" className="get-started">Get started</Button>
+                    </Grid>
+                    <Grid item md={12} lg={6} className={classes.smartphones}>
+                        <div id="first-smartphone">
+                            <img className="example" src={image} alt="Example1" />
+                        </div>
+                        <div id="second-smartphone">
+                            <img className="example" src="https://images.pexels.com/photos/7473282/pexels-photo-7473282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Example1" />
+                        </div>
                     </Grid>
                     {/*<Grid item lg={6}>
                         <div className="square">
