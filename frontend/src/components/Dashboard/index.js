@@ -18,7 +18,7 @@ export default function Dashbaord(props)
     const [cards, setCards] = useState('');
     const [update, setUpdate] = useState(true);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'), {
 		defaultMatches: true
 	});
     const classes = styles();

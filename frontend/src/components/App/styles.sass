@@ -291,19 +291,22 @@ $navbar-mobile: 920px
         display: flex
         flex-direction: column
         justify-content: flex-start
-        //background-color: lightblue
-        //width: 70%
-        //transform: translateY(-50%)
+        margin-top: -220px
+        z-index: 5
+        padding-left: 15px
 
-        @media screen and ( max-width: $xs )
+        @media screen and ( max-width: $sm )
             justify-content: center
             align-items: center
+            padding-left: 0
 
         h3
-            //color: white
+            color: white
             margin-left: 20px
+            font-weight: 500
+            margin-bottom: 10px
 
-            @media screen and ( max-width: $xs )
+            @media screen and ( max-width: $sm )
                 margin-left: 0
 
         .add-new-card-link
