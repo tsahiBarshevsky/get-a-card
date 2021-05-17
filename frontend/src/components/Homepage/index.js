@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Link as Scroll } from 'react-scroll';
 import { Button, Grid, makeStyles } from '@material-ui/core';
+import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
+import { FaLinkedinIn, FaTelegramPlane, FaFacebookF } from 'react-icons/fa';
 import card1 from '../../Images/card1.png';
 import card2 from '../../Images/card2.png';
 import card3 from '../../Images/card3.png';
@@ -236,6 +239,93 @@ export default function Homepage()
                     </div>
                 </div>
             </div>
+            <footer title="Photo by Skitterphoto from Pixaby">
+                <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
+                    <Grid item>
+                        <div className="about">
+                            <h1 className="title">Get a</h1>
+                            <h6 className="subtitle">Business card generator</h6>
+                            <p className="content">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <div className="site-map">
+                            <h2 className="title">Services</h2>
+                            <div className="groups">
+                                <div className="group">
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Scroll className="link" to='about-section'
+                                            exact='true' smooth={true} duration={1000}
+                                            spy={true} offset={-55}>
+                                            About
+                                        </Scroll>
+                                    </div>
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Scroll className="link" to='how-it-works-section'
+                                            exact='true' smooth={true} duration={1000}
+                                            spy={true} >
+                                            Help
+                                        </Scroll>
+                                    </div>
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Scroll className="link" to='examples-section'
+                                            exact='true' smooth={true} duration={1000}
+                                            spy={true} >
+                                            Examples
+                                        </Scroll>
+                                    </div>
+                                </div>
+                                <div className="group">
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Link to='/registartion' className="link">
+                                            Sign up
+                                        </Link>
+                                    </div>
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Link to='/login' className="link">
+                                            Sign in
+                                        </Link>
+                                    </div>
+                                    <div className="map">
+                                        <ArrowRightAltRoundedIcon className="arrow" />
+                                        <Link to='/dashboard' className="link">
+                                            Dashboard
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <div className="contact">
+                            <h2 className="title">Have a Questions?</h2>
+                            <div className="row">
+                                <a href="mailto:tsahi.13@gmail.com">
+                                    <FaTelegramPlane className="icon" />
+                                </a>
+                                <a 
+                                    href="https://www.linkedin.com/in/tsahi-barshavsky-frontend-developer/"
+                                    target="_blank" rel="noreferrer">
+                                    <FaLinkedinIn className="icon" />
+                                </a>
+                                <a
+                                    href="https://www.facebook.com/tsahi.barshavsky/"
+                                    target="_blank" rel="noreferrer">
+                                    <FaFacebookF className="icon" />
+                                </a>
+                            </div>
+                        </div>
+                    </Grid>
+                </Grid>
+                <p className="copyright">
+                    Copyright &copy; {new Date().getFullYear()} All rights reserved
+                </p>
+            </footer>
         </div>
     )
 }
