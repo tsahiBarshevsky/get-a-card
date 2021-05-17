@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Link as Scroll } from 'react-scroll';
-import { Button, Grid, makeStyles } from '@material-ui/core';
+import { Button, Divider, Grid, makeStyles } from '@material-ui/core';
 import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 import { FaLinkedinIn, FaTelegramPlane, FaFacebookF } from 'react-icons/fa';
+import Emoji from "react-emoji-render";
 import card1 from '../../Images/card1.png';
 import card2 from '../../Images/card2.png';
 import card3 from '../../Images/card3.png';
@@ -53,6 +54,19 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center', 
+    },
+    footerItem:
+    {
+        display: 'flex', 
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    divider:
+    {
+        width: '80%',
+        backgroundColor: '#ffffff33',
+        marginTop: 20
     }
 }));
 
@@ -192,6 +206,11 @@ export default function Homepage()
                         </div>
                     </Grid>
                 </Grid>
+                <Button 
+                    variant="contained" 
+                    className="button"
+                    component={Link}
+                    to='/registartion'>Let's start!</Button>
             </div>
             <div className="examples-container" id="examples-section">
                 <h1 className="section-title">Looking for inspiration?</h1>
@@ -240,15 +259,15 @@ export default function Homepage()
                 </div>
             </div>
             <footer title="Photo by Skitterphoto from Pixaby">
-                <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
-                    <Grid item>
+                <Grid container spacing={2} direction="row" justify="center" alignItems="flex-start" alignContent="center">
+                    <Grid item xs={12} sm={6} md={6} lg={4} className={classes.footerItem}>
                         <div className="about">
                             <h1 className="title">Get a</h1>
                             <h6 className="subtitle">Business card generator</h6>
-                            <p className="content">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <p className="content">Don't waste time or money on a traditional business card, move forward and create a digital one by yourself.</p>
                         </div>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12} sm={6} md={6} lg={4} className={classes.footerItem}>
                         <div className="site-map">
                             <h2 className="title">Services</h2>
                             <div className="groups">
@@ -301,12 +320,12 @@ export default function Homepage()
                             </div>
                         </div>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12} sm={6} md={6} lg={4} className={classes.footerItem}>
                         <div className="contact">
-                            <h2 className="title">Have a Questions?</h2>
+                            <h2 className="title">Stay in touch?</h2>
                             <div className="row">
                                 <a href="mailto:tsahi.13@gmail.com">
-                                    <FaTelegramPlane className="icon" />
+                                    <FaTelegramPlane className="icon" style={{marginRight: 3}} />
                                 </a>
                                 <a 
                                     href="https://www.linkedin.com/in/tsahi-barshavsky-frontend-developer/"
@@ -322,9 +341,11 @@ export default function Homepage()
                         </div>
                     </Grid>
                 </Grid>
+                <Divider className={classes.divider} />
                 <p className="copyright">
                     Copyright &copy; {new Date().getFullYear()} All rights reserved
                 </p>
+                <p>Coded with <Emoji text=":heart:" /> by Tsahi Barshavsky</p>
             </footer>
         </div>
     )
