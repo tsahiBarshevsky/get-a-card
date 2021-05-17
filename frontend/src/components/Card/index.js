@@ -7,19 +7,21 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
-
-const theme = createMuiTheme({
-    typography:
-    {
-        allVariants: { fontFamily: `"Nunito", sans-serif` },
-        subtitle1: { fontSize: 18 },
-        h5: { textDecoration: 'underline', marginTop: 25 },
-        h6: { marginBottom: 15 }
-    }
-});
+import { Link } from 'react-router-dom';
 
 export default function Card(props) 
 {
+    const theme = createMuiTheme({
+        typography:
+        {
+            allVariants: { fontFamily: `"Nunito", sans-serif`, textAlign: 'center' },
+            body1: { fontWeight: 600 },
+            subtitle1: { fontSize: 18 },
+            h5: { textDecoration: 'underline', marginTop: 25 },
+            h6: { marginBottom: 15 }
+        }
+    });
+
     const [card, setCard] = useState({});
     var cardStyle = Object.keys(card).length > 0 ? {
         color: card.palette.text,
@@ -38,12 +40,17 @@ export default function Card(props)
         fontSize: 17,
         textTransform: 'capitalize'
     } : null;
+    var hebrewFont = { fontFamily: `"Alef", sans-serif` };
     
     useEffect(() => 
     {
+        
         fetch(`/get-card?URL=${props.match.params.URL}`)
         .then(res => res.json())
-        .then(card => setCard(card));
+        .then(card => {
+            setCard(card);
+            document.title = `${card.name} | Get a Card`;
+        });
     }, [props.match.params.URL]);
 
     const renderIcon = (name) =>
@@ -100,6 +107,58 @@ export default function Card(props)
         }
     }
 
+    const renderDescription = () =>
+    {
+        var paragraphs = card.description.split("\n");
+        return paragraphs.map((paragraph, index) =>
+            <div key={index}>
+            {paragraph !== "" ? 
+                <div>
+                    <Typography 
+                        variant="body1" 
+                        style={card.langauge === 'Hebrew' ? hebrewFont : null}
+                        align="center">{paragraph}</Typography>
+                    <br />    
+                </div>
+            : null }
+            </div>
+        )
+    }
+
+    const localization = (element) =>
+    {
+        switch (element)
+        {
+            case 'Telephone':
+                return 'טלפון';
+            case 'Phone':
+                return 'פלאפון';
+            case 'WhatsApp':
+                return 'וואטסאפ';
+            case 'Telegram':
+                return 'טלגרם';
+            case 'Email':
+                return 'מייל';
+            case 'Facebook':
+                return 'פייסבוק';
+            case 'Instagram':
+                return 'אינסטגרם';
+            case 'Linkedin':
+                return 'לינקדין';
+            case 'Github':
+                return 'גיטהאב';
+            case 'Pinterest':
+                return 'פינטרסט';
+            case 'Youtube':
+                return 'יוטיוב';
+            case 'Tiktok':
+                return 'טיק-טוק';
+            case 'Dribbble':
+                return 'דריבל';
+            default: return null;
+        }
+    }
+
     return card !== null ? (
         <div className="page-container">
             <div className="card-container" style={cardStyle} dir={card.langauge === 'Hebrew' ? "rtl" : "ltr"}>
@@ -115,19 +174,30 @@ export default function Card(props)
                         </div>
                     </div>
                     <div className="content">
-                        <Typography variant="h3">{card.name}</Typography>
-                        <Typography variant="h4" gutterBottom>{card.type}</Typography>
+                        <Typography 
+                            variant="h3" 
+                            style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                {card.name}
+                        </Typography>
+                        <Typography 
+                            variant="h4" 
+                            style={card.langauge === 'Hebrew' ? hebrewFont : null}
+                            gutterBottom>{card.type}</Typography>
                         {card.socials ?
                         <Grid container direction="row" justify="center" alignItems="flex-start" className="grid">
                             {card.socials.map((social) =>
                                 <div key={social.id}>
-                                    {social.show ?
+                                    {social.show && social.link !== '' ?
                                     <Grid item>
                                         <div className="social">
                                             <a href={social.link} target="_blank" rel="noreferrer" className="social-wrapper" style={iconStyle}>
                                                 {renderIcon(social.name)}
                                             </a>
-                                            <Typography variant="subtitle1">{social.name}</Typography>
+                                            <Typography 
+                                                variant="subtitle1"
+                                                style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                                {card.langauge === 'English' ? social.name : localization(social.name)}
+                                            </Typography>
                                         </div>
                                     </Grid> : null}
                                 </div>
@@ -141,25 +211,34 @@ export default function Card(props)
                                     <Grid item>
                                         <div className="contact">
                                             {renderContact(element)}
-                                            <Typography variant="subtitle1">{element.type}</Typography>
+                                            <Typography 
+                                                variant="subtitle1"
+                                                style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                                {card.langauge === 'English' ? element.type : localization(element.type)}
+                                            </Typography>
                                         </div>
                                     </Grid> : null}
                                 </div>
                             )}
                         </Grid> : null}
-                        <Typography variant="h5" gutterBottom>{card.langauge === 'Hebrew' ? 'אודות' : 'About'}</Typography>
+                        <Typography 
+                            variant="h5" 
+                            style={card.langauge === 'Hebrew' ? hebrewFont : null}
+                            gutterBottom>{card.langauge === 'Hebrew' ? 'אודות' : 'About'}</Typography>
                         <div className="description">
-                            <Typography variant="body1" align="center">{card.description}</Typography>
+                            {card.description !== undefined ? renderDescription() : null}
                         </div>
                         <div className="location">
+                            {card.waze !== 'none' ?
                             <a target="_blank" rel="noreferrer" href={card.waze}>
                                 <Button 
                                     variant="contained" 
-                                    startIcon={<FaWaze />}
+                                    startIcon={<FaWaze style={card.langauge === 'Hebrew' ? {marginLeft: 15} : null} />}
                                     style={wazeButton}>
-                                    Navigate
+                                    {card.langauge === 'English' ? 'Navigate' : 'נווט אליי'}
                                 </Button>
-                            </a>
+                            </a> : null }
+                            {card.address !== '' ?
                             <div className="map">
                                 <iframe
                                     width="500"
@@ -171,14 +250,14 @@ export default function Card(props)
                                     src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA8jIFMHAm_UV2UgdB5jzUwGR6hiIuQ4ew
                                         &q=${card.address}`}>
                                 </iframe>
-                            </div>
+                            </div> : null }
                         </div>
                     </div>
                 </MuiThemeProvider>
             </div>
             <div className="footer">
                 <MuiThemeProvider theme={theme}>
-                    <Typography variant="h6">This business card generated by Get a Card</Typography>
+                    <Typography variant="h6">This business card generated by <Link to='/'>Get a Card</Link></Typography>
                 </MuiThemeProvider>
             </div>
         </div>

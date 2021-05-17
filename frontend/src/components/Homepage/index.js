@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles } from '@material-ui/core';
-// import { ImUsers, FaPaintBrush, BsDisplay, FiShare2, FaRegEdit } from 'react-icons/all';
 import image from '../../Images/hero-background.jpg';
 import vector1 from '../../Images/Card.svg';
 import vector2 from '../../Images/Digital.svg';
@@ -82,7 +81,7 @@ export default function Homepage()
                         <p className="subtitle">
                             The marketing world has been changed dramatically over the last years; 
                             Everything has become digital. So, forget about the traditional 
-                            business card you know and create an attractive digital business card
+                            business card you know and create an attractive digital business card!
                         </p>
                         <Button component={Link} to='/registartion' variant="contained" className="get-started">Get started</Button>
                     </Grid>
@@ -94,38 +93,9 @@ export default function Homepage()
                             <img className="example" src="https://images.pexels.com/photos/7473282/pexels-photo-7473282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Example1" />
                         </div>
                     </Grid>
-                    {/*<Grid item lg={6}>
-                        <div className="square">
-                             <h2 className="title">is the fastest and easiest way to create a digital business card</h2>
-                            <div className="elements">
-                                <div className="element">
-                                    <ImUsers className="icon" />
-                                    <h3>One account, countless cards</h3>
-                                </div>
-                                <div className="element">
-                                    <FaPaintBrush className="icon" />
-                                    <h3>Create and design yourself</h3>
-                                </div>
-                                <div className="element">
-                                    <BsDisplay className="icon" />
-                                    <h3>Introduce yourself in the best way</h3>
-                                </div>
-                                <div className="element">
-                                    <FiShare2 className="icon" />
-                                    <h3>Share it easily, from anywhere you are</h3>
-                                </div>
-                                <div className="element">
-                                    <FaRegEdit className="icon" />
-                                    <h3>Create, edit and change things anytime you want</h3>
-                                </div>
-                            </div> 
-                            <Button className="button"
-                                variant="contained">Get inspired</Button>
-                        </div>
-                    </Grid>*/}
                 </Grid>
             </div>
-            <div className="about-container">
+            <div className="about-container" id="about-section">
                 <h1>Why should you using it?</h1>
                 <Grid
                     className={classes.grid}
@@ -171,7 +141,7 @@ export default function Homepage()
                         </Grid>
                 </Grid> 
             </div>
-            <div className="how-it-works-container">
+            <div className="how-it-works-container" id="how-it-works-section">
                 <h1>How does it work?</h1>
                 <Grid container direction="row" justify="center" alignItems="center">
                     <Grid item xs={12} sm={6} md={4} lg={4}>

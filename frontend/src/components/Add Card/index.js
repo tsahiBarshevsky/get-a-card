@@ -291,50 +291,45 @@ function AddCard(props)
     {
         if (name !== '' && type !== '' && description !== '')
         {
-            if (wazeButton && address !== '')
+            var link;
+            if (wazeButton)
             {
-                var link;
-                if (wazeButton)
-                {
-                    const response = await fetch(`/waze-link?address=${address}`);
-                    link = await response.json();
-                }
-                else
-                    link = 'none';
-                fetch(`/insert-new-card`, 
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            owner: currentUser,
-                            URL: URL,
-                            palette: palette,
-                            langauge: langauge,
-                            name: name,
-                            type: type,
-                            description: description,
-                            address: address,
-                            waze: link,
-                            contact: contact,
-                            socials: socials,
-                            images: images
-                        })
-                    }    
-                )
-                .then(res => res.json())
-                .then(res => 
-                {
-                    notify("success", res);
-                    setTimeout(() => {
-                        props.history.replace('/dashboard');
-                    }, 5500);
-                });
+                const response = await fetch(`/waze-link?address=${address}`);
+                link = await response.json();
             }
             else
-                notify("error", "You've marked adding waze button, but address has left blank");
+                link = 'none';
+            fetch(`/insert-new-card`, 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        owner: currentUser,
+                        URL: URL,
+                        palette: palette,
+                        langauge: langauge,
+                        name: name,
+                        type: type,
+                        description: description,
+                        address: address,
+                        waze: link,
+                        contact: contact,
+                        socials: socials,
+                        images: images
+                    })
+                }    
+            )
+            .then(res => res.json())
+            .then(res => 
+            {
+                notify("success", res);
+                setTimeout(() => {
+                    props.history.replace('/dashboard');
+                }, 5500);
+            });
         }
         else
             notify("error", 'Name, type or description has left blank');
