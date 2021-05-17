@@ -93,10 +93,15 @@ app.get('/get-card', async (req, res) =>
         else
         {
             if (!result)
+            {
                 console.log(`Couldn't find ${URL}`);
+                res.json({});
+            }
             else
+            {
                 console.log(`${URL} has found!`);
-            res.json(result);
+                res.json(result);
+            }
         }
     });
 });
