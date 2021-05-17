@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles } from '@material-ui/core';
-import image from '../../Images/hero-background.jpg';
+import card1 from '../../Images/card1.png';
+import card2 from '../../Images/card2.png';
+import card3 from '../../Images/card3.png';
+import card4 from '../../Images/card4.png';
 import vector1 from '../../Images/Card.svg';
 import vector2 from '../../Images/Digital.svg';
 import vector3 from '../../Images/Find your way.svg';
@@ -52,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Homepage()
 {
+    const [chosenCard, setChosenCard] = useState('example1');
     const classes = useStyles();
     const account = {
         backgroundColor: '#ffce00',
@@ -69,14 +73,27 @@ export default function Homepage()
         backgroundSize: '100% 100%'
     };
 
+    const renderImage = () =>
+    {
+        switch (chosenCard)
+        {
+            case 'example1':
+                return <img className="example" src={card1} alt="Example1" />
+            case 'example2':
+                return <img className="example" src={card2} alt="Example2" />
+            case 'example3':
+                return <img className="example" src={card3} alt="Example3" />
+            case 'example4':
+                return <img className="example" src={card4} alt="Example4" />
+            default: return null;
+        }
+    }
+
     return (
         <div className="homepage-container">
-            {/* <Link to="/login">Login</Link>
-            <Link to="/registartion">Registartion</Link>
-            <Link to="/dashboard">Dashboard</Link> */}
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
-                    <Grid item md={12} lg={6}>
+                    <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                         <h1 className="title">Create your own digital business card today</h1>
                         <p className="subtitle">
                             The marketing world has been changed dramatically over the last years; 
@@ -85,18 +102,18 @@ export default function Homepage()
                         </p>
                         <Button component={Link} to='/registartion' variant="contained" className="get-started">Get started</Button>
                     </Grid>
-                    <Grid item md={12} lg={6} className={classes.smartphones}>
+                    <Grid item xs={12} sm={12} md={12} lg={6} xl={6} className={classes.smartphones}>
                         <div id="first-smartphone">
-                            <img className="example" src={image} alt="Example1" />
+                            <img className="example" src={card1} alt="Example1" />
                         </div>
                         <div id="second-smartphone">
-                            <img className="example" src="https://images.pexels.com/photos/7473282/pexels-photo-7473282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Example1" />
+                            <img className="example" src={card2} alt="Example2" />
                         </div>
                     </Grid>
                 </Grid>
             </div>
             <div className="about-container" id="about-section">
-                <h1>Why should you using it?</h1>
+                <h1 className="section-title">Why should you using it?</h1>
                 <Grid
                     className={classes.grid}
                     container
@@ -172,6 +189,52 @@ export default function Homepage()
                         </div>
                     </Grid>
                 </Grid>
+            </div>
+            <div className="examples-container" id="examples-section">
+                <h1 className="section-title">Looking for inspiration?</h1>
+                <div className="content">
+                    <Link className="smartphone" to={`/${chosenCard}`} target="_blank">
+                        {renderImage()}
+                    </Link>
+                    <div className="containers">
+                        <div className="container" 
+                            style={chosenCard === 'example1' ? {backgroundColor: '#1a73e880'} : null}
+                            onClick={() => setChosenCard('example1')}>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample1%2Fmain?alt=media&token=2ad5a5c8-9e40-4187-b6d6-fc8cea2bd3c8" alt="example1" className="profile" />
+                            <div className="information">
+                                <h4>Shandra Llewellin</h4>
+                                <h5>Analyst Programmer</h5>
+                            </div>
+                        </div>
+                        <div className="container" 
+                            style={chosenCard === 'example2' ? {backgroundColor: '#1a73e880'} : null}
+                            onClick={() => setChosenCard('example2')}>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample2%2Fmain?alt=media&token=dd8c8fb2-c82f-411e-87bc-951258f3d344" alt="example2" className="profile" />
+                            <div className="information">
+                                <h4>Karel Kiddell</h4>
+                                <h5>Chief Design Engineer</h5>
+                            </div>
+                        </div>
+                        <div className="container" 
+                            style={chosenCard === 'example3' ? {backgroundColor: '#1a73e880'} : null}
+                            onClick={() => setChosenCard('example3')}>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample3%2Fmain?alt=media&token=37fadf79-a204-4af4-9835-f24f02a0a507" alt="example3" className="profile" />
+                            <div className="information">
+                                <h4>Tamqrah Yegorkov</h4>
+                                <h5>Graphic Designer</h5>
+                            </div>
+                        </div>
+                        <div className="container" 
+                            style={chosenCard === 'example4' ? {backgroundColor: '#1a73e880'} : null}
+                            onClick={() => setChosenCard('example4')}>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample4%2Fmain?alt=media&token=5547ec1e-cae7-43f1-8668-eea022b445cd" alt="example4" className="profile" />
+                            <div className="information">
+                                <h4>Jaime Ainsworth</h4>
+                                <h5>Engineer</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
