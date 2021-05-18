@@ -1154,3 +1154,114 @@ $navbar-mobile: 920px
 
         .copyright
             margin-top: 10px
+
+/* === Main Navbar === */
+
+.main-navbar
+    width: 100%
+    height: 45px
+    padding: 0 40px
+    color: white
+    background-color: #222222
+    box-shadow: 0 2px 3px rgba(15, 15, 15, 0.25)
+    display: flex
+    justify-content: center
+    align-items: center
+    position: sticky
+    top: 0
+    z-index: 20
+
+    .navbar-container
+        z-index: 1
+        width: 100%
+        height: 45px
+        max-width: 1500px
+        margin-right: auto
+        margin-left: auto
+        padding-right: 50px
+        padding-left: 50px
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        .logo
+            width: 100%
+            cursor: pointer
+
+            .content
+                font-family: 'Anton', sans-serif !important
+                font-weight: normal
+                text-transform: uppercase
+                letter-spacing: 0.5px
+
+                &::after
+                    content: ' card'
+                    color: $secondary
+
+        .mobile-icon
+            display: none
+
+            @media screen and (max-width: $sm)
+                display: block
+                posiotion: absolute
+                top: 0
+                right: 0
+                transform: translateY(14%)
+                font-size: 1.8rem
+                cursor: pointer
+                color: white
+
+        .nav-menu
+            display: flex
+            align-items: center
+            list-style: none
+            text-align: center
+            //margin-right: -22px
+
+            @media screen and ( max-width: $sm )
+                display: none
+
+            .nav-link
+                color: white
+                font-size: 18px
+                cursor: pointer
+                padding: 5px 15px
+                margin: 0 3px
+                white-space: nowrap
+
+                &:hover
+                    background-color: rgba($secondary, 0.8)
+                    border-radius: 5px
+                    transition: all 0.2s ease-out
+
+                .link
+                    color: white
+                    text-decoration: none
+
+    // .nav-menu
+    //     display: grid
+    //     grid-template-columns: repeat(5, auto)
+    //     grid-gap: 10px
+    //     list-style: none
+    //     text-align: center
+    //     width: 70vw
+    //     justify-content: end
+    //     margin-right: 2rem
+
+    //     .nav-links
+    //         color: white
+    //         font-size: 18px
+    //         cursor: pointer
+    //         text-decoration: none
+    //         padding: 5px 15px
+
+    //         &:hover
+    //             background-color: rgba($secondary, 0.8)
+    //             border-radius: 5px
+    //             transition: all 0.2s ease-out
+
+    // .menu-icon
+    //     display: none
+
+    //     .icon
+    //         font-size: 25px

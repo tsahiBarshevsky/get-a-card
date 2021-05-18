@@ -15,6 +15,7 @@ import vector3 from '../../Images/Find your way.svg';
 import image1 from '../../Images/protect.png';
 import image2 from '../../Images/business-card.png';
 import image3 from '../../Images/socials.png';
+import Navbar from '../Navbar';
 
 const useStyles = makeStyles(theme => ({
 	grid:
@@ -72,6 +73,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Homepage()
 {
+    document.title = 'Home | Get a Card';
     const [chosenCard, setChosenCard] = useState('example1');
     const classes = useStyles();
     const account = {
@@ -108,6 +110,7 @@ export default function Homepage()
 
     return (
         <div className="homepage-container">
+            <Navbar />
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
                     <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -292,7 +295,7 @@ export default function Homepage()
                                         <ArrowRightAltRoundedIcon className="arrow" />
                                         <Scroll className="link" to='examples-section'
                                             exact='true' smooth={true} duration={1000}
-                                            spy={true} >
+                                            spy={true}>
                                             Examples
                                         </Scroll>
                                     </div>
