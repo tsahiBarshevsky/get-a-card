@@ -265,7 +265,7 @@ $navbar-mobile: 920px
             width: 100%
             height: 100%
             opacity: 0.05
-            background-image: url('https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
+            background-image: url('../../Images/header-background.jpeg')
             background-repeat: no-repeat
             background-position: 50% 0
             background-size: cover
@@ -1300,3 +1300,68 @@ $navbar-mobile: 920px
             .link
                 text-decoration: none
                 color: white
+
+/* === Page 404 === */
+
+.page-404-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    cursor: default
+    color: white
+    background-color: #222222
+    height: 100vh
+    width: 100vw
+    overflow-y: auto
+    padding: 10px
+
+    &::after
+        content: ''
+        display: block
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        opacity: 0.05
+        background-image: url('../../Images/hero-background.jpg')
+        background-repeat: no-repeat
+        background-position: 50% 0
+        background-position-y: center
+        background-size: cover
+        filter: blur(2.5px)
+
+    h1
+        color: transparent
+        font-family: 'Anton', sans-serif !important
+        font-weight: normal
+        font-size: 175px
+        -webkit-text-stroke: 2px white
+        text-transform: uppercase
+        letter-spacing: 2px
+        background: url('https://images.pexels.com/photos/1210276/pexels-photo-1210276.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
+        background-clip: text
+        background-repeat: no-repeat
+        background-position: 50% 0
+        background-size: cover
+
+        @media screen and ( max-width: $vs )
+            font-size: 100px
+
+    .button
+        width: 150px
+        height: 45px
+        border-radius: 10px
+        margin-top: 25px
+        text-transform: capitalize
+        font-size: 17px
+        color: white
+        background-color: $secondary
+        font-weight: 600
+        letter-spacing: 1px
+        z-index: 2
+        margin-bottom: 10px
+
+        &:hover
+            background-color: $secondary
