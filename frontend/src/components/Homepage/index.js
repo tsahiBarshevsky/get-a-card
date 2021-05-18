@@ -5,6 +5,7 @@ import { Button, Divider, Grid, makeStyles } from '@material-ui/core';
 import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 import { FaLinkedinIn, FaTelegramPlane, FaFacebookF } from 'react-icons/fa';
 import Emoji from "react-emoji-render";
+import { scroller } from 'react-scroll';
 import card1 from '../../Images/card1.png';
 import card2 from '../../Images/card2.png';
 import card3 from '../../Images/card3.png';
@@ -109,6 +110,19 @@ export default function Homepage()
                 return <img className="example" src={card4} alt="Example4" />
             default: return null;
         }
+    }
+
+    const replaceImage = (card) =>
+    {
+        setChosenCard(card);
+        if (window.innerWidth <= 960)
+            scroller.scrollTo('smartphone',
+            {
+                duration: 1500,
+                delay: 0,
+                smooth: "easeInOutQuart",
+                offset: -55
+            });
     }
 
     return (
@@ -222,13 +236,13 @@ export default function Homepage()
             <div className="examples-container" id="examples-section">
                 <h1 className="section-title">Looking for inspiration?</h1>
                 <div className="content">
-                    <Link className="smartphone" to={`/${chosenCard}`} target="_blank">
+                    <Link className="smartphone" id="smartphone" to={`/${chosenCard}`} target="_blank">
                         {renderImage()}
                     </Link>
                     <div className="containers">
                         <div className="container" 
                             style={chosenCard === 'example1' ? {backgroundColor: '#1a73e880'} : null}
-                            onClick={() => setChosenCard('example1')}>
+                            onClick={() => replaceImage('example1')}>
                             <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample1%2Fmain?alt=media&token=2ad5a5c8-9e40-4187-b6d6-fc8cea2bd3c8" alt="example1" className="profile" />
                             <div className="information">
                                 <h4>Shandra Llewellin</h4>
@@ -237,7 +251,7 @@ export default function Homepage()
                         </div>
                         <div className="container" 
                             style={chosenCard === 'example2' ? {backgroundColor: '#1a73e880'} : null}
-                            onClick={() => setChosenCard('example2')}>
+                            onClick={() => replaceImage('example2')}>
                             <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample2%2Fmain?alt=media&token=dd8c8fb2-c82f-411e-87bc-951258f3d344" alt="example2" className="profile" />
                             <div className="information">
                                 <h4>Karel Kiddell</h4>
@@ -246,7 +260,7 @@ export default function Homepage()
                         </div>
                         <div className="container" 
                             style={chosenCard === 'example3' ? {backgroundColor: '#1a73e880'} : null}
-                            onClick={() => setChosenCard('example3')}>
+                            onClick={() => replaceImage('example3')}>
                             <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample3%2Fmain?alt=media&token=37fadf79-a204-4af4-9835-f24f02a0a507" alt="example3" className="profile" />
                             <div className="information">
                                 <h4>Tamqrah Yegorkov</h4>
@@ -255,7 +269,7 @@ export default function Homepage()
                         </div>
                         <div className="container" 
                             style={chosenCard === 'example4' ? {backgroundColor: '#1a73e880'} : null}
-                            onClick={() => setChosenCard('example4')}>
+                            onClick={() => replaceImage('example4')}>
                             <img src="https://firebasestorage.googleapis.com/v0/b/get-a-card.appspot.com/o/user1%40gmail.com%2Fexample4%2Fmain?alt=media&token=5547ec1e-cae7-43f1-8668-eea022b445cd" alt="example4" className="profile" />
                             <div className="information">
                                 <h4>Jaime Ainsworth</h4>
