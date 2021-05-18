@@ -46,7 +46,7 @@ export default function Dashbaord(props)
 
     return cards ? (
         <div className="page-container">
-            <Navbar username={currentUser} logout={logout} />
+            <Navbar username={currentUser} cards={cards.length} logout={logout} />
             <div className="dashboard-container">
                 <div className="header" title="Photo by Anna Nekrashevich from Pexels">
                     {cards.length === 0 ?
