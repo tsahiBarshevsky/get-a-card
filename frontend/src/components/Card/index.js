@@ -8,6 +8,7 @@ import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import LoadingAnimation from '../Loading';
 
 export default function Card(props) 
 {
@@ -47,7 +48,7 @@ export default function Card(props)
     {
         setTimeout(() => {
             setLoad(true);
-        }, 500);
+        }, 1000);
         fetch(`/get-card?URL=${props.match.params.URL}`)
         .then(res => res.json())
         .then(card => {
@@ -276,5 +277,5 @@ export default function Card(props)
                 to='/'
                 className="button">Go Home</Button>
         </div>
-    ) : <div className="full-container">Loading...</div>
+    ) : <LoadingAnimation />
 }

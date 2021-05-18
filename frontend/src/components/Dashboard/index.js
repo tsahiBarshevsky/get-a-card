@@ -6,6 +6,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import firebase from '../firebase';
 import Card from './card';
 import Navbar from './navbar';
+import LoadingAnimation from '../Loading';
 
 const styles = makeStyles({
     title: { fontFamily: `"Nunito", sasn-serif`, marginBottom: 10 },
@@ -90,7 +91,7 @@ export default function Dashbaord(props)
                 </div>
             </div>
         </div>
-    ) : <div className="full-container">Loading</div>
+    ) : <LoadingAnimation />
 
     function logout()
     {

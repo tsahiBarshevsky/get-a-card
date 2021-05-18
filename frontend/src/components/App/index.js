@@ -10,6 +10,7 @@ import Login from '../Login';
 import AddCard from '../Add Card';
 import EditCard from '../Edit card';
 import Page404 from '../Page 404';
+import LoadingAnimation from '../Loading';
 
 export default function App() 
 {
@@ -34,5 +35,6 @@ export default function App()
                 <Route exact path="*" component={Page404} />
             </Switch>
         </Router>
-    ) : <div className="full-container">wait</div>
+    ) : <LoadingAnimation />
+
 }

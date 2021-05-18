@@ -12,6 +12,7 @@ import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 import { withRouter } from 'react-router';
 import Palette from '../Add Card/palette';
+import LoadingAnimation from '../Loading';
 
 const styles = makeStyles({
 	select:
@@ -855,7 +856,7 @@ function EditCard(props)
                 </MuiThemeProvider>
             </div>
         </div>
-    ) : <div className="full-container">Loading page</div>
+    ) : <LoadingAnimation />
 }
 
 export default withRouter(EditCard);
