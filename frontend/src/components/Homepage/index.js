@@ -16,6 +16,7 @@ import image1 from '../../Images/protect.png';
 import image2 from '../../Images/business-card.png';
 import image3 from '../../Images/socials.png';
 import Navbar from '../Navbar';
+import Sidebar from '../Sidebar';
 
 const useStyles = makeStyles(theme => ({
 	grid:
@@ -75,6 +76,8 @@ export default function Homepage()
 {
     document.title = 'Home | Get a Card';
     const [chosenCard, setChosenCard] = useState('example1');
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => {setIsOpen(!isOpen)};
     const classes = useStyles();
     const account = {
         backgroundColor: '#ffce00',
@@ -110,7 +113,8 @@ export default function Homepage()
 
     return (
         <div className="homepage-container">
-            <Navbar />
+            <Sidebar isOpen={isOpen} toggle={toggle} />
+            <Navbar toggle={toggle} />
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
                     <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -278,24 +282,24 @@ export default function Homepage()
                                     <div className="map">
                                         <ArrowRightAltRoundedIcon className="arrow" />
                                         <Scroll className="link" to='about-section'
-                                            exact='true' smooth={true} duration={1000}
-                                            spy={true} offset={-55}>
+                                            exact='true' smooth={true} duration={1500}
+                                            spy={true} offset={-45}>
                                             About
                                         </Scroll>
                                     </div>
                                     <div className="map">
                                         <ArrowRightAltRoundedIcon className="arrow" />
                                         <Scroll className="link" to='how-it-works-section'
-                                            exact='true' smooth={true} duration={1000}
-                                            spy={true} >
+                                            exact='true' smooth={true} duration={1500}
+                                            spy={true} offset={-45}>
                                             Help
                                         </Scroll>
                                     </div>
                                     <div className="map">
                                         <ArrowRightAltRoundedIcon className="arrow" />
                                         <Scroll className="link" to='examples-section'
-                                            exact='true' smooth={true} duration={1000}
-                                            spy={true}>
+                                            exact='true' smooth={true} duration={1500}
+                                            spy={true} offset={-25}>
                                             Examples
                                         </Scroll>
                                     </div>

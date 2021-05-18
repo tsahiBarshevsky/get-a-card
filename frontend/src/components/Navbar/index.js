@@ -16,7 +16,7 @@ export default function Navbar({toggle})
                 <div className="logo" onClick={() => toggleHome()}>
                     <h1 className="content">Get a</h1>
                 </div>
-                <div className="mobile-icon">
+                <div className="mobile-icon" onClick={toggle}>
                     <FaBars />
                 </div>
                 <ul className="nav-menu">
@@ -24,19 +24,19 @@ export default function Navbar({toggle})
                         <Scroll to="about-section"
                             exact='true' 
                             smooth={true} duration={1500}
-                            spy={true}>About</Scroll>
+                            spy={true} offset={-45}>About</Scroll>
                     </li>
                     <li className="nav-link">
                         <Scroll to="how-it-works-section"
                             exact='true' 
                             smooth={true} duration={1500}
-                            spy={true}>Help</Scroll>
+                            spy={true} offset={-45}>Help</Scroll>
                     </li>
                     <li className="nav-link">
                         <Scroll to="examples-section"
                             exact='true' 
                             smooth={true} duration={1500}
-                            spy={true}>Examples</Scroll>
+                            spy={true} offset={-25}>Examples</Scroll>
                     </li>
                     <li className="nav-link">
                         <Link to="/registartion" className="link">Sign up</Link>
