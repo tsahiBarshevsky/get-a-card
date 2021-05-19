@@ -12,7 +12,8 @@ const CardsSchema = new mongoose.Schema({
     waze: { type: String },
     contact: { type: Object },
     socials: { type: Object },
-    images: { type: Object }
+    images: { type: Object },
+    gallery: { type: Boolean }
 });
 
 const CardsModel = mongoose.model("cards", CardsSchema);

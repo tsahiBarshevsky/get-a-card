@@ -43,7 +43,7 @@ const theme = createMuiTheme({
     }
 })
 
-export default function Card({cover, title, url, setUpdate}) 
+export default function Card({cover, title, url, gallery, setUpdate}) 
 {
     const [open, setOpen] = useState(false);
     const classes = styles();
@@ -76,7 +76,7 @@ export default function Card({cover, title, url, setUpdate})
             if (res === 'OK')
             {
                 notify("success", `${title} deleted successfully`)
-                firebase.deleteImages(url);
+                firebase.deleteImages(url, gallery);
             }
             else
                 notify("error", 'An unexpected error occurred')

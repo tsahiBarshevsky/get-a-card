@@ -1,11 +1,10 @@
+@import "~react-image-gallery/styles/scss/image-gallery.scss"
+
 /* === Colors Palette === */
 
 $primary: #f9faf7
 $secondary: #1a73e8
 $text: #373737
-// $dark-primary: #18191a
-// $dark-secondary: #252c36
-// $dark-text: #e4e6eb
 $button: #0a71e7
 
 /* === Breakpoints === */
@@ -15,7 +14,6 @@ $xs: 600px
 $sm: 960px
 $md: 1280px
 $lg: 1920px
-$navbar-mobile: 920px
 
 /* === General selectors ===*/
 
@@ -581,12 +579,6 @@ $navbar-mobile: 920px
     margin-bottom: 15px
     border-bottom-left-radius: 20px
     border-bottom-right-radius: 20px
-    //padding: 20px 5px
-    //color: $dark-text
-    //background-color: $dark-primary
-    //border: 1px solid black
-    //box-shadow: 0 3px 7px -1px rgba(black, 0.1)
-    //box-shadow: 12px 0 15px -4px rgba(31, 73, 125, 0.8), -12px 0 8px -4px rgba(31, 73, 125, 0.8)
 
     @media screen and ( max-width: $sm )
         width: 100%
@@ -707,6 +699,9 @@ $navbar-mobile: 920px
                 width: 100%
                 padding: 15px
 
+        .image-gallery
+            padding: 15px 8px
+
         .share-icons-container
             display: flex
             justify-content: center
@@ -719,6 +714,21 @@ $navbar-mobile: 920px
 
                 &:hover
                     opacity: 0.85
+
+.page-container > .footer
+    display: flex
+    justify-content: center
+    align-items: center
+
+    .link
+        text-decoration: none
+        color: black
+        text-transform: uppercase
+        font-family: 'Anton', sans-serif !important
+
+        &::after
+            content: ' card'
+            color: $secondary
 
 /* === Homepage === */
 

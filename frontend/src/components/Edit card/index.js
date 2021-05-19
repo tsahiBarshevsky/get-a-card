@@ -88,6 +88,8 @@ function EditCard(props)
         main: '',
         cover: ''
     });
+    const [gallery, setGallery] = useState(false);
+    console.log(gallery);
     const [contact, setContact] = useState([
         { id: 0, type: "Telephone", show: false, value: '' },
         { id: 1, type: "Phone", show: false, value: '' },
@@ -145,6 +147,7 @@ function EditCard(props)
         setContact(card.contact);
         setSocials(card.socials);
         setImages(card.images);
+        setGallery(card.gallery);
     }, [load, card, props.match.params.URL]);
 
     //protect the route
@@ -322,7 +325,8 @@ function EditCard(props)
                         waze: link,
                         contact: contact,
                         socials: socials,
-                        images: images
+                        images: images,
+                        gallery: gallery
                     })
                 }    
             )
@@ -385,6 +389,13 @@ function EditCard(props)
                                     onChange={uploadCoverImage} />
                             </Button>
                         </div>
+                        <Typography variant="h6">Image gallery</Typography>
+                        <Typography variant="caption">If you have any photos you want to show you clients, you can upload them</Typography>
+                        <FormControlLabel
+                            control={<Checkbox checked={gallery !== undefined ? gallery : false} onChange={() => setGallery(!gallery)} style={{color: '#0a71e7'}} />}
+                            label="Add image gallery"
+                            name="gallery"
+                        />
                     </section>
                     <section id="information">
                         <Typography variant="h5">Information About Your Bussiness</Typography>

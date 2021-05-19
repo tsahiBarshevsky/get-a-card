@@ -88,6 +88,7 @@ function AddCard(props)
         main: '',
         cover: ''
     });
+    const [gallery, setGallery] = useState(false);
     const [contact, setContact] = useState([
         { id: 0, type: "Telephone", show: false, value: '' },
         { id: 1, type: "Phone", show: false, value: '' },
@@ -289,6 +290,44 @@ function AddCard(props)
 		}
 	}
 
+    const uploadGalleryIamges = (e) =>
+	{
+		if (e.target.files)
+		{
+			try 
+			{	
+                for (var i=0; i<e.target.files.length; i++)
+                {
+                    if (e.target.files[i].size < 5000000) //less then 5mb
+                    {
+                        //notify("success", `${i} Upload has started`);
+                        const uploadTask = firebase.storage.ref(`${currentUser}/${URL}/gallery/${i}`).put(e.target.files[i]);
+                        uploadTask.on(
+                            'state_changed',
+                            (snapshot) => {
+                                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                                console.log(progress);
+                            },
+                            (error) => {
+                                console.log(error);
+                                alert(error.message);
+                            }
+                        );
+                    }
+                    else
+                    {
+                        notify("error", "One of the images' size is bigger than 10mb!");
+                    }
+                }
+			} 
+			catch (error) 
+			{
+                notify('error', 'error');
+				console.log(error.message);
+			}
+		}
+	}
+
     async function submitCard()
     {
         if (name !== '' && type !== '' && description !== '')
@@ -320,7 +359,8 @@ function AddCard(props)
                         waze: link,
                         contact: contact,
                         socials: socials,
-                        images: images
+                        images: images,
+                        gallery: gallery
                     })
                 }    
             )
@@ -419,6 +459,29 @@ function AddCard(props)
                                     onChange={uploadCoverImage} />
                             </Button>
                         </div>
+                        <Typography variant="h6">Image gallery</Typography>
+                        <Typography variant="caption">If you have any photos you want to show you clients, you can upload them</Typography>
+                        <FormControlLabel
+                            control={<Checkbox checked={gallery} onChange={() => setGallery(!gallery)} style={{color: '#0a71e7'}} />}
+                            label="Add image gallery"
+                            name="gallery"
+                        />
+                        <Button 
+                            variant="contained" 
+                            component="label" 
+                            disabled={!gallery}
+                            className={classes.button}
+                            style={gallery ? {backgroundColor: '#363d4d', width: 'fit-content'} : {width: 'fit-content'}}>
+                            Upload Images To Gallery
+                            <input
+                                accept="image/*"
+                                id="upload-main-photo"
+                                name="upload-main-photo"
+                                type="file"
+                                hidden
+                                multiple
+                                onChange={uploadGalleryIamges} />
+                        </Button>
                     </section>
                     <section id="information" style={!urlConfirm ? {pointerEvents: 'none'} : null}>
                         <Typography variant="h5">Information About Your Bussiness</Typography>

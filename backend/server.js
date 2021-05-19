@@ -34,7 +34,8 @@ app.post("/insert-new-card", async (req, res) =>
         waze: req.body.waze,
         contact: req.body.contact,
         socials: req.body.socials,
-        images: req.body.images
+        images: req.body.images,
+        gallery: req.body.gallery
     });
     await newCard.save();
     console.log(`${req.body.name} added successfully`)
@@ -56,13 +57,15 @@ app.post("/edit-card", async (req, res) =>
     var contact = req.body.contact;
     var socials = req.body.socials;
     var images = req.body.images;
+    var gallery = req.body.gallery;
     CardsModel.findOneAndUpdate(
         { "_id": id }, 
         { "$set": 
         { 
             "palette": palette, "langauge": langauge, "name": name, "type": type,
             "description": description, "address": address, "waze": waze,
-            "contact": contact, "socials": socials, "images": images
+            "contact": contact, "socials": socials, "images": images,
+            "gallery": gallery
         }}).exec(function(err)
         {
             if (err) 

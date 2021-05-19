@@ -50,7 +50,8 @@ const styles = makeStyles({
     {
         color: 'white',
         fontFamily: `"Nunito", sans-serif`,
-        fontWeight: 600
+        fontWeight: 600,
+        textAlign: 'start'
     },
     divider:
     {

@@ -83,6 +83,7 @@ export default function Dashbaord(props)
                                         cover={card.images.cover} 
                                         title={card.name} 
                                         url={card.URL}
+                                        gallery={card.gallery}
                                         setUpdate={setUpdate} />
                                 </Grid>
                             </div>
