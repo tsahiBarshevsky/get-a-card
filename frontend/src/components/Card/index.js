@@ -4,10 +4,17 @@ import {
     FaFacebook, FaInstagram, FaLinkedinIn, FaWaze,
     FaGithub, FaPinterest, FaPhone, FaTelegramPlane,
     FaMobileAlt, FaWhatsapp, FaDribbble } from 'react-icons/fa';
+import { 
+    FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon,
+    TelegramShareButton, TelegramIcon, LinkedinShareButton, LinkedinIcon,
+    FacebookMessengerShareButton, FacebookMessengerIcon } from 'react-share';
 import { AiFillYoutube } from 'react-icons/ai';
 import { IoLogoTiktok } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
+import { GiWorld } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
+import ScrollAnimation from 'react-animate-on-scroll';
+import "animate.css/animate.min.css";
 import LoadingAnimation from '../Loading';
 
 export default function Card(props) 
@@ -16,7 +23,7 @@ export default function Card(props)
         typography:
         {
             allVariants: { fontFamily: `"Nunito", sans-serif`, textAlign: 'center' },
-            body1: { fontWeight: 600 },
+            body1: { fontSize: 20, marginTop: 5 },
             subtitle1: { fontSize: 18 },
             h5: { textDecoration: 'underline', marginTop: 25 },
             h6: { marginBottom: 15 }
@@ -43,6 +50,7 @@ export default function Card(props)
         textTransform: 'capitalize'
     } : null;
     var hebrewFont = { fontFamily: `"Alef", sans-serif` };
+    var delay = 0;
     
     useEffect(() => 
     {
@@ -74,6 +82,7 @@ export default function Card(props)
             case 'WhatsApp': return <FaWhatsapp className="icon" />
             case 'Telegram': return <FaTelegramPlane className="icon" />
             case 'Email': return <MdEmail className="icon" />
+            case 'Website': return <GiWorld className="icon" />
             default: return null;
         }
     }
@@ -117,13 +126,13 @@ export default function Card(props)
         return paragraphs.map((paragraph, index) =>
             <div key={index}>
             {paragraph !== "" ? 
-                <div>
+                <ScrollAnimation animateIn="animate__fadeInUpBig" animateOnce>
                     <Typography 
                         variant="body1" 
                         style={card.langauge === 'Hebrew' ? hebrewFont : null}
                         align="center">{paragraph}</Typography>
                     <br />    
-                </div>
+                </ScrollAnimation>
             : null }
             </div>
         )
@@ -159,6 +168,8 @@ export default function Card(props)
                 return 'טיק-טוק';
             case 'Dribbble':
                 return 'דריבל';
+            case 'Website':
+                return 'אתר';
             default: return null;
         }
     }
@@ -179,51 +190,59 @@ export default function Card(props)
                         </div>
                     </div>
                     <div className="content">
-                        <Typography 
-                            variant="h3" 
-                            style={card.langauge === 'Hebrew' ? hebrewFont : null}>
-                                {card.name}
-                        </Typography>
-                        <Typography 
-                            variant="h4" 
-                            style={card.langauge === 'Hebrew' ? hebrewFont : null}
-                            gutterBottom>{card.type}</Typography>
+                        <ScrollAnimation animateIn="animate__bounceInLeft" animateOnce>
+                            <Typography 
+                                variant="h3" 
+                                style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                    {card.name}
+                            </Typography>
+                        </ScrollAnimation>
+                        <ScrollAnimation animateIn="animate__bounceInRight" animateOnce>
+                            <Typography 
+                                variant="h4" 
+                                style={card.langauge === 'Hebrew' ? hebrewFont : null}
+                                gutterBottom>{card.type}</Typography>
+                        </ScrollAnimation>
                         {card.socials ?
                         <Grid container direction="row" justify="center" alignItems="flex-start" className="grid">
                             {card.socials.map((social) =>
-                                <div key={social.id}>
-                                    {social.show && social.link !== '' ?
-                                    <Grid item>
-                                        <div className="social">
-                                            <a href={social.link} target="_blank" rel="noreferrer" className="social-wrapper" style={iconStyle}>
-                                                {renderIcon(social.name)}
-                                            </a>
-                                            <Typography 
-                                                variant="subtitle1"
-                                                style={card.langauge === 'Hebrew' ? hebrewFont : null}>
-                                                {card.langauge === 'English' ? social.name : localization(social.name)}
-                                            </Typography>
-                                        </div>
-                                    </Grid> : null}
-                                </div>
+                                <ScrollAnimation animateIn="animate__backInUp" delay={delay+=100} animateOnce>
+                                    <div key={social.id}>
+                                        {social.show && social.link !== '' ?
+                                        <Grid item>
+                                            <div className="social">
+                                                <a href={social.link} target="_blank" rel="noreferrer" className="social-wrapper" style={iconStyle}>
+                                                    {renderIcon(social.name)}
+                                                </a>
+                                                <Typography 
+                                                    variant="subtitle1"
+                                                    style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                                    {card.langauge === 'English' ? social.name : localization(social.name)}
+                                                </Typography>
+                                            </div>
+                                        </Grid> : null}
+                                    </div>
+                                </ScrollAnimation>
                             )}
                         </Grid> : null}
                         {card.contact ?
                         <Grid container direction="row" justify="center" alignItems="flex-start" className="grid">
                             {card.contact.map((element) =>
-                                <div key={element.id}>
-                                    {element.show && element.value !== '' ?
-                                    <Grid item>
-                                        <div className="contact">
-                                            {renderContact(element)}
-                                            <Typography 
-                                                variant="subtitle1"
-                                                style={card.langauge === 'Hebrew' ? hebrewFont : null}>
-                                                {card.langauge === 'English' ? element.type : localization(element.type)}
-                                            </Typography>
-                                        </div>
-                                    </Grid> : null}
-                                </div>
+                                <ScrollAnimation animateIn="animate__backInUp" delay={delay+=100} animateOnce>
+                                    <div key={element.id}>
+                                        {element.show && element.value !== '' ?
+                                        <Grid item>
+                                            <div className="contact">
+                                                {renderContact(element)}
+                                                <Typography 
+                                                    variant="subtitle1"
+                                                    style={card.langauge === 'Hebrew' ? hebrewFont : null}>
+                                                    {card.langauge === 'English' ? element.type : localization(element.type)}
+                                                </Typography>
+                                            </div>
+                                        </Grid> : null}
+                                    </div>
+                                </ScrollAnimation>
                             )}
                         </Grid> : null}
                         <Typography 
@@ -256,6 +275,34 @@ export default function Card(props)
                                         &q=${card.address}`}>
                                 </iframe>
                             </div> : null }
+                        </div>
+                        <Typography 
+                            variant="h5" 
+                            style={card.langauge === 'Hebrew' ? hebrewFont : null}
+                            gutterBottom>{card.langauge === 'Hebrew' ? 'שתף עם חברים' : 'Share with friends'}
+                        </Typography>
+                        <div className="share-icons-container">
+                            <FacebookShareButton
+                                url={window.location.href}>
+                                <FacebookIcon size={45} round className="icon" />
+                            </FacebookShareButton>
+                            <FacebookMessengerShareButton
+                                appId="472443117195729"
+                                url={window.location.href}>
+                                <FacebookMessengerIcon size={45} round className="icon" />
+                            </FacebookMessengerShareButton>
+                            <WhatsappShareButton
+                                url={window.location.href}>
+                                <WhatsappIcon size={45} round className="icon" />
+                            </WhatsappShareButton>
+                            <TelegramShareButton
+                                url={window.location.href}>
+                                <TelegramIcon size={45} round className="icon" />
+                            </TelegramShareButton>
+                            <LinkedinShareButton
+                                url={window.location.href}>
+                                <LinkedinIcon size={45} round className="icon" />
+                            </LinkedinShareButton>
                         </div>
                     </div>
                 </MuiThemeProvider>

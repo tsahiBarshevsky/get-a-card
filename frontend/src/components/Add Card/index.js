@@ -103,7 +103,8 @@ function AddCard(props)
         { id: 4, name: 'Pinterest', show: false, link: '' },
         { id: 5, name: 'Youtube', show: false, link: '' },
         { id: 6, name: 'Tiktok', show: false, link: '' },
-        { id: 7, name: 'Dribbble', show: false, link: '' }
+        { id: 7, name: 'Dribbble', show: false, link: '' },
+        { id: 8, name: 'Website', show: false, link: ''}
     ]);
     const palettes = [
         {name: 'Default palette', primary: '#dcdde1', secondary: '#273c75', text: '#353b48'},
@@ -117,7 +118,8 @@ function AddCard(props)
         phone: /050|051|052|053|054|055|058[0-9]{7}/,
         whatsapp: /972(50|51|52|53|54|55|58)[0-9]{7}/,
         telegram: /.*?\B\w{5,64}\b.*/gm,
-        email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+        email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+        website: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     };
 
     useEffect(() => {
@@ -861,6 +863,34 @@ function AddCard(props)
                                 }
                                 className={classes.input}
                                 onChange={(e) => handleInputsChange(7, e.target.value, 'socials')} />
+                        </div>
+                        <div className="social">
+                            <FormControlLabel
+                                control={<Checkbox checked={socials[8].show} onChange={() => handleChange(8, 'socials')} style={{color: '#0a71e7'}} />}
+                                label="Website"
+                                name="website"
+                            />
+                            <Input
+                                id="Website URL"
+                                placeholder="Website URL..."
+                                autoComplete="off"
+                                disableUnderline
+                                disabled={!socials[8].show}
+                                value={socials[8].link}
+                                inputProps={{ style: { marginLeft: 10 }}}
+                                endAdornment=
+                                {
+                                    regex.website.test(socials[8].link) ? 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <DoneRoundedIcon style={{ color: green[900] }}/>
+                                    </InputAdornment> 
+                                    : 
+                                    <InputAdornment style={{marginRight: 10}} position="end">
+                                        <ClearRoundedIcon style={{ color: red[700] }}/>
+                                    </InputAdornment> 
+                                }
+                                className={classes.input}
+                                onChange={(e) => handleInputsChange(8, e.target.value, 'socials')} />
                         </div>
                     </section>
                     <Button 
