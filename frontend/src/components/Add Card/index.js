@@ -194,7 +194,7 @@ function AddCard(props)
 
     const checkURLAvailability = (url) =>
     {
-        fetch(`/URL-availability?URL=${url}`)
+        fetch(`https://get-a-card.herokuapp.com/URL-availability?URL=${url}`)
         .then(res => res.json())
         .then(result => 
         {
@@ -341,7 +341,7 @@ function AddCard(props)
             }
             else
                 link = 'none';
-            fetch(`/insert-new-card`, 
+            fetch(`https://get-a-card.herokuapp.com/insert-new-card`, 
                 {
                     method: 'POST',
                     headers: {

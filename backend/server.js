@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Connect to database
 mongoose.connect(
-    'mongodb://localhost:27017/get-a-card',
+    'mongodb+srv://tsahib:barcelona625040@get-a-card.4rijw.mongodb.net/get-a-card?retryWrites=true&w=majority',
     { useNewUrlParser: true }
 );
 

@@ -35,7 +35,6 @@ export default function Card(props)
     const [load, setLoad] = useState(false);
     const [card, setCard] = useState({});
     const [gallery, setGallery] = useState([]);
-    console.log(gallery);
     var cardStyle = Object.keys(card).length > 0 ? {
         color: card.palette.text,
         backgroundColor: card.palette.primary,
@@ -61,7 +60,7 @@ export default function Card(props)
         setTimeout(() => {
             setLoad(true);
         }, 1000);
-        fetch(`/get-card?URL=${props.match.params.URL}`)
+        fetch(`https://get-a-card.herokuapp.com/get-card?URL=${props.match.params.URL}`)
         .then(res => res.json())
         .then(card => {
             setCard(card);

@@ -132,7 +132,7 @@ function EditCard(props)
         document.title = `Edit ${props.match.params.URL} | Get a Card`;
         if (load)
         {
-            fetch(`/get-card?URL=${props.match.params.URL}`)
+            fetch(`https://get-a-card.herokuapp.com/get-card?URL=${props.match.params.URL}`)
             .then(res => res.json())
             .then(card => setCard(card));
             setLoad(false);
@@ -302,12 +302,12 @@ function EditCard(props)
             var link;
             if (wazeButton)
             {
-                const response = await fetch(`/waze-link?address=${address}`);
+                const response = await fetch(`https://get-a-card.herokuapp.com/waze-link?address=${address}`);
                 link = await response.json();
             }
             else
                 link = 'none';
-            fetch(`/edit-card`, 
+            fetch(`https://get-a-card.herokuapp.com/edit-card`, 
                 {
                     method: 'POST',
                     headers: {

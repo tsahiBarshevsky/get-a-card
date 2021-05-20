@@ -29,7 +29,7 @@ export default function Dashbaord(props)
         document.title = 'Dashboard | Get a Card';
         async function fetchData() 
         {
-            const res = await fetch(`/get-all-cards?owner=${currentUser}`);
+            const res = await fetch(`https://get-a-card.herokuapp.com/get-all-cards?owner=${currentUser}`);
             const json = await res.json();
             setCards(json);
         }

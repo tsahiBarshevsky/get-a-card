@@ -69,7 +69,7 @@ export default function Card({cover, title, url, gallery, setUpdate})
 
     function deleteCard()
     {
-        fetch(`/delete-card?URL=${url}`)
+        fetch(`https://get-a-card.herokuapp.com/delete-card?URL=${url}`)
         .then(res => res.json())
         .then(res => 
         {
