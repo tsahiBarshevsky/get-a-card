@@ -4,6 +4,7 @@ const axios = require('axios');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const CardsModel = require("./Models/cards");
+require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 const API = 'abb26cda829b3d1bdaf9868a6319642e'; 
@@ -190,6 +191,11 @@ app.get('/delete-card', async (req, res) =>
             res.json("OK");
         }
     });
+});
+
+app.get('/check', async (req, res) =>
+{
+    res.json("Check ok");
 });
 
 app.listen(port, () => {
