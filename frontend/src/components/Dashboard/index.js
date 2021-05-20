@@ -7,6 +7,7 @@ import firebase from '../firebase';
 import Card from './card';
 import Navbar from './navbar';
 import LoadingAnimation from '../Loading';
+import ScrollToTop from '../scrollToTop';
 
 const styles = makeStyles({
     title: { fontFamily: `"Nunito", sasn-serif`, marginBottom: 10 },
@@ -48,6 +49,7 @@ export default function Dashbaord(props)
     return cards ? (
         <div className="page-container">
             <Navbar username={currentUser} cards={cards.length} logout={logout} />
+            <ScrollToTop />
             <div className="dashboard-container">
                 <div className="header" title="Photo by Anna Nekrashevich from Pexels">
                     {cards.length === 0 ?

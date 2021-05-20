@@ -18,6 +18,7 @@ import image2 from '../../Images/business-card.png';
 import image3 from '../../Images/socials.png';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
+import ScrollToTop from '../scrollToTop';
 
 const useStyles = makeStyles(theme => ({
 	grid:
@@ -129,6 +130,7 @@ export default function Homepage()
         <div className="homepage-container">
             <Sidebar isOpen={isOpen} toggle={toggle} />
             <Navbar toggle={toggle} />
+            <ScrollToTop />
             <div className="hero-container" title="Photo by Domenico Loia from Unsplash">
                 <Grid container direction="row" justify="center" alignItems="center" alignContent="center">
                     <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -162,9 +164,9 @@ export default function Homepage()
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} className={classes.item1}>
                             <h1 className="title">It's one business card</h1>
                             <p className="content">
-                                But the possibilities are endless! Forget about the small and traditional business
-                                card and create a digital card with rich content, photos, videos, links to social 
-                                networks, a map and the option to navigate the business.
+                                But the possibilities are endless! Forget about the small and traditional 
+                                business card and create a digital one with rich content, photos, links to 
+                                your social media accounts and an easy way to reach out to you.
                             </p>
                         </Grid>
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} className={classes.item2}>

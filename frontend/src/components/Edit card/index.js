@@ -13,6 +13,7 @@ import firebase from '../firebase';
 import { withRouter } from 'react-router';
 import Palette from '../Add Card/palette';
 import LoadingAnimation from '../Loading';
+import ScrollToTop from '../scrollToTop';
 
 const styles = makeStyles({
 	select:
@@ -346,6 +347,7 @@ function EditCard(props)
     return card ? (
         <div className="page-container">
             <div className="edit-card-container">
+                <ScrollToTop />
                 <MuiThemeProvider theme={theme}>
                     <section id="palette-selection">
                         <Typography variant="h5">Card design</Typography>

@@ -12,6 +12,7 @@ import { SocialLinks } from 'social-links';
 import firebase from '../firebase';
 import { withRouter } from 'react-router';
 import Palette from './palette';
+import ScrollToTop from '../scrollToTop';
 
 const styles = makeStyles({
 	select:
@@ -296,11 +297,11 @@ function AddCard(props)
 		{
 			try 
 			{	
+                notify("success", `Upload has started`);
                 for (var i=0; i<e.target.files.length; i++)
                 {
                     if (e.target.files[i].size < 5000000) //less then 5mb
                     {
-                        //notify("success", `${i} Upload has started`);
                         const uploadTask = firebase.storage.ref(`${currentUser}/${URL}/gallery/${i}`).put(e.target.files[i]);
                         uploadTask.on(
                             'state_changed',
@@ -380,6 +381,7 @@ function AddCard(props)
     return (
         <div className="page-container">
             <div className="add-card-container">
+                <ScrollToTop />
                 <MuiThemeProvider theme={theme}>
                     <section id="url-selection">
                         <Typography variant="h5">Choose URL</Typography>

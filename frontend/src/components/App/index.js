@@ -30,11 +30,11 @@ export default function App()
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/dashboard" component={Dashbaord} />
                 <Route exact path="/add-card" component={AddCard} />
+                <Route exact path="/edit-card" component={Page404} />
                 <Route exact path="/edit-card/:URL" component={EditCard} />
                 <Route exact path="/:URL" component={Card} />
                 <Route exact path="*" component={Page404} />
             </Switch>
         </Router>
     ) : <LoadingAnimation />
-
 }
